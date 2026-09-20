@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ScreenState, SubjectId, Question, ExamResult, ActiveExamState } from './types';
 import { questionsIndonesia } from './data/indonesia';
-import { questionsEnglish } from './data/english';
+import { questionsAkidahAkhlak } from './data/akidah';
 import { Navbar } from './components/Navbar';
 import { NameScreen } from './components/NameScreen';
 import { SubjectScreen } from './components/SubjectScreen';
 import { QuizScreen } from './components/QuizScreen';
+import { LoadingScreen } from './components/LoadingScreen';
 import { ResultScreen } from './components/ResultScreen';
 import { ReviewScreen } from './components/ReviewScreen';
 import {
@@ -150,7 +151,7 @@ export default function App() {
 
   // Step 4: Submit Exam & Calculate Scoring
   const handleSubmitExam = (finalAnswers: Record<number, number>) => {
-    const currentQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsEnglish;
+    const currentQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsAkidahAkhlak;
     const totalQuestions = currentQuestions.length;
 
     let correctCount = 0;
@@ -183,7 +184,7 @@ export default function App() {
     const calculatedResult: ExamResult = {
       studentName,
       subjectId: selectedSubject,
-      subjectTitle: selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Bahasa Inggris',
+      subjectTitle: selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Akidah Akhlak',
       totalQuestions,
       score,
       correctCount,
@@ -197,7 +198,7 @@ export default function App() {
     setExamResult(calculatedResult);
     setStoredLastResult(calculatedResult);
     setStoredActiveExam(null); // Clear active ongoing test
-    setCurrentScreen('result');
+    setCurrentScreen('loading'); // Show loading screen with animation before showing result
   };
 
   // Retry test: resets answers and timer, preserves student name, starts back at question 1
@@ -222,8 +223,8 @@ export default function App() {
     setCurrentScreen('subject');
   };
 
-  const activeQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsEnglish;
-  const activeSubjectTitle = selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Bahasa Inggris';
+  const activeQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsAkidahAkhlak;
+  const activeSubjectTitle = selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Akidah Akhlak';
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0c0e12] dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans">
@@ -267,6 +268,10 @@ export default function App() {
             onTimeTick={handleTimeTick}
             onBackToMenu={handleBackToMenu}
           />
+        )}
+
+        {currentScreen === 'loading' && (
+          <LoadingScreen onComplete={() => setCurrentScreen('result')} />
         )}
 
         {currentScreen === 'result' && examResult && (

@@ -1,6 +1,6 @@
 {
   "name": "PTS MASTER — Kelas 7",
-  "description": "Aplikasi latihan interaktif Penilaian Tengah Semester (PTS) Kelas 7 SMP untuk Bahasa Indonesia dan Bahasa Inggris.",
+  "description": "Aplikasi latihan interaktif Penilaian Tengah Semester (PTS) Kelas 7 SMP/MTs untuk Bahasa Indonesia dan Akidah Akhlak.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

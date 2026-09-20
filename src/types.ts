@@ -1,6 +1,6 @@
-export type SubjectId = 'indonesia' | 'english';
+export type SubjectId = 'indonesia' | 'akidah';
 
-export type ScreenState = 'name' | 'subject' | 'quiz' | 'result' | 'review';
+export type ScreenState = 'name' | 'subject' | 'quiz' | 'loading' | 'result' | 'review';
 
 export interface Question {
   id: number;

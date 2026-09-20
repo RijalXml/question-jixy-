@@ -8,12 +8,14 @@ Aplikasi latihan interaktif Penilaian Tengah Semester (PTS) untuk siswa kelas 7 
 
 - **2 Mata Pelajaran Lengkap (Total 80 Soal)**:
   - 🇮🇩 **Bahasa Indonesia (40 Soal)**: Mengikuti 40 indikator kisi-kisi resmi (Teks deskripsi, struktur, kebahasaan, tanda koma, huruf kapital, dan puisi rakyat: pantun, gurindam, mantra).
-  - 🇬🇧 **Bahasa Inggris (40 Soal)**: Semester 1 Kurikulum Merdeka (Chapter 1: About Me, Chapter 2: Culinary and Me, Chapter 3: Home Sweet Home) dengan sebaran tingkat kesulitan (40% mudah, 40% sedang, 20% menantang).
+  - ☪️ **Akidah Akhlak (40 Soal)**: Materi Kelas 7 Semester 1 (Bab 1: Akidah Islam & Dalil Naqli/Aqli; Bab 2: Sifat Wajib, Mustahil & Jaiz Allah SWT; Bab 3: Akhlak Terpuji Taubat, Taat, Istiqamah, Ikhlas; Bab 4: Adab Shalat & Dzikir; Bab 5: Keteladanan Nabi Sulaiman AS).
 - **Simulasi Ujian Realistis**:
   - Timer mundur otomatis 30:00 dengan indikator visual.
   - Auto-submit ketika waktu habis tanpa menghilangkan jawaban yang sudah dipilih.
   - Lembar soal satu per satu dengan indikator progres & navigasi cepat (Question Palette 1–40).
   - Dialog konfirmasi pengumpulan ujian dengan deteksi jumlah soal belum terjawab.
+- **Loading Screen Interaktif**:
+  - Animasi transisi 1–2 detik setelah klik "Kumpulkan Ujian" dengan teks dinamis ("Memeriksa jawaban...", "Menghitung skor...", "Menyiapkan hasil...").
 - **Halaman Hasil & Statistik**:
   - Skor otomatis skala 0–100, jumlah benar, salah, dan tidak dijawab.
   - Kategori prestasi: *Sangat Baik* (90–100), *Baik* (80–89), *Cukup* (70–79), dan *Perlu Belajar Lagi* (<70).
@@ -45,14 +47,15 @@ Aplikasi latihan interaktif Penilaian Tengah Semester (PTS) untuk siswa kelas 7 
     ├── components/
     │   ├── Navbar.tsx          # Navigasi atas, live timer, badge nama & toggle tema
     │   ├── NameScreen.tsx      # Layar 1: Input nama siswa
-    │   ├── SubjectScreen.tsx   # Layar 2: Pemilihan mata pelajaran
+    │   ├── SubjectScreen.tsx   # Layar 2: Pemilihan mata pelajaran (Indonesia & Akidah Akhlak)
     │   ├── QuizScreen.tsx      # Layar 3: Tampilan kuis 1 soal per layar & palette
     │   ├── ConfirmModal.tsx    # Modal konfirmasi submit
+    │   ├── LoadingScreen.tsx   # Layar transisi loading animasi periksa hasil
     │   ├── ResultScreen.tsx    # Layar 4: Skor akhir & metrik evaluasi
     │   └── ReviewScreen.tsx    # Layar 5: Review & pembahasan 40 soal lengkap
     ├── data/
     │   ├── indonesia.ts        # Tepat 40 soal Bahasa Indonesia (Indikator 1-40)
-    │   └── english.ts          # Tepat 40 soal Bahasa Inggris (Chapter 1, 2, 3)
+    │   └── akidah.ts           # Tepat 40 soal Akidah Akhlak (Bab 1-5 Kelas 7 Semester 1)
     └── utils/
         └── storage.ts          # Helper penyimpanan localStorage
 ```

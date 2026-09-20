@@ -89,7 +89,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
           </div>
 
           {/* Category Badge */}
-          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border px-4 py-1 text-xs font-bold font-mono tracking-wide ${getCategoryColor(result.category)}">
+          <div className={`mt-4 inline-flex items-center gap-1.5 rounded-full border px-4 py-1 text-xs font-bold font-mono tracking-wide ${getCategoryColor(result.category)}`}>
             <span>Kategori: {result.category}</span>
           </div>
         </div>
