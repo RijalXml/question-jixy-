@@ -1,6 +1,6 @@
 import { Question } from '../types';
 
-export const questionsSeniRupa: Question[] = [
+const rawQuestionsSeniRupa: Omit<Question, 'subjectId'>[] = [
   // ==========================================
   // UNSUR-UNSUR SENI RUPA (1 - 8)
   // ==========================================
@@ -405,3 +405,9 @@ export const questionsSeniRupa: Question[] = [
     difficulty: 'medium',
   },
 ];
+
+export const questionsSeniRupa: Question[] = rawQuestionsSeniRupa.map((q) => ({
+  ...q,
+  subjectId: 'seni_rupa' as const,
+  isActive: q.isActive !== false,
+}));

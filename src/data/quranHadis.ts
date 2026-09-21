@@ -1,6 +1,6 @@
 import { Question } from '../types';
 
-export const questionsQuranHadis: Question[] = [
+const rawQuestionsQuranHadis: Omit<Question, 'subjectId'>[] = [
   // ==========================================
   // KEDUDUKAN AL-QUR'AN & HADIS (1 - 6)
   // ==========================================
@@ -436,3 +436,9 @@ export const questionsQuranHadis: Question[] = [
     difficulty: 'easy',
   },
 ];
+
+export const questionsQuranHadis: Question[] = rawQuestionsQuranHadis.map((q) => ({
+  ...q,
+  subjectId: 'quran_hadis' as const,
+  isActive: q.isActive !== false,
+}));

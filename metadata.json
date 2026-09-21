@@ -1,6 +1,6 @@
 {
-  "name": "PTS MASTER — Kelas 7",
-  "description": "Aplikasi latihan interaktif Penilaian Tengah Semester (PTS) Kelas 7 SMP untuk Matematika, Qur'an Hadis, dan Seni Rupa.",
+  "name": "QUIZ EDUKASI",
+  "description": "Belajar • Bermain • Raih Prestasi — Platform quiz edukasi modern dan minimalist premium untuk Matematika, Qur'an Hadis, dan Seni Rupa.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

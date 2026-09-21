@@ -1,15 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { ScreenState, SubjectId, Question, ExamResult, ActiveExamState } from './types';
+import {
+  ScreenState,
+  SubjectId,
+  Question,
+  ExamResult,
+  ActiveExamState,
+  UserProfile,
+  UserRole,
+  AppConfig,
+} from './types';
 import { questionsMatematika } from './data/matematika';
 import { questionsQuranHadis } from './data/quranHadis';
 import { questionsSeniRupa } from './data/seniRupa';
 import { Navbar } from './components/Navbar';
 import { NameScreen } from './components/NameScreen';
-import { SubjectScreen } from './components/SubjectScreen';
+import { HomeScreen } from './components/HomeScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ResultScreen } from './components/ResultScreen';
 import { ReviewScreen } from './components/ReviewScreen';
+import { LeaderboardScreen } from './components/LeaderboardScreen';
+import { ProfileScreen } from './components/ProfileScreen';
+import { AdminPanel } from './components/AdminPanel';
+import { AdminLoginModal } from './components/AdminLoginModal';
 import {
   getStoredTheme,
   setStoredTheme,
@@ -19,20 +32,13 @@ import {
   setStoredActiveExam,
   getStoredLastResult,
   setStoredLastResult,
+  getStoredUserProfile,
+  setStoredUserProfile,
+  getStoredAdminToken,
+  setStoredAdminToken,
+  getStoredAppConfig,
+  setStoredAppConfig,
 } from './utils/storage';
-
-export const getSubjectQuestions = (subjectId: SubjectId): Question[] => {
-  switch (subjectId) {
-    case 'matematika':
-      return questionsMatematika;
-    case 'quran_hadis':
-      return questionsQuranHadis;
-    case 'seni_rupa':
-      return questionsSeniRupa;
-    default:
-      return questionsMatematika;
-  }
-};
 
 export const getSubjectTitle = (subjectId: SubjectId): string => {
   switch (subjectId) {
@@ -49,21 +55,36 @@ export const getSubjectTitle = (subjectId: SubjectId): string => {
 
 export default function App() {
   // Theme state
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   // Navigation screen
-  const [currentScreen, setCurrentScreen] = useState<ScreenState>('name');
+  const [currentScreen, setCurrentScreen] = useState<ScreenState>('home');
 
-  // Student & Exam State
-  const [studentName, setStudentName] = useState<string>('');
+  // User Profile & Role
+  const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile());
+  const [userRole, setUserRole] = useState<UserRole>('USER');
+  const [adminToken, setAdminToken] = useState<string | null>(getStoredAdminToken());
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+
+  // App Configuration
+  const [appConfig, setAppConfig] = useState<AppConfig>(getStoredAppConfig());
+
+  // Questions Map (cached by subject)
+  const [questionsMap, setQuestionsMap] = useState<Record<SubjectId, Question[]>>({
+    matematika: questionsMatematika,
+    quran_hadis: questionsQuranHadis,
+    seni_rupa: questionsSeniRupa,
+  });
+
+  // Active Quiz State
   const [selectedSubject, setSelectedSubject] = useState<SubjectId>('matematika');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(1800); // 30 minutes in seconds
 
-  // Initialize from localStorage
+  // Initialize data on mount
   useEffect(() => {
-    // Theme
+    // 1. Theme
     const initialTheme = getStoredTheme();
     setTheme(initialTheme);
     if (initialTheme === 'dark') {
@@ -72,33 +93,74 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
 
-    // Student Name
-    const savedName = getStoredStudentName();
-    if (savedName) {
-      setStudentName(savedName);
+    // 2. Profile Sync
+    const profile = getStoredUserProfile();
+    const legacyName = getStoredStudentName();
+    if (legacyName && profile.name === 'Siswa') {
+      profile.name = legacyName;
+      setStoredUserProfile(profile);
+    }
+    setUserProfile(profile);
+
+    // 3. Admin Token verification
+    const token = getStoredAdminToken();
+    if (token) {
+      fetch('/api/admin/verify', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          if (res.ok) {
+            setUserRole('ADMIN');
+            setAdminToken(token);
+          } else {
+            setStoredAdminToken(null);
+            setAdminToken(null);
+            setUserRole('USER');
+          }
+        })
+        .catch(() => {
+          // offline or error, retain existing state
+        });
     }
 
-    // Check for active ongoing exam or previous result
+    // 4. Fetch dynamic questions from backend for fresh updates
+    const fetchFreshQuestions = async (sub: SubjectId) => {
+      try {
+        const res = await fetch(`/api/questions?subject=${sub}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.questions) && data.questions.length > 0) {
+            setQuestionsMap((prev) => ({ ...prev, [sub]: data.questions }));
+          }
+        }
+      } catch (err) {
+        // Fallback to static data
+      }
+    };
+
+    fetchFreshQuestions('matematika');
+    fetchFreshQuestions('quran_hadis');
+    fetchFreshQuestions('seni_rupa');
+
+    // 5. Active Exam Resume Check
     const activeExam = getStoredActiveExam();
     if (activeExam && !activeExam.isFinished) {
-      setStudentName(activeExam.studentName);
       setSelectedSubject(activeExam.subjectId);
       setAnswers(activeExam.answers || {});
       setTimeRemaining(activeExam.timeRemaining ?? 1800);
-      setCurrentScreen('quiz');
-      return;
+      // We don't auto-redirect, we display resume banner on HomeScreen or allow manual resume
     }
 
     const lastResult = getStoredLastResult();
     if (lastResult) {
       setExamResult(lastResult);
-      setSelectedSubject(lastResult.subjectId);
     }
 
-    if (savedName) {
-      setCurrentScreen('subject');
-    } else {
+    // If user has never entered a name, start at 'name' screen
+    if (!profile.name || profile.name === 'Siswa') {
       setCurrentScreen('name');
+    } else {
+      setCurrentScreen('home');
     }
   }, []);
 
@@ -114,38 +176,81 @@ export default function App() {
     }
   };
 
-  // Step 1: Start after entering student name
+  // Name Screen Submission
   const handleStartName = (name: string) => {
-    setStudentName(name);
+    const updatedProfile = { ...userProfile, name };
+    setUserProfile(updatedProfile);
+    setStoredUserProfile(updatedProfile);
     setStoredStudentName(name);
-    setCurrentScreen('subject');
+    setCurrentScreen('home');
   };
 
-  // Change student name
-  const handleChangeName = () => {
-    setCurrentScreen('name');
+  // Profile Update
+  const handleUpdateProfile = (updated: Partial<UserProfile>) => {
+    const newProfile = { ...userProfile, ...updated };
+    setUserProfile(newProfile);
+    setStoredUserProfile(newProfile);
+    if (updated.name) {
+      setStoredStudentName(updated.name);
+    }
   };
 
-  // Step 2: Subject Selected
-  const handleSelectSubject = (subjectId: SubjectId) => {
+  // Admin Login
+  const handleLoginSuccess = (token: string, user: { name: string; role: 'ADMIN' }) => {
+    setAdminToken(token);
+    setStoredAdminToken(token);
+    setUserRole('ADMIN');
+    const updatedProfile = { ...userProfile, role: 'ADMIN' as const };
+    setUserProfile(updatedProfile);
+    setStoredUserProfile(updatedProfile);
+    setCurrentScreen('admin');
+  };
+
+  // Admin Logout
+  const handleAdminLogout = () => {
+    setAdminToken(null);
+    setStoredAdminToken(null);
+    setUserRole('USER');
+    const updatedProfile = { ...userProfile, role: 'USER' as const };
+    setUserProfile(updatedProfile);
+    setStoredUserProfile(updatedProfile);
+    if (currentScreen === 'admin') {
+      setCurrentScreen('home');
+    }
+  };
+
+  // Start Quiz for a subject
+  const handleStartQuiz = (subjectId: SubjectId) => {
     setSelectedSubject(subjectId);
     setAnswers({});
-    setTimeRemaining(1800); // Reset to 30:00
+    const initialTime = (appConfig.timerMinutes || 30) * 60;
+    setTimeRemaining(initialTime);
 
-    // Save active state to localStorage
+    // Save active state to storage
     const newExamState: ActiveExamState = {
-      studentName,
+      studentName: userProfile.name,
       subjectId,
       answers: {},
       currentQuestionIndex: 0,
-      timeRemaining: 1800,
+      timeRemaining: initialTime,
       isFinished: false,
     };
     setStoredActiveExam(newExamState);
     setCurrentScreen('quiz');
   };
 
-  // Step 3: Handle answer choice change in quiz
+  // Resume active ongoing exam
+  const handleResumeExam = () => {
+    const activeExam = getStoredActiveExam();
+    if (activeExam) {
+      setSelectedSubject(activeExam.subjectId);
+      setAnswers(activeExam.answers || {});
+      setTimeRemaining(activeExam.timeRemaining ?? 1800);
+      setCurrentScreen('quiz');
+    }
+  };
+
+  // Answer Change
   const handleAnswerChange = (questionId: number, optionIndex: number | null) => {
     const updatedAnswers = { ...answers };
     if (optionIndex === null) {
@@ -155,7 +260,6 @@ export default function App() {
     }
     setAnswers(updatedAnswers);
 
-    // Persist active state
     const currentActive = getStoredActiveExam();
     if (currentActive) {
       currentActive.answers = updatedAnswers;
@@ -163,10 +267,9 @@ export default function App() {
     }
   };
 
-  // Handle timer tick for background storage saving
+  // Time tick
   const handleTimeTick = (secondsLeft: number) => {
     setTimeRemaining(secondsLeft);
-    // Periodically sync time to storage
     if (secondsLeft % 5 === 0) {
       const currentActive = getStoredActiveExam();
       if (currentActive) {
@@ -176,10 +279,12 @@ export default function App() {
     }
   };
 
-  // Step 4: Submit Exam & Calculate Scoring
-  const handleSubmitExam = (finalAnswers: Record<number, number>) => {
-    const currentQuestions = getSubjectQuestions(selectedSubject);
-    const totalQuestions = currentQuestions.length;
+  // Submit Exam & Calculate Scoring
+  const handleSubmitExam = async (finalAnswers: Record<number, number>) => {
+    const currentQuestions = (questionsMap[selectedSubject] || []).filter(
+      (q) => q.isActive !== false
+    );
+    const totalQuestions = currentQuestions.length || 1;
 
     let correctCount = 0;
     let incorrectCount = 0;
@@ -197,7 +302,7 @@ export default function App() {
     });
 
     const score = Math.round((correctCount / totalQuestions) * 100);
-    const percentage = Math.round((correctCount / totalQuestions) * 100);
+    const percentage = score;
 
     let category: 'Sangat Baik' | 'Baik' | 'Cukup' | 'Perlu Belajar Lagi' = 'Perlu Belajar Lagi';
     if (score >= 90) {
@@ -208,8 +313,11 @@ export default function App() {
       category = 'Cukup';
     }
 
+    // Award XP: 10 XP per correct answer + 50 XP bonus for score >= 80
+    const earnedXP = correctCount * 10 + (score >= 80 ? 50 : 0);
+
     const calculatedResult: ExamResult = {
-      studentName,
+      studentName: userProfile.name,
       subjectId: selectedSubject,
       subjectTitle: getSubjectTitle(selectedSubject),
       totalQuestions,
@@ -219,72 +327,115 @@ export default function App() {
       unansweredCount,
       percentage,
       category,
-      completedAt: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      completedAt: new Date().toISOString(),
     };
 
+    // Update user profile locally
+    const updatedProfile: UserProfile = {
+      ...userProfile,
+      xp: userProfile.xp + earnedXP,
+      quizzesCompleted: userProfile.quizzesCompleted + 1,
+      history: [calculatedResult, ...userProfile.history],
+    };
+    setUserProfile(updatedProfile);
+    setStoredUserProfile(updatedProfile);
+
+    // Save result to local storage
     setExamResult(calculatedResult);
     setStoredLastResult(calculatedResult);
-    setStoredActiveExam(null); // Clear active ongoing test
-    setCurrentScreen('loading'); // Show loading screen with animation before showing result
+    setStoredActiveExam(null); // Clear active exam
+
+    // Sync to backend Express server
+    try {
+      await fetch('/api/quiz/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentName: userProfile.name,
+          subjectId: selectedSubject,
+          answers: finalAnswers,
+          score,
+          correctCount,
+          totalQuestions,
+          xp: earnedXP,
+        }),
+      });
+    } catch (e) {
+      // Offline fallback
+    }
+
+    setCurrentScreen('loading');
   };
 
-  // Retry test: resets answers and timer, preserves student name, starts back at question 1
+  // Retry test
   const handleRetryExam = () => {
-    setAnswers({});
-    setTimeRemaining(1800);
-    const newExamState: ActiveExamState = {
-      studentName,
-      subjectId: selectedSubject,
-      answers: {},
-      currentQuestionIndex: 0,
-      timeRemaining: 1800,
-      isFinished: false,
-    };
-    setStoredActiveExam(newExamState);
-    setCurrentScreen('quiz');
+    handleStartQuiz(selectedSubject);
   };
 
-  // Return to subject selection menu
-  const handleBackToMenu = () => {
+  // Return to Home
+  const handleBackToHome = () => {
     setStoredActiveExam(null);
-    setCurrentScreen('subject');
+    setCurrentScreen('home');
   };
 
-  const activeQuestions = getSubjectQuestions(selectedSubject);
+  // Protected Admin Navigation check
+  const handleNavigate = (screen: ScreenState) => {
+    if (screen === 'admin' && userRole !== 'ADMIN') {
+      setIsAdminModalOpen(true);
+      return;
+    }
+    setCurrentScreen(screen);
+  };
+
+  const activeQuestions = (questionsMap[selectedSubject] || []).filter(
+    (q) => q.isActive !== false
+  );
   const activeSubjectTitle = getSubjectTitle(selectedSubject);
+  const activeExam = getStoredActiveExam();
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0c0e12] dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#090a0d] dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans">
       {/* Universal Navbar */}
       <Navbar
+        currentScreen={currentScreen}
+        onNavigate={handleNavigate}
+        userRole={userRole}
+        userName={userProfile.name}
+        userAvatar={userProfile.avatar}
+        userXp={userProfile.xp}
         theme={theme}
         onToggleTheme={handleToggleTheme}
-        studentName={studentName}
-        subjectTitle={activeSubjectTitle}
+        onOpenAdminLogin={() => setIsAdminModalOpen(true)}
+        onAdminLogout={handleAdminLogout}
+        isQuizActive={currentScreen === 'quiz'}
         timeRemaining={timeRemaining}
-        showTimer={currentScreen === 'quiz'}
+        subjectTitle={activeSubjectTitle}
       />
 
       {/* Main Dynamic View */}
       <main className="flex-1">
         {currentScreen === 'name' && (
           <NameScreen
-            initialName={studentName}
+            initialName={userProfile.name !== 'Siswa' ? userProfile.name : ''}
             onStart={handleStartName}
           />
         )}
 
-        {currentScreen === 'subject' && (
-          <SubjectScreen
-            studentName={studentName}
-            onSelectSubject={handleSelectSubject}
-            onChangeName={handleChangeName}
+        {currentScreen === 'home' && (
+          <HomeScreen
+            userProfile={userProfile}
+            questionsMap={questionsMap}
+            onStartQuiz={handleStartQuiz}
+            onNavigateToLeaderboard={() => setCurrentScreen('leaderboard')}
+            onNavigateToProfile={() => setCurrentScreen('profile')}
+            activeExamSubjectId={activeExam && !activeExam.isFinished ? activeExam.subjectId : null}
+            onResumeExam={handleResumeExam}
           />
         )}
 
         {currentScreen === 'quiz' && (
           <QuizScreen
-            studentName={studentName}
+            studentName={userProfile.name}
             subjectId={selectedSubject}
             subjectTitle={activeSubjectTitle}
             questions={activeQuestions}
@@ -293,7 +444,7 @@ export default function App() {
             onAnswerChange={handleAnswerChange}
             onSubmitExam={handleSubmitExam}
             onTimeTick={handleTimeTick}
-            onBackToMenu={handleBackToMenu}
+            onBackToMenu={handleBackToHome}
           />
         )}
 
@@ -306,7 +457,8 @@ export default function App() {
             result={examResult}
             onReview={() => setCurrentScreen('review')}
             onRetry={handleRetryExam}
-            onBackToMenu={handleBackToMenu}
+            onBackToMenu={handleBackToHome}
+            onViewLeaderboard={() => setCurrentScreen('leaderboard')}
           />
         )}
 
@@ -314,18 +466,58 @@ export default function App() {
           <ReviewScreen
             questions={activeQuestions}
             userAnswers={answers}
-            studentName={studentName}
+            studentName={userProfile.name}
             subjectTitle={activeSubjectTitle}
             onBackToResult={() => setCurrentScreen('result')}
             onRetry={handleRetryExam}
-            onBackToMenu={handleBackToMenu}
+            onBackToMenu={handleBackToHome}
+          />
+        )}
+
+        {currentScreen === 'leaderboard' && (
+          <LeaderboardScreen
+            currentStudentName={userProfile.name}
+            onStartQuiz={handleStartQuiz}
+          />
+        )}
+
+        {currentScreen === 'profile' && (
+          <ProfileScreen
+            userProfile={userProfile}
+            onUpdateProfile={handleUpdateProfile}
+            onStartQuiz={handleStartQuiz}
+            onReviewQuizResult={(res) => {
+              setExamResult(res);
+              setSelectedSubject(res.subjectId);
+              setCurrentScreen('result');
+            }}
+          />
+        )}
+
+        {currentScreen === 'admin' && userRole === 'ADMIN' && adminToken && (
+          <AdminPanel
+            adminToken={adminToken}
+            onLogout={handleAdminLogout}
+            onBackToHome={() => setCurrentScreen('home')}
+            appConfig={appConfig}
+            onUpdateAppConfig={(cfg) => {
+              setAppConfig(cfg);
+              setStoredAppConfig(cfg);
+            }}
           />
         )}
       </main>
 
-      {/* Minimal Footer */}
-      <footer className="border-t border-zinc-200/80 bg-white/50 py-3 text-center text-[11px] text-zinc-600 dark:border-zinc-800/80 dark:bg-zinc-950/40 dark:text-zinc-400 font-mono">
-        <span>PTS MASTER — Latihan PTS Kelas 7 SMP • Kurikulum Merdeka</span>
+      {/* Admin Login Modal */}
+      <AdminLoginModal
+        isOpen={isAdminModalOpen}
+        onClose={() => setIsAdminModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
+
+      {/* Minimalist Footer */}
+      <footer className="border-t border-zinc-200/80 bg-white/60 py-3.5 text-center text-[11px] text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-950/60 dark:text-zinc-400 font-mono">
+        <span>{appConfig.appName} • {appConfig.appDescription}</span>
       </footer>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Question } from '../types';
 
-export const questionsMatematika: Question[] = [
+const rawQuestionsMatematika: Omit<Question, 'subjectId'>[] = [
   // ==========================================
   // BILANGAN BULAT & OPERASI HITUNG (1 - 8)
   // ==========================================
@@ -335,3 +335,9 @@ export const questionsMatematika: Question[] = [
     difficulty: 'easy',
   },
 ];
+
+export const questionsMatematika: Question[] = rawQuestionsMatematika.map((q) => ({
+  ...q,
+  subjectId: 'matematika' as const,
+  isActive: q.isActive !== false,
+}));

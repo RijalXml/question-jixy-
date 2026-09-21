@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   CheckCircle2,
   XCircle,
@@ -8,7 +8,10 @@ import {
   ArrowRight,
   Sparkles,
   Award,
-  ChevronRight,
+  Trophy,
+  Share2,
+  Check,
+  Printer,
   BarChart3,
 } from 'lucide-react';
 import { ExamResult } from '../types';
@@ -18,6 +21,7 @@ interface ResultScreenProps {
   onReview: () => void;
   onRetry: () => void;
   onBackToMenu: () => void;
+  onViewLeaderboard?: () => void;
 }
 
 export const ResultScreen: React.FC<ResultScreenProps> = ({
@@ -25,7 +29,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   onReview,
   onRetry,
   onBackToMenu,
+  onViewLeaderboard,
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  // Earned XP: 10 XP per correct answer + 50 bonus if score >= 80
+  const earnedXP = result.correctCount * 10 + (result.score >= 80 ? 50 : 0);
+
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'Sangat Baik':
@@ -39,6 +49,19 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
     }
   };
 
+  const handleShare = () => {
+    const text = `Saya telah menyelesaikan quiz ${result.subjectTitle} di QUIZ EDUKASI dengan skor ${result.score}/100 (${result.category}) dan meraih +${earnedXP} XP!`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-2xl flex-col justify-center px-4 py-8 sm:px-6">
       {/* Celebration Header */}
@@ -50,12 +73,12 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
           Ujian Selesai 🎉
         </h1>
         <div className="mt-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
-          Evaluasi lembar jawaban telah berhasil dihitung secara otomatis.
+          Evaluasi lembar jawaban telah berhasil dihitung dan diperbarui ke Leaderboard.
         </div>
       </div>
 
       {/* Main Result Card */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900/90 transition-all">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 transition-all print:border-none print:shadow-none">
         {/* Student & Subject Header Strip */}
         <div className="border-b border-zinc-100 bg-zinc-50/70 p-4 sm:px-6 dark:border-zinc-800/80 dark:bg-zinc-950/40">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -88,9 +111,20 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
             </span>
           </div>
 
-          {/* Category Badge */}
-          <div className={`mt-4 inline-flex items-center gap-1.5 rounded-full border px-4 py-1 text-xs font-bold font-mono tracking-wide ${getCategoryColor(result.category)}`}>
-            <span>Kategori: {result.category}</span>
+          {/* Badges: Category + Earned XP */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <div
+              className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-1 text-xs font-bold font-mono tracking-wide ${getCategoryColor(
+                result.category
+              )}`}
+            >
+              <span>Kategori: {result.category}</span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3.5 py-1 text-xs font-bold text-amber-800 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-300 font-mono">
+              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+              <span>+{earnedXP} XP Diperoleh</span>
+            </div>
           </div>
         </div>
 
@@ -139,35 +173,70 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
-        <button
-          id="review-answers-btn"
-          onClick={onReview}
-          type="button"
-          className="flex w-full sm:flex-1 items-center justify-center gap-2 rounded-xl bg-zinc-900 py-3 px-4 text-xs font-semibold text-white shadow-xs hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white active:scale-[0.99] transition-all font-mono"
-        >
-          <BookOpen className="h-4 w-4" />
-          <span>Review Jawaban</span>
-        </button>
+      <div className="mt-6 flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <button
+            id="review-answers-btn"
+            onClick={onReview}
+            type="button"
+            className="flex w-full sm:flex-1 items-center justify-center gap-2 rounded-xl bg-zinc-900 py-3 px-4 text-xs font-semibold text-white shadow-xs hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white active:scale-[0.99] transition-all font-mono"
+          >
+            <BookOpen className="h-4 w-4" />
+            <span>Review Pembahasan</span>
+          </button>
 
-        <button
-          id="retry-test-btn"
-          onClick={onRetry}
-          type="button"
-          className="flex w-full sm:flex-1 items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white py-3 px-4 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 active:scale-[0.99] transition-all font-mono"
-        >
-          <RotateCcw className="h-4 w-4" />
-          <span>Ulangi Tes</span>
-        </button>
+          <button
+            id="retry-test-btn"
+            onClick={onRetry}
+            type="button"
+            className="flex w-full sm:flex-1 items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white py-3 px-4 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 active:scale-[0.99] transition-all font-mono"
+          >
+            <RotateCcw className="h-4 w-4" />
+            <span>Ulangi Quiz</span>
+          </button>
+        </div>
 
-        <button
-          id="back-to-menu-btn"
-          onClick={onBackToMenu}
-          type="button"
-          className="flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white py-3 px-4 text-xs font-semibold text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 transition-all font-mono"
-        >
-          <span>Kembali ke Menu</span>
-        </button>
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+          {onViewLeaderboard && (
+            <button
+              type="button"
+              onClick={onViewLeaderboard}
+              className="flex items-center gap-1.5 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2 text-xs font-semibold text-amber-900 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200 dark:hover:bg-amber-900 transition-colors"
+            >
+              <Trophy className="h-3.5 w-3.5 text-amber-600" />
+              <span>Lihat Leaderboard</span>
+            </button>
+          )}
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleShare}
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
+            >
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5" />}
+              <span>{copied ? 'Disalin!' : 'Bagikan Skor'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
+            >
+              <Printer className="h-3.5 w-3.5" />
+              <span>Cetak Hasil</span>
+            </button>
+
+            <button
+              id="back-to-menu-btn"
+              onClick={onBackToMenu}
+              type="button"
+              className="rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+            >
+              <span>Menu Utama</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,13 @@
-import { ActiveExamState, ExamResult, SubjectId } from '../types';
+import { ActiveExamState, ExamResult, SubjectId, UserProfile, AppConfig } from '../types';
 
 const STORAGE_KEYS = {
-  THEME: 'pts_master_theme',
-  STUDENT_NAME: 'pts_master_student_name',
-  ACTIVE_EXAM: 'pts_master_active_exam',
-  LAST_RESULT: 'pts_master_last_result',
+  THEME: 'quiz_edukasi_theme',
+  STUDENT_NAME: 'quiz_edukasi_student_name',
+  USER_PROFILE: 'quiz_edukasi_user_profile',
+  ACTIVE_EXAM: 'quiz_edukasi_active_exam',
+  LAST_RESULT: 'quiz_edukasi_last_result',
+  ADMIN_TOKEN: 'quiz_edukasi_admin_token',
+  APP_CONFIG: 'quiz_edukasi_app_config',
 };
 
 export const getStoredTheme = (): 'dark' | 'light' => {
@@ -17,7 +20,7 @@ export const getStoredTheme = (): 'dark' | 'light' => {
   } catch (e) {
     console.error('Failed to read theme from storage', e);
   }
-  return 'dark'; // modern dark default like Claude Code
+  return 'dark'; // modern sleek dark default
 };
 
 export const setStoredTheme = (theme: 'dark' | 'light') => {
@@ -40,7 +43,63 @@ export const setStoredStudentName = (name: string) => {
   try {
     localStorage.setItem(STORAGE_KEYS.STUDENT_NAME, name);
   } catch (e) {
-    console.error('Failed to save student name', e);
+    console.error('Failed to save student name to storage', e);
+  }
+};
+
+export const getStoredUserProfile = (): UserProfile => {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.USER_PROFILE);
+    if (data) {
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.error('Failed to parse user profile', e);
+  }
+
+  // Check legacy student name
+  const legacyName = localStorage.getItem(STORAGE_KEYS.STUDENT_NAME) || 'Siswa Berprestasi';
+
+  return {
+    name: legacyName,
+    avatar: '🎓',
+    role: 'USER',
+    totalScore: 0,
+    xp: 250,
+    quizzesCompleted: 0,
+    completedSubjects: [],
+    history: [],
+  };
+};
+
+export const setStoredUserProfile = (profile: UserProfile) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(profile));
+    localStorage.setItem(STORAGE_KEYS.STUDENT_NAME, profile.name);
+  } catch (e) {
+    console.error('Failed to save user profile', e);
+  }
+};
+
+export const getStoredAdminToken = (): string | null => {
+  try {
+    return sessionStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN) || localStorage.getItem(STORAGE_KEYS.ADMIN_TOKEN);
+  } catch (e) {
+    return null;
+  }
+};
+
+export const setStoredAdminToken = (token: string | null) => {
+  try {
+    if (!token) {
+      sessionStorage.removeItem(STORAGE_KEYS.ADMIN_TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.ADMIN_TOKEN);
+    } else {
+      sessionStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, token);
+      localStorage.setItem(STORAGE_KEYS.ADMIN_TOKEN, token);
+    }
+  } catch (e) {
+    console.error('Failed to save admin token', e);
   }
 };
 
@@ -86,4 +145,24 @@ export const setStoredLastResult = (result: ExamResult | null) => {
   } catch (e) {
     console.error('Failed to save result', e);
   }
+};
+
+export const getStoredAppConfig = (): AppConfig => {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.APP_CONFIG);
+    if (data) return JSON.parse(data);
+  } catch (e) {}
+
+  return {
+    appName: 'QUIZ EDUKASI',
+    appDescription: 'Belajar • Bermain • Raih Prestasi — Platform quiz edukasi modern dan minimalist premium untuk Matematika, Qur\'an Hadis, dan Seni Rupa.',
+    timerMinutes: 30,
+    allowReview: true,
+  };
+};
+
+export const setStoredAppConfig = (config: AppConfig) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.APP_CONFIG, JSON.stringify(config));
+  } catch (e) {}
 };
