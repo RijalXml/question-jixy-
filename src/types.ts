@@ -31,6 +31,7 @@ export interface Question {
 export interface ExamResult {
   id?: string;
   studentName: string;
+  avatar?: string;
   subjectId: SubjectId;
   subjectTitle: string;
   totalQuestions: number;
@@ -93,7 +94,7 @@ export interface AdminStats {
   recentActivity: Array<{
     id: string;
     studentName: string;
-    subjectId: SubjectId;
+    subjectId: SubjectId | 'all';
     score: number;
     completedAt: string;
   }>;

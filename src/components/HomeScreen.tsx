@@ -9,6 +9,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { SubjectId, UserProfile, Question } from '../types';
+import { UserAvatar } from './UserAvatar';
 
 interface HomeScreenProps {
   userProfile: UserProfile;
@@ -118,14 +119,30 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <div className="mb-10 rounded-2xl border border-zinc-200/90 bg-white p-5 sm:p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 transition-all">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-2xl shadow-2xs">
-              {userProfile.avatar}
-            </div>
+            <button
+              type="button"
+              onClick={onNavigateToProfile}
+              className="group focus:outline-hidden"
+              title="Buka profil siswa & ubah foto"
+            >
+              <UserAvatar
+                avatar={userProfile.avatar}
+                name={userProfile.name}
+                size="lg"
+                className="transition-transform group-hover:scale-105 ring-2 ring-zinc-200 dark:ring-zinc-700"
+              />
+            </button>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-                  {userProfile.name}
-                </h2>
+                <button
+                  type="button"
+                  onClick={onNavigateToProfile}
+                  className="text-left font-semibold text-zinc-900 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400 transition-colors"
+                >
+                  <h2 className="text-base font-semibold">
+                    {userProfile.name}
+                  </h2>
+                </button>
                 <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 font-mono">
                   Siswa
                 </span>

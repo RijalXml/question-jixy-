@@ -39,6 +39,7 @@ import {
   getStoredAppConfig,
   setStoredAppConfig,
 } from './utils/storage';
+import { apiGetQuestions, apiAdminVerify, apiSubmitQuiz } from './utils/api';
 
 export const getSubjectTitle = (subjectId: SubjectId): string => {
   switch (subjectId) {
@@ -105,11 +106,9 @@ export default function App() {
     // 3. Admin Token verification
     const token = getStoredAdminToken();
     if (token) {
-      fetch('/api/admin/verify', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => {
-          if (res.ok) {
+      apiAdminVerify(token)
+        .then((isValid) => {
+          if (isValid) {
             setUserRole('ADMIN');
             setAdminToken(token);
           } else {
@@ -123,15 +122,12 @@ export default function App() {
         });
     }
 
-    // 4. Fetch dynamic questions from backend for fresh updates
+    // 4. Fetch dynamic questions with guaranteed fallback
     const fetchFreshQuestions = async (sub: SubjectId) => {
       try {
-        const res = await fetch(`/api/questions?subject=${sub}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data.questions) && data.questions.length > 0) {
-            setQuestionsMap((prev) => ({ ...prev, [sub]: data.questions }));
-          }
+        const qList = await apiGetQuestions(sub);
+        if (Array.isArray(qList) && qList.length > 0) {
+          setQuestionsMap((prev) => ({ ...prev, [sub]: qList }));
         }
       } catch (err) {
         // Fallback to static data
@@ -318,6 +314,7 @@ export default function App() {
 
     const calculatedResult: ExamResult = {
       studentName: userProfile.name,
+      avatar: userProfile.avatar,
       subjectId: selectedSubject,
       subjectTitle: getSubjectTitle(selectedSubject),
       totalQuestions,
@@ -345,23 +342,20 @@ export default function App() {
     setStoredLastResult(calculatedResult);
     setStoredActiveExam(null); // Clear active exam
 
-    // Sync to backend Express server
+    // Sync with backend / local leaderboard safely
     try {
-      await fetch('/api/quiz/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          studentName: userProfile.name,
-          subjectId: selectedSubject,
-          answers: finalAnswers,
-          score,
-          correctCount,
-          totalQuestions,
-          xp: earnedXP,
-        }),
+      await apiSubmitQuiz({
+        studentName: userProfile.name,
+        avatar: userProfile.avatar,
+        subjectId: selectedSubject,
+        answers: finalAnswers,
+        score,
+        correctCount,
+        totalQuestions,
+        xp: earnedXP,
       });
     } catch (e) {
-      // Offline fallback
+      // Offline fallback already handled
     }
 
     setCurrentScreen('loading');

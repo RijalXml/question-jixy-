@@ -11,6 +11,8 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { LeaderboardEntry, SubjectId } from '../types';
+import { apiGetLeaderboard } from '../utils/api';
+import { UserAvatar } from './UserAvatar';
 
 interface LeaderboardScreenProps {
   currentStudentName: string;
@@ -30,15 +32,8 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
   const fetchLeaderboard = async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams();
-      if (subjectFilter !== 'all') params.set('subject', subjectFilter);
-      if (timeframeFilter !== 'all') params.set('timeframe', timeframeFilter);
-
-      const res = await fetch(`/api/leaderboard?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        setEntries(data.items || []);
-      }
+      const items = await apiGetLeaderboard(subjectFilter, timeframeFilter);
+      setEntries(items || []);
     } catch (err) {
       console.error('Failed to fetch leaderboard:', err);
     } finally {
@@ -227,8 +222,12 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex h-7 items-center gap-1 rounded-full border border-slate-300 bg-slate-100 px-2.5 text-xs font-bold text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 shadow-2xs font-mono">
                   🥈 Rank 2
                 </div>
-                <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-3xl shadow-2xs dark:bg-slate-800">
-                  {topThree[1].avatar}
+                <div className="mx-auto mb-2 flex justify-center">
+                  <UserAvatar
+                    avatar={topThree[1].avatar}
+                    name={topThree[1].studentName}
+                    size="xl"
+                  />
                 </div>
                 <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
                   {topThree[1].studentName}
@@ -263,8 +262,13 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex h-8 items-center gap-1.5 rounded-full border border-amber-400 bg-amber-400 px-3.5 text-xs font-extrabold text-amber-950 shadow-xs font-mono">
                   🥇 Rank 1
                 </div>
-                <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-4xl shadow-xs ring-4 ring-amber-200/60 dark:bg-amber-900/40 dark:ring-amber-900/40">
-                  {topThree[0].avatar}
+                <div className="mx-auto mb-2 flex justify-center">
+                  <UserAvatar
+                    avatar={topThree[0].avatar}
+                    name={topThree[0].studentName}
+                    size="2xl"
+                    className="ring-4 ring-amber-300 dark:ring-amber-700"
+                  />
                 </div>
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">
                   {topThree[0].studentName}
@@ -303,8 +307,12 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex h-7 items-center gap-1 rounded-full border border-amber-700/30 bg-amber-100 px-2.5 text-xs font-bold text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 shadow-2xs font-mono">
                   🥉 Rank 3
                 </div>
-                <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-3xl shadow-2xs dark:bg-zinc-800">
-                  {topThree[2].avatar}
+                <div className="mx-auto mb-2 flex justify-center">
+                  <UserAvatar
+                    avatar={topThree[2].avatar}
+                    name={topThree[2].studentName}
+                    size="xl"
+                  />
                 </div>
                 <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
                   {topThree[2].studentName}
@@ -389,7 +397,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
                     {/* Avatar & Name */}
                     <div className="flex items-center gap-2.5">
-                      <span className="text-xl">{player.avatar}</span>
+                      <UserAvatar avatar={player.avatar} name={player.studentName} size="sm" />
                       <div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100">

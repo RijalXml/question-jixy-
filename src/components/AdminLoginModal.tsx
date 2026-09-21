@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, X, KeyRound, AlertCircle, Loader2 } from 'lucide-react';
+import { apiAdminLogin } from '../utils/api';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -25,19 +26,13 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
     setLoading(true);
 
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      const result = await apiAdminLogin(username, password);
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Login gagal. Periksa username dan password.');
+      if (!result.ok || !result.token || !result.user) {
+        throw new Error(result.error || 'Login gagal. Periksa username dan password.');
       }
 
-      onLoginSuccess(data.token, data.user);
+      onLoginSuccess(result.token, result.user);
       onClose();
     } catch (err: any) {
       setError(err.message || 'Terjadi kesalahan saat memverifikasi kredensial.');

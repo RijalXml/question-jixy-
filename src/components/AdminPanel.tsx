@@ -25,6 +25,15 @@ import {
   Save,
 } from 'lucide-react';
 import { Question, SubjectId, AppConfig, AdminStats } from '../types';
+import {
+  apiAdminGetStats,
+  apiAdminGetQuestions,
+  apiAdminSaveQuestion,
+  apiAdminDeleteQuestion,
+  apiAdminToggleQuestion,
+  apiAdminSaveConfig,
+  apiAdminResetLeaderboard,
+} from '../utils/api';
 
 interface AdminPanelProps {
   adminToken: string;
@@ -91,13 +100,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Fetch Stats
   const fetchStats = async () => {
     try {
-      const res = await fetch('/api/admin/stats', {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setStats(data);
-      }
+      const data = await apiAdminGetStats(adminToken);
+      setStats(data);
     } catch (e) {
       console.error('Failed to fetch admin stats', e);
     }
@@ -107,13 +111,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const fetchQuestions = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/questions?subject=${selectedSubject}`, {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setQuestions(data.questions || []);
-      }
+      const qList = await apiAdminGetQuestions(adminToken, selectedSubject);
+      setQuestions(qList || []);
     } catch (e) {
       console.error('Failed to fetch admin questions', e);
     } finally {
@@ -198,28 +197,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     };
 
     try {
-      let res;
-      if (editingQuestion) {
-        res = await fetch(`/api/admin/questions/${editingQuestion.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${adminToken}`,
-          },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        res = await fetch('/api/admin/questions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${adminToken}`,
-          },
-          body: JSON.stringify(payload),
-        });
-      }
+      const result = await apiAdminSaveQuestion(adminToken, {
+        ...payload,
+        id: editingQuestion ? editingQuestion.id : undefined,
+      });
 
-      if (res.ok) {
+      if (result.ok) {
         setIsQuestionModalOpen(false);
         setMessage({
           type: 'success',
@@ -229,8 +212,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         fetchQuestions();
         fetchStats();
       } else {
-        const data = await res.json();
-        alert(data.error || 'Gagal menyimpan soal.');
+        alert(result.error || 'Gagal menyimpan soal.');
       }
     } catch (err) {
       console.error('Error saving question:', err);
@@ -241,11 +223,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Toggle Active/Inactive
   const handleToggleActive = async (q: Question) => {
     try {
-      const res = await fetch(`/api/admin/questions/${q.id}/toggle`, {
-        method: 'PATCH',
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (res.ok) {
+      const success = await apiAdminToggleQuestion(adminToken, q.id, q.subjectId);
+      if (success) {
         setQuestions((prev) =>
           prev.map((item) => (item.id === q.id ? { ...item, isActive: !item.isActive } : item))
         );
@@ -258,11 +237,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Delete Question
   const handleDeleteQuestion = async (id: number) => {
     try {
-      const res = await fetch(`/api/admin/questions/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (res.ok) {
+      const success = await apiAdminDeleteQuestion(adminToken, id, selectedSubject);
+      if (success) {
         setDeleteConfirmId(null);
         setMessage({ type: 'success', text: 'Soal berhasil dihapus.' });
         setTimeout(() => setMessage(null), 3000);
@@ -278,24 +254,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
-        },
-        body: JSON.stringify({
-          appName: configAppName,
-          appDescription: configAppDesc,
-          timerMinutes: Number(configTimer),
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        onUpdateAppConfig(data.appConfig);
-        setMessage({ type: 'success', text: 'Pengaturan sistem berhasil disimpan!' });
-        setTimeout(() => setMessage(null), 3000);
-      }
+      const updatedConfig = {
+        appName: configAppName,
+        appDescription: configAppDesc,
+        timerMinutes: Number(configTimer),
+      };
+      await apiAdminSaveConfig(adminToken, updatedConfig);
+      onUpdateAppConfig({ ...appConfig, ...updatedConfig });
+      setMessage({ type: 'success', text: 'Pengaturan sistem berhasil disimpan!' });
+      setTimeout(() => setMessage(null), 3000);
     } catch (e) {
       console.error('Failed to update config', e);
     }
@@ -304,16 +271,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Reset Leaderboard
   const handleResetLeaderboard = async () => {
     try {
-      const res = await fetch('/api/admin/leaderboard', {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (res.ok) {
-        setIsResetLeaderboardModalOpen(false);
-        setMessage({ type: 'success', text: 'Data leaderboard berhasil direset!' });
-        setTimeout(() => setMessage(null), 3000);
-        fetchStats();
-      }
+      await apiAdminResetLeaderboard(adminToken);
+      setIsResetLeaderboardModalOpen(false);
+      setMessage({ type: 'success', text: 'Data leaderboard berhasil direset!' });
+      setTimeout(() => setMessage(null), 3000);
+      fetchStats();
     } catch (e) {
       console.error('Failed to reset leaderboard', e);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   User,
   Sparkles,
@@ -12,8 +12,15 @@ import {
   Check,
   RotateCcw,
   ArrowRight,
+  Upload,
+  Image as ImageIcon,
+  Camera,
+  Trash2,
+  AlertCircle,
+  X,
 } from 'lucide-react';
 import { UserProfile, SubjectId, ExamResult } from '../types';
+import { UserAvatar } from './UserAvatar';
 
 interface ProfileScreenProps {
   userProfile: UserProfile;
@@ -22,7 +29,20 @@ interface ProfileScreenProps {
   onReviewQuizResult?: (result: ExamResult) => void;
 }
 
-const AVATAR_OPTIONS = ['🎓', '👨‍🎓', '🧕', '📐', '📖', '🎨', '🚀', '⭐', '💡', '🦁', '🔬', '🏆'];
+const AVATAR_CATEGORIES = [
+  {
+    name: 'Siswa & Pelajar',
+    items: ['🎓', '👨‍🎓', '👩‍🎓', '🧕', '🧑‍🎓', '🧑‍🏫'],
+  },
+  {
+    name: 'Pelajaran & Prestasi',
+    items: ['📐', '📖', '🎨', '🏆', '🥇', '⭐'],
+  },
+  {
+    name: 'Sains & Karakter',
+    items: ['🚀', '💡', '🦁', '🔬', '🧠', '🌟', '🎯', '🐱'],
+  },
+];
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   userProfile,
@@ -33,6 +53,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [isEditingName, setIsEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(userProfile.name);
   const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
+  const [avatarTab, setAvatarTab] = useState<'upload' | 'preset'>('upload');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +70,114 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const handleSelectAvatar = (avatar: string) => {
     onUpdateProfile({ avatar });
     setIsAvatarPickerOpen(false);
+    setUploadError(null);
+  };
+
+  const isCustomPhoto =
+    userProfile.avatar &&
+    (userProfile.avatar.startsWith('data:image') ||
+      userProfile.avatar.startsWith('http://') ||
+      userProfile.avatar.startsWith('https://') ||
+      userProfile.avatar.startsWith('blob:'));
+
+  // Compress & crop image to high-quality 256x256 square data URL
+  const processImageFile = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('Format file harus berupa gambar (JPG, PNG, WebP).'));
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        reject(new Error('Ukuran foto terlalu besar. Maksimal 10MB.'));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            const TARGET_SIZE = 256;
+            canvas.width = TARGET_SIZE;
+            canvas.height = TARGET_SIZE;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              reject(new Error('Gagal memproses kanvas gambar.'));
+              return;
+            }
+
+            // Center crop to 1:1 square aspect ratio
+            const minDim = Math.min(img.width, img.height);
+            const startX = (img.width - minDim) / 2;
+            const startY = (img.height - minDim) / 2;
+
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            ctx.drawImage(
+              img,
+              startX,
+              startY,
+              minDim,
+              minDim,
+              0,
+              0,
+              TARGET_SIZE,
+              TARGET_SIZE
+            );
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+            resolve(compressedDataUrl);
+          } catch (err) {
+            reject(new Error('Gagal memproses gambar.'));
+          }
+        };
+        img.onerror = () => reject(new Error('Gagal membaca gambar dari galeri.'));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error('Gagal membuka file.'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await handleProcessFile(file);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleProcessFile = async (file: File) => {
+    setUploadError(null);
+    setIsUploading(true);
+    try {
+      const dataUrl = await processImageFile(file);
+      onUpdateProfile({ avatar: dataUrl });
+      setIsAvatarPickerOpen(false);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Gagal mengupload foto.';
+      setUploadError(msg);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      await handleProcessFile(file);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    onUpdateProfile({ avatar: '🎓' });
+    setUploadError(null);
   };
 
   // Completed subjects calculation
@@ -59,16 +192,25 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           {/* Avatar with click to edit */}
           <div className="relative group">
             <button
+              id="change-avatar-button"
               type="button"
               onClick={() => setIsAvatarPickerOpen(!isAvatarPickerOpen)}
-              className="flex h-20 w-20 items-center justify-center rounded-3xl bg-zinc-100 dark:bg-zinc-800 text-4xl shadow-xs transition-transform group-hover:scale-105 border border-zinc-200 dark:border-zinc-700"
-              title="Ganti Avatar"
+              className="relative flex h-20 w-20 items-center justify-center rounded-3xl overflow-hidden shadow-xs transition-transform group-hover:scale-105 border-2 border-zinc-200 dark:border-zinc-700 focus:outline-hidden"
+              title="Klik untuk ganti foto atau avatar"
             >
-              {userProfile.avatar}
+              <UserAvatar avatar={userProfile.avatar} name={userProfile.name} size="2xl" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                <Camera className="h-6 w-6" />
+              </div>
             </button>
-            <span className="absolute -bottom-1.5 -right-1.5 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 p-1 shadow-2xs text-[10px]">
-              <Edit2 className="h-3 w-3" />
-            </span>
+            <button
+              type="button"
+              onClick={() => setIsAvatarPickerOpen(!isAvatarPickerOpen)}
+              className="absolute -bottom-1 -right-1 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 p-1.5 shadow-xs text-xs hover:scale-110 transition-transform"
+              title="Ganti Foto Profil"
+            >
+              <Camera className="h-3.5 w-3.5" />
+            </button>
           </div>
 
           {/* User Name & Details */}
@@ -114,31 +256,168 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               <span>•</span>
               <span>Anggota Terdaftar</span>
             </div>
+
+            <div className="mt-3 flex items-center justify-center sm:justify-start gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAvatarPickerOpen(true);
+                  setAvatarTab('upload');
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              >
+                <Camera className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                <span>Ubah Foto Profil</span>
+              </button>
+
+              {isCustomPhoto && (
+                <button
+                  type="button"
+                  onClick={handleRemovePhoto}
+                  className="inline-flex items-center gap-1 rounded-xl border border-red-200 bg-red-50/50 px-2.5 py-1.5 text-xs font-medium text-red-600 hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300 transition-colors"
+                  title="Hapus foto kustom dan gunakan emoji"
+                >
+                  <Trash2 className="h-3 w-3" />
+                  <span>Reset Foto</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Avatar Picker Drawer */}
+        {/* Avatar & Photo Picker Drawer / Modal */}
         {isAvatarPickerOpen && (
-          <div className="mt-6 border-t border-zinc-100 dark:border-zinc-800 pt-4 animate-in fade-in duration-200">
-            <div className="mb-2 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-              Pilih Karakter / Avatar:
-            </div>
-            <div className="flex flex-wrap gap-2.5">
-              {AVATAR_OPTIONS.map((av, idx) => (
+          <div className="mt-6 border-t border-zinc-100 dark:border-zinc-800 pt-5 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
                 <button
-                  key={idx}
                   type="button"
-                  onClick={() => handleSelectAvatar(av)}
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl transition-transform hover:scale-110 ${
-                    userProfile.avatar === av
-                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 ring-2 ring-zinc-900 dark:ring-zinc-100'
-                      : 'bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                  onClick={() => setAvatarTab('upload')}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                    avatarTab === 'upload'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
+                      : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400'
                   }`}
                 >
-                  {av}
+                  <Upload className="h-3.5 w-3.5" />
+                  <span>Upload Foto Galeri</span>
                 </button>
-              ))}
+                <button
+                  type="button"
+                  onClick={() => setAvatarTab('preset')}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                    avatarTab === 'preset'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
+                      : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400'
+                  }`}
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Avatar Karakter</span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsAvatarPickerOpen(false)}
+                className="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 p-1"
+                title="Tutup"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
+
+            {/* TAB 1: Upload Foto Galeri */}
+            {avatarTab === 'upload' && (
+              <div className="space-y-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="avatar-gallery-input"
+                />
+
+                {/* Drag & Drop Upload Box */}
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                  }}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`group relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center cursor-pointer transition-all ${
+                    isDragging
+                      ? 'border-amber-500 bg-amber-50/50 dark:border-amber-400 dark:bg-amber-950/20'
+                      : 'border-zinc-200 bg-zinc-50/50 hover:border-zinc-400 hover:bg-zinc-100/60 dark:border-zinc-700 dark:bg-zinc-800/40 dark:hover:border-zinc-600'
+                  }`}
+                >
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-white dark:bg-zinc-800 shadow-2xs group-hover:scale-105 transition-transform">
+                    <ImageIcon className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    Pilih Foto dari Galeri HP / Komputer
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                    Tarik dan lepaskan foto di sini, atau <span className="font-semibold text-amber-600 dark:text-amber-400 underline">klik untuk menelusuri</span>
+                  </p>
+                  <p className="mt-2 text-[10.5px] font-mono text-zinc-400">
+                    Mendukung JPG, PNG, WebP • Otomatis dipotong rapi dan dikompresi
+                  </p>
+
+                  {isUploading && (
+                    <div className="absolute inset-0 bg-white/80 dark:bg-zinc-900/80 rounded-2xl flex items-center justify-center backdrop-blur-2xs">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-600 border-t-transparent" />
+                        <span>Memproses foto profil...</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {uploadError && (
+                  <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-300">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    <span>{uploadError}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: Avatar Karakter & Emoji Presets */}
+            {avatarTab === 'preset' && (
+              <div className="space-y-4">
+                {AVATAR_CATEGORIES.map((cat, catIdx) => (
+                  <div key={catIdx}>
+                    <div className="mb-2 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                      {cat.name}
+                    </div>
+                    <div className="flex flex-wrap gap-2.5">
+                      {cat.items.map((av, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleSelectAvatar(av)}
+                          className={`flex h-11 w-11 items-center justify-center rounded-xl text-2xl transition-transform hover:scale-110 ${
+                            userProfile.avatar === av
+                              ? 'bg-zinc-900 text-white dark:bg-zinc-100 ring-2 ring-zinc-900 dark:ring-zinc-100'
+                              : 'bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                          }`}
+                          title={`Pilih avatar ${av}`}
+                        >
+                          {av}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

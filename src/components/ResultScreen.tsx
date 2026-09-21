@@ -15,6 +15,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { ExamResult } from '../types';
+import { UserAvatar } from './UserAvatar';
 
 interface ResultScreenProps {
   result: ExamResult;
@@ -82,11 +83,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
         {/* Student & Subject Header Strip */}
         <div className="border-b border-zinc-100 bg-zinc-50/70 p-4 sm:px-6 dark:border-zinc-800/80 dark:bg-zinc-950/40">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div>
-              <span className="text-zinc-600 dark:text-zinc-400 font-mono">Nama: </span>
-              <strong className="font-semibold text-zinc-900 dark:text-zinc-100">
-                {result.studentName}
-              </strong>
+            <div className="flex items-center gap-2">
+              <UserAvatar avatar={result.avatar} name={result.studentName} size="xs" />
+              <div>
+                <span className="text-zinc-600 dark:text-zinc-400 font-mono">Nama: </span>
+                <strong className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {result.studentName}
+                </strong>
+              </div>
             </div>
             <div>
               <span className="text-zinc-600 dark:text-zinc-400 font-mono">Mata Pelajaran: </span>

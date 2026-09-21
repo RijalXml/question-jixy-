@@ -13,6 +13,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { ScreenState, UserRole } from '../types';
+import { UserAvatar } from './UserAvatar';
 
 interface NavbarProps {
   currentScreen: ScreenState;
@@ -202,7 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onNavigate('profile')}
               className="flex items-center gap-1.5 rounded-lg border border-zinc-200/80 bg-zinc-50/80 px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-colors"
             >
-              <span className="text-sm">{userAvatar}</span>
+              <UserAvatar avatar={userAvatar} name={userName} size="xs" />
               <span className="hidden lg:inline max-w-[110px] truncate font-medium">{userName}</span>
             </button>
           )}
