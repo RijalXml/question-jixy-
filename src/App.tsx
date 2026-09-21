@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScreenState, SubjectId, Question, ExamResult, ActiveExamState } from './types';
-import { questionsIndonesia } from './data/indonesia';
-import { questionsAkidahAkhlak } from './data/akidah';
+import { questionsMatematika } from './data/matematika';
+import { questionsQuranHadis } from './data/quranHadis';
+import { questionsSeniRupa } from './data/seniRupa';
 import { Navbar } from './components/Navbar';
 import { NameScreen } from './components/NameScreen';
 import { SubjectScreen } from './components/SubjectScreen';
@@ -20,6 +21,32 @@ import {
   setStoredLastResult,
 } from './utils/storage';
 
+export const getSubjectQuestions = (subjectId: SubjectId): Question[] => {
+  switch (subjectId) {
+    case 'matematika':
+      return questionsMatematika;
+    case 'quran_hadis':
+      return questionsQuranHadis;
+    case 'seni_rupa':
+      return questionsSeniRupa;
+    default:
+      return questionsMatematika;
+  }
+};
+
+export const getSubjectTitle = (subjectId: SubjectId): string => {
+  switch (subjectId) {
+    case 'matematika':
+      return 'Matematika';
+    case 'quran_hadis':
+      return "Qur'an Hadis";
+    case 'seni_rupa':
+      return 'Seni Rupa';
+    default:
+      return 'Matematika';
+  }
+};
+
 export default function App() {
   // Theme state
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -29,7 +56,7 @@ export default function App() {
 
   // Student & Exam State
   const [studentName, setStudentName] = useState<string>('');
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('indonesia');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('matematika');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(1800); // 30 minutes in seconds
@@ -151,7 +178,7 @@ export default function App() {
 
   // Step 4: Submit Exam & Calculate Scoring
   const handleSubmitExam = (finalAnswers: Record<number, number>) => {
-    const currentQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsAkidahAkhlak;
+    const currentQuestions = getSubjectQuestions(selectedSubject);
     const totalQuestions = currentQuestions.length;
 
     let correctCount = 0;
@@ -184,7 +211,7 @@ export default function App() {
     const calculatedResult: ExamResult = {
       studentName,
       subjectId: selectedSubject,
-      subjectTitle: selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Akidah Akhlak',
+      subjectTitle: getSubjectTitle(selectedSubject),
       totalQuestions,
       score,
       correctCount,
@@ -223,8 +250,8 @@ export default function App() {
     setCurrentScreen('subject');
   };
 
-  const activeQuestions = selectedSubject === 'indonesia' ? questionsIndonesia : questionsAkidahAkhlak;
-  const activeSubjectTitle = selectedSubject === 'indonesia' ? 'Bahasa Indonesia' : 'Akidah Akhlak';
+  const activeQuestions = getSubjectQuestions(selectedSubject);
+  const activeSubjectTitle = getSubjectTitle(selectedSubject);
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0c0e12] dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans">

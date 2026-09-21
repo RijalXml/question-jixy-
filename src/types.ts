@@ -1,4 +1,4 @@
-export type SubjectId = 'indonesia' | 'akidah';
+export type SubjectId = 'matematika' | 'quran_hadis' | 'seni_rupa';
 
 export type ScreenState = 'name' | 'subject' | 'quiz' | 'loading' | 'result' | 'review';
 

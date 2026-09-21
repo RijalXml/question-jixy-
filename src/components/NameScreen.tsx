@@ -102,7 +102,7 @@ export const NameScreen: React.FC<NameScreenProps> = ({ initialName = '', onStar
           <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-zinc-800/80 grid grid-cols-2 gap-2 text-[11px] text-zinc-600 dark:text-zinc-400">
             <div className="flex items-center gap-1.5">
               <BookOpen className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
-              <span>40 Soal / Mapel</span>
+              <span>30 Soal / Mapel</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
