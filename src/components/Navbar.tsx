@@ -210,15 +210,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Admin Role Status Badge or Login Trigger */}
           {userRole === 'ADMIN' ? (
-            <div className="hidden sm:flex items-center gap-1">
-              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-0.5 text-[10.5px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                <ShieldCheck className="h-3 w-3" />
-                ADMIN
-              </span>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => onNavigate('admin')}
+                className="inline-flex items-center gap-1 rounded-lg bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-200 dark:hover:bg-emerald-900 transition-colors shadow-2xs"
+                title="Buka Panel Admin"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Panel Admin</span>
+              </button>
               <button
                 type="button"
                 onClick={onAdminLogout}
-                className="p-1 text-zinc-400 hover:text-rose-500 transition-colors"
+                className="p-1 text-zinc-400 hover:text-rose-500 dark:hover:text-rose-400 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 title="Keluar dari Admin"
               >
                 <LogOut className="h-3.5 w-3.5" />
@@ -229,11 +234,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="open-admin-login-btn"
               type="button"
               onClick={onOpenAdminLogin}
-              className="p-1.5 text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              title="Admin Login (Khusus Pemilik)"
-              aria-label="Admin Login"
+              className="flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-semibold text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-all shadow-2xs"
+              title="Login Administrator (Kelola Soal & Sistem)"
             >
-              <KeyRound className="h-4 w-4" />
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Admin</span>
             </button>
           )}
 
@@ -305,13 +310,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>Profile</span>
           </button>
 
-          {userRole === 'ADMIN' && (
+          {userRole === 'ADMIN' ? (
             <button
               type="button"
               onClick={() => onNavigate('admin')}
               className={`flex flex-col items-center gap-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400`}
             >
               <ShieldCheck className="h-4 w-4" />
+              <span>Admin</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenAdminLogin}
+              className={`flex flex-col items-center gap-0.5 text-[11px] font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200`}
+            >
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span>Admin</span>
             </button>
           )}

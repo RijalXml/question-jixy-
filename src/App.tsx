@@ -424,6 +424,9 @@ export default function App() {
             onNavigateToProfile={() => setCurrentScreen('profile')}
             activeExamSubjectId={activeExam && !activeExam.isFinished ? activeExam.subjectId : null}
             onResumeExam={handleResumeExam}
+            userRole={userRole}
+            onOpenAdminLogin={() => setIsAdminModalOpen(true)}
+            onNavigateToAdmin={() => setCurrentScreen('admin')}
           />
         )}
 

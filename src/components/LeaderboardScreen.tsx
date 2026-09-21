@@ -46,9 +46,12 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
   }, [subjectFilter, timeframeFilter]);
 
   // Client side search filter
-  const filteredEntries = entries.filter((entry) =>
-    entry.studentName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter entries strictly for score >= 100
+  const filteredEntries = entries
+    .filter((entry) => entry && Number(entry.score) >= 100)
+    .filter((entry) =>
+      entry.studentName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const topThree = filteredEntries.slice(0, 3);
   const remainingPlayers = filteredEntries.slice(3);
@@ -67,20 +70,28 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     }
   };
 
+  const handleStartActiveSubject = () => {
+    if (subjectFilter !== 'all') {
+      onStartQuiz(subjectFilter);
+    } else {
+      onStartQuiz('matematika');
+    }
+  };
+
   return (
     <div className="mx-auto min-h-[calc(100vh-4rem)] max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
       {/* Header */}
-      <div className="mb-8 text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="mb-6 text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300 font-mono mb-2">
             <Trophy className="h-3.5 w-3.5 text-amber-500" />
-            <span>Papan Prestasi Siswa</span>
+            <span>Panggung Kehormatan Siswa</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
             LEADERBOARD
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
-            Peringkat akumulasi skor tertinggi dan perolehan XP para siswa berprestasi.
+            Daftar siswa berprestasi yang berhasil meraih skor sempurna minimal 100 poin.
           </p>
         </div>
 
@@ -92,6 +103,21 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
           <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Segarkan Data</span>
         </button>
+      </div>
+
+      {/* Leaderboard Criteria Notice */}
+      <div className="mb-8 flex items-start gap-3 rounded-2xl border border-amber-200/90 bg-amber-50/70 p-4 dark:border-amber-900/50 dark:bg-amber-950/30">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-white shadow-2xs font-mono font-bold text-sm">
+          100
+        </div>
+        <div className="text-xs">
+          <h2 className="font-bold text-amber-950 dark:text-amber-200">
+            Syarat Masuk Leaderboard: Skor Minimal 100 Poin
+          </h2>
+          <p className="text-amber-800/90 dark:text-amber-300/80 mt-0.5 leading-relaxed">
+            Hanya peserta yang menjawab seluruh pertanyaan dengan benar dan mencapai nilai sempurna (100) yang akan masuk ke daftar Leaderboard ini beserta perolehan skor dan XP-nya.
+          </p>
+        </div>
       </div>
 
       {/* Filter Tabs & Search Bar */}
@@ -359,8 +385,25 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
             Memuat data peringkat...
           </div>
         ) : filteredEntries.length === 0 ? (
-          <div className="py-12 text-center text-xs text-zinc-500">
-            Belum ada data untuk filter yang dipilih. Jadilah yang pertama menyelesaikan quiz!
+          <div className="py-16 px-4 text-center">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 shadow-2xs text-2xl">
+              🏆
+            </div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 font-mono">
+              Panggung Kehormatan Masih Menunggu Juara!
+            </h3>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
+              Belum ada peserta yang mencapai skor minimal 100 poin untuk filter ini. Kerjakan quiz sekarang, jawab semua soal dengan tepat, dan raih nilai 100 untuk mengukir namamu di sini!
+            </p>
+            <div className="mt-5 flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={handleStartActiveSubject}
+                className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2 text-xs font-bold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition-colors shadow-xs"
+              >
+                <span>Mulai Quiz & Raih Nilai 100</span>
+              </button>
+            </div>
           </div>
         ) : (
           <div className="divide-y divide-zinc-100 dark:divide-zinc-800/80">

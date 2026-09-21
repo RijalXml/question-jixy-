@@ -7,8 +7,9 @@ import {
   ArrowRight,
   TrendingUp,
   RotateCcw,
+  ShieldCheck,
 } from 'lucide-react';
-import { SubjectId, UserProfile, Question } from '../types';
+import { SubjectId, UserProfile, Question, UserRole } from '../types';
 import { UserAvatar } from './UserAvatar';
 
 interface HomeScreenProps {
@@ -19,6 +20,9 @@ interface HomeScreenProps {
   onNavigateToProfile: () => void;
   activeExamSubjectId?: SubjectId | null;
   onResumeExam?: () => void;
+  userRole?: UserRole;
+  onOpenAdminLogin?: () => void;
+  onNavigateToAdmin?: () => void;
 }
 
 interface SubjectCardInfo {
@@ -73,6 +77,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onNavigateToProfile,
   activeExamSubjectId,
   onResumeExam,
+  userRole,
+  onOpenAdminLogin,
+  onNavigateToAdmin,
 }) => {
   // Calculate user progress per subject from history
   const getSubjectStats = (subjectId: SubjectId) => {
@@ -361,6 +368,48 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Admin Panel Access Banner */}
+      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-2xs dark:border-zinc-800/80 dark:bg-zinc-900/60">
+        <div className="flex items-center gap-3.5">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50 shadow-2xs">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 font-mono flex items-center gap-1.5">
+              <span>Portal Administrator & Pemilik</span>
+              <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                Admin
+              </span>
+            </h4>
+            <p className="text-[11.5px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Kelola dan ubah bank soal, sesuaikan kunci jawaban & opsi pilihan ganda, serta pantau peserta.
+            </p>
+          </div>
+        </div>
+        <div className="shrink-0">
+          {userRole === 'ADMIN' ? (
+            <button
+              type="button"
+              onClick={onNavigateToAdmin}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-950 dark:hover:bg-emerald-400 transition-colors shadow-2xs"
+            >
+              <span>Buka Admin Panel</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenAdminLogin}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2 text-xs font-bold text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 transition-colors shadow-2xs"
+            >
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Login Admin (admin / admin123)</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          )}
         </div>
       </div>
     </div>

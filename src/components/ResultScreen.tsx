@@ -130,6 +130,25 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
               <span>+{earnedXP} XP Diperoleh</span>
             </div>
           </div>
+
+          {/* Leaderboard Entry Status */}
+          <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80">
+            {result.score >= 100 ? (
+              <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-2 text-xs font-semibold text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200">
+                <Trophy className="h-4 w-4 text-amber-500 shrink-0" />
+                <span>
+                  Selamat! Skor Anda <strong>100 Poin</strong> — Nama & skor Anda resmi terdaftar di <strong>Leaderboard</strong>!
+                </span>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-400">
+                <span className="font-mono font-bold text-amber-600">Info:</span>
+                <span>
+                  Syarat masuk Leaderboard adalah skor minimal <strong>100</strong>. Anda meraih {result.score} poin — coba lagi untuk menembus Leaderboard!
+                </span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Breakdown Grid: Benar, Salah, Tidak Dijawab, Persentase */}
