@@ -86,7 +86,11 @@ export function getLocalQuestions(): Record<SubjectId, Question[]> {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && parsed.ski && parsed.bahasa_inggris && parsed.bahasa_jawa) {
-        return parsed;
+        // Invalidate stale cache if all answers were 0 (option A)
+        const isStaleAllZeros = (parsed.ski || []).length > 0 && (parsed.ski || []).every((q: any) => q.correctAnswer === 0);
+        if (!isStaleAllZeros) {
+          return parsed;
+        }
       }
     }
   } catch (e) {}

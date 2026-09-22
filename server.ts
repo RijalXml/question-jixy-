@@ -92,11 +92,12 @@ async function initStore() {
       const parsed = JSON.parse(raw);
       if (parsed.appConfig) appConfig = parsed.appConfig;
       if (parsed.questionsList && Array.isArray(parsed.questionsList) && parsed.questionsList.length > 0) {
-        // Only keep if it has the new subjects
+        // Only keep if it has the new subjects and is not all-zero answers
         const hasValidSubjects = parsed.questionsList.some(
           (q: any) => q.subjectId === 'ski' || q.subjectId === 'bahasa_inggris' || q.subjectId === 'bahasa_jawa'
         );
-        if (hasValidSubjects) {
+        const isAllZeros = parsed.questionsList.length > 0 && parsed.questionsList.every((q: any) => q.correctAnswer === 0);
+        if (hasValidSubjects && !isAllZeros) {
           questionsList = parsed.questionsList;
         }
       }
