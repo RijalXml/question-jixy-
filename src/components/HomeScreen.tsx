@@ -1,417 +1,344 @@
 import React from 'react';
+import { SubjectId, ScreenState, UserProfile } from '../types';
+import { LKS_SUBJECTS, LKS_CHAPTERS_DETAIL } from '../data/lksLessons';
 import {
-  Play,
+  BookOpen,
   Award,
   Sparkles,
   Trophy,
   ArrowRight,
+  Clock,
+  CheckCircle2,
+  Bookmark,
+  ChevronRight,
   TrendingUp,
-  RotateCcw,
-  ShieldCheck,
+  FileText
 } from 'lucide-react';
-import { SubjectId, UserProfile, Question, UserRole } from '../types';
-import { UserAvatar } from './UserAvatar';
 
 interface HomeScreenProps {
+  onSelectSubject: (sub: SubjectId) => void;
+  onNavigate: (screen: ScreenState) => void;
   userProfile: UserProfile;
-  questionsMap: Record<SubjectId, Question[]>;
-  onStartQuiz: (subjectId: SubjectId) => void;
-  onNavigateToLeaderboard: () => void;
-  onNavigateToProfile: () => void;
-  activeExamSubjectId?: SubjectId | null;
-  onResumeExam?: () => void;
-  userRole?: UserRole;
-  onOpenAdminLogin?: () => void;
-  onNavigateToAdmin?: () => void;
+  onSelectSubchapter?: (subchapterId: string) => void;
 }
-
-interface SubjectCardInfo {
-  id: SubjectId;
-  title: string;
-  badge: string;
-  icon: string;
-  description: string;
-  topics: string[];
-  colorBorder: string;
-  accentBg: string;
-}
-
-const SUBJECT_CARDS: SubjectCardInfo[] = [
-  {
-    id: 'matematika',
-    title: 'Matematika',
-    badge: 'Semester 1',
-    icon: '📐',
-    description: 'Bilangan bulat, aljabar, perbandingan, aritmatika sosial, dan bangun datar.',
-    topics: ['Aljabar', 'PLSV', 'Bangun Datar', 'Skala & Rasio'],
-    colorBorder: 'group-hover:border-zinc-400 dark:group-hover:border-zinc-600',
-    accentBg: 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100',
-  },
-  {
-    id: 'quran_hadis',
-    title: "Qur'an Hadis",
-    badge: 'Semester 1',
-    icon: '📖',
-    description: "Kedudukan wahyu, Surah Asy-Syams & Al-Lail, tajwid dasar, serta hadis ilmu & niat.",
-    topics: ['Surah Pilihan', 'Tajwid Mad', 'Adab Penuntut Ilmu', 'Dalil Naqli'],
-    colorBorder: 'group-hover:border-zinc-400 dark:group-hover:border-zinc-600',
-    accentBg: 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100',
-  },
-  {
-    id: 'seni_rupa',
-    title: 'Seni Rupa',
-    badge: 'Semester 1',
-    icon: '🎨',
-    description: 'Unsur & prinsip seni, teori warna, teknik menggambar, ragam hias nusantara.',
-    topics: ['Unsur Seni', 'Teori Warna', 'Ragam Hias', 'Teknik Arsir'],
-    colorBorder: 'group-hover:border-zinc-400 dark:group-hover:border-zinc-600',
-    accentBg: 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100',
-  },
-];
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
+  onSelectSubject,
+  onNavigate,
   userProfile,
-  questionsMap,
-  onStartQuiz,
-  onNavigateToLeaderboard,
-  onNavigateToProfile,
-  activeExamSubjectId,
-  onResumeExam,
-  userRole,
-  onOpenAdminLogin,
-  onNavigateToAdmin,
+  onSelectSubchapter,
 }) => {
-  // Calculate user progress per subject from history
-  const getSubjectStats = (subjectId: SubjectId) => {
-    const questions = questionsMap[subjectId] || [];
-    const activeQuestionsCount = questions.filter((q) => q.isActive !== false).length || 30;
+  const subjects: SubjectId[] = ['ski', 'bahasa_inggris', 'bahasa_jawa'];
 
-    const subjectHistory = userProfile.history.filter((h) => h.subjectId === subjectId);
-    const completed = subjectHistory.length > 0;
-    const bestScore = completed
-      ? Math.max(...subjectHistory.map((h) => h.score))
-      : null;
-    const attempts = subjectHistory.length;
+  // Calculate quick stats
+  const totalSubchapters = 12 + 10 + 8; // 30
+  const completedCount = Math.min(totalSubchapters, userProfile.quizzesCompleted * 3 + 6);
+  const overallPercentage = Math.round((completedCount / totalSubchapters) * 100);
 
-    // Progress percentage: 100% if completed at least once, or based on best score
-    const progressPercent = bestScore !== null ? Math.min(100, Math.round(bestScore)) : 0;
-
-    return {
-      activeQuestionsCount,
-      completed,
-      bestScore,
-      attempts,
-      progressPercent,
-    };
-  };
+  // Quick continue subchapter
+  const lastSubchapterId = userProfile.lastStudiedMateriId || 'ski-sub-a';
+  const lastSubchapter = LKS_CHAPTERS_DETAIL[lastSubchapterId];
 
   return (
-    <div className="mx-auto min-h-[calc(100vh-4rem)] max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-      {/* Hero Section — Minimalist Premium */}
-      <div className="mb-10 sm:mb-14 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50/90 px-3.5 py-1 text-xs font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-400 shadow-2xs mb-5">
-          <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-          <span>Platform Quiz Interaktif Minimalist Premium</span>
-        </div>
+    <div className="space-y-6 pb-12 select-none">
+      {/* 1. HERO GREETING BANNER WITH SOFT TRANSLUCENT GLASS */}
+      <section
+        id="home-hero-banner"
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-zinc-900 via-zinc-800 to-indigo-950 text-white p-6 sm:p-8 shadow-xl border border-white/10"
+      >
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-16 w-60 h-60 rounded-full bg-violet-500/10 blur-3xl pointer-events-none" />
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 font-mono">
-          QUIZ EDUKASI
-        </h1>
-        <p className="mt-3 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto font-sans">
-          &ldquo;Belajar • Bermain • Raih Prestasi&rdquo;
-        </p>
-      </div>
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="max-w-xl space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-zinc-200">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Kurikulum LKS Semester Genap 2026</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              Selamat datang, {userProfile.name || 'Siswa Berprestasi'} 👋
+            </h2>
+            <p className="text-sm text-zinc-300 leading-relaxed font-normal">
+              Pelajari materi Lembar Kerja Siswa (LKS) secara terstruktur, diskusikan bersama AI Tutor, dan buktikan kemampuanmu di Quiz Evaluasi untuk meraih skor 100.
+            </p>
+          </div>
 
-      {/* User Quick Progress Banner */}
-      <div className="mb-10 rounded-2xl border border-zinc-200/90 bg-white p-5 sm:p-6 shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 transition-all">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <button
-              type="button"
-              onClick={onNavigateToProfile}
-              className="group focus:outline-hidden"
-              title="Buka profil siswa & ubah foto"
-            >
-              <UserAvatar
-                avatar={userProfile.avatar}
-                name={userProfile.name}
-                size="lg"
-                className="transition-transform group-hover:scale-105 ring-2 ring-zinc-200 dark:ring-zinc-700"
-              />
-            </button>
+          {/* Quick Progress Ring or Card */}
+          <div className="flex-shrink-0 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 flex items-center gap-4 min-w-[220px]">
+            <div className="relative w-14 h-14 flex items-center justify-center">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-white/20"
+                  strokeWidth="3.5"
+                  stroke="currentColor"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-emerald-400"
+                  strokeDasharray={`${overallPercentage}, 100`}
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <span className="absolute text-xs font-bold text-white">{overallPercentage}%</span>
+            </div>
             <div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={onNavigateToProfile}
-                  className="text-left font-semibold text-zinc-900 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400 transition-colors"
-                >
-                  <h2 className="text-base font-semibold">
-                    {userProfile.name}
-                  </h2>
-                </button>
-                <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 font-mono">
-                  Siswa
-                </span>
-              </div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                Pilih mata pelajaran di bawah untuk menguji pemahaman dan mengumpulkan poin XP.
+              <p className="text-xs text-zinc-300 font-medium">Progres Pembelajaran</p>
+              <p className="text-sm font-bold text-white mt-0.5">{completedCount} dari {totalSubchapters} Materi</p>
+              <p className="text-[11px] text-emerald-300 mt-0.5 flex items-center gap-1 font-semibold">
+                <TrendingUp className="w-3 h-3" /> Siap Ujian
               </p>
             </div>
           </div>
-
-          <div className="flex items-center gap-3 sm:gap-4 font-mono text-xs w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-zinc-100 dark:border-zinc-800">
-            <div className="text-center sm:text-right">
-              <span className="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-semibold">
-                Total XP
-              </span>
-              <span className="text-base font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 justify-center sm:justify-end">
-                <Sparkles className="h-3.5 w-3.5" />
-                {userProfile.xp}
-              </span>
-            </div>
-
-            <div className="h-8 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-
-            <div className="text-center sm:text-right">
-              <span className="block text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-semibold">
-                Quiz Selesai
-              </span>
-              <span className="text-base font-bold text-zinc-900 dark:text-zinc-100">
-                {userProfile.quizzesCompleted}
-              </span>
-            </div>
-
-            <div className="h-8 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-
-            <button
-              id="view-leaderboard-btn"
-              type="button"
-              onClick={onNavigateToLeaderboard}
-              className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-            >
-              <Trophy className="h-3.5 w-3.5 text-amber-500" />
-              <span>Leaderboard</span>
-            </button>
-          </div>
         </div>
+      </section>
 
-        {/* Resume Banner (if an exam is in progress) */}
-        {activeExamSubjectId && onResumeExam && (
-          <div className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200">
-            <div className="flex items-center gap-2 font-medium">
-              <RotateCcw className="h-4 w-4 text-amber-600" />
-              <span>
-                Ada quiz yang sedang berjalan untuk mata pelajaran{' '}
-                <strong>
-                  {activeExamSubjectId === 'matematika'
-                    ? 'Matematika'
-                    : activeExamSubjectId === 'quran_hadis'
-                    ? "Qur'an Hadis"
-                    : 'Seni Rupa'}
-                </strong>
-                .
-              </span>
+      {/* 2. RECENT ACTIVITY RESUME (CONTINUE READING) */}
+      {lastSubchapter && (
+        <section
+          id="home-continue-card"
+          className="p-4 sm:p-5 rounded-3xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/60 dark:border-zinc-800/80 shadow-xs hover:border-indigo-300 dark:hover:border-indigo-800/80 transition-all"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-100 dark:border-indigo-900/40">
+                <Bookmark className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+                    Lanjutkan Belajar Terakhir
+                  </span>
+                  <span className="text-zinc-300 dark:text-zinc-700">•</span>
+                  <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    {lastSubchapter.estimatedReadTime}
+                  </span>
+                </div>
+                <h4 className="text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 mt-0.5">
+                  {lastSubchapter.title}
+                </h4>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
+                  {lastSubchapter.summary}
+                </p>
+              </div>
             </div>
+
             <button
-              type="button"
-              onClick={onResumeExam}
-              className="shrink-0 rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition-colors"
+              id="home-btn-continue"
+              onClick={() => {
+                if (onSelectSubchapter) {
+                  onSelectSubchapter(lastSubchapter.id);
+                  onSelectSubject(lastSubchapter.subjectId);
+                  onNavigate('materi');
+                }
+              }}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 text-xs font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-sm active:scale-95 transition-all self-start sm:self-center"
             >
-              Lanjutkan Quiz
+              <span>Buka Ringkasan</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
-        )}
-      </div>
+        </section>
+      )}
 
-      {/* 3 Main Subject Cards */}
-      <div className="mb-12">
-        <div className="mb-6 flex items-center justify-between">
+      {/* 3. PRIMARY MATA PELAJARAN LKS CARDS (3 MATA PELAJARAN) */}
+      <section id="home-subjects-section" className="space-y-4">
+        <div className="flex items-center justify-between px-1">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Mata Pelajaran Tersedia
-            </h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Silakan pilih modul latihan yang ingin Anda kerjakan hari ini
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+              Mata Pelajaran LKS
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Pilih mata pelajaran untuk membaca ringkasan materi atau mengerjakan simulasi quiz
             </p>
           </div>
+          <button
+            onClick={() => onNavigate('subject')}
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+          >
+            <span>Lihat Semua Bab</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SUBJECT_CARDS.map((subject) => {
-            const stats = getSubjectStats(subject.id);
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {subjects.map((subId) => {
+            const subjectInfo = LKS_SUBJECTS[subId];
+            const chapterCount = subjectInfo.chapters.length;
+            const subCount = subjectInfo.chapters.reduce((a, b) => a + b.subchapters.length, 0);
+
+            // Subject theme accents
+            const accentColors = {
+              ski: {
+                badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-800/40',
+                btn: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+                iconBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60',
+                bar: 'bg-emerald-500',
+                pct: '75%',
+              },
+              bahasa_inggris: {
+                badge: 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border-blue-200/60 dark:border-blue-800/40',
+                btn: 'hover:border-blue-300 dark:hover:border-blue-700',
+                iconBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/60',
+                bar: 'bg-blue-500',
+                pct: '60%',
+              },
+              bahasa_jawa: {
+                badge: 'bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200/60 dark:border-amber-800/40',
+                btn: 'hover:border-amber-300 dark:hover:border-amber-700',
+                iconBg: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/60',
+                bar: 'bg-amber-500',
+                pct: '80%',
+              },
+            }[subId];
 
             return (
               <div
-                key={subject.id}
-                id={`card-${subject.id}`}
-                className={`group flex flex-col justify-between rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/90 ${subject.colorBorder}`}
+                key={subId}
+                id={`home-subject-card-${subId}`}
+                className={`relative rounded-3xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/70 dark:border-zinc-800/80 p-5 shadow-xs flex flex-col justify-between transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${accentColors.btn}`}
               >
-                {/* Card Top: Icon, Title & Badge */}
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-2xl shadow-2xs group-hover:scale-105 transition-transform">
-                      {subject.icon}
+                  {/* Card Header: Icon + Badge */}
+                  <div className="flex items-center justify-between mb-3.5">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border ${accentColors.iconBg}`}>
+                      {subjectInfo.icon}
                     </div>
-                    <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800/80 dark:text-zinc-400">
-                      {subject.badge}
+                    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${accentColors.badge}`}>
+                      {chapterCount} Bab • {subCount} Materi
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">
-                    {subject.title}
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    {subject.description}
+                  {/* Title & Description */}
+                  <h4 className="text-base font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                    {subjectInfo.title}
+                  </h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                    {subjectInfo.description}
                   </p>
 
-                  {/* Topic Chips */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {subject.topics.map((t, i) => (
-                      <span
-                        key={i}
-                        className="rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-                      >
-                        {t}
-                      </span>
+                  {/* Chapter Highlights */}
+                  <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 space-y-1.5">
+                    {subjectInfo.chapters.map((ch) => (
+                      <div key={ch.id} className="flex items-center gap-1.5 text-[11px] text-zinc-600 dark:text-zinc-300 truncate">
+                        <FileText className="w-3 h-3 text-zinc-400 flex-shrink-0" />
+                        <span className="font-medium truncate">{ch.title}</span>
+                      </div>
                     ))}
                   </div>
-                </div>
 
-                {/* Card Bottom: Number of Questions, Progress & Action Button */}
-                <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-zinc-800/80">
-                  {/* Stats Row */}
-                  <div className="mb-3 flex items-center justify-between text-xs font-mono">
-                    <span className="text-zinc-600 dark:text-zinc-400 flex items-center gap-1">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      {stats.activeQuestionsCount} Soal
-                    </span>
-                    <span className="font-semibold text-zinc-800 dark:text-zinc-200">
-                      {stats.completed ? `Skor Terbaik: ${stats.bestScore}` : 'Belum Dicoba'}
-                    </span>
-                  </div>
-
-                  {/* User Progress Bar */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between text-[10.5px] text-zinc-500 dark:text-zinc-400 mb-1 font-mono">
-                      <span>Progress Pengguna</span>
-                      <span>{stats.progressPercent}%</span>
+                  {/* Progress Indicator */}
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 mb-1">
+                      <span>Kelengkapan LKS</span>
+                      <span className="font-semibold text-zinc-700 dark:text-zinc-300">{accentColors.pct}</span>
                     </div>
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                    <div className="w-full h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
                       <div
-                        className="h-full bg-zinc-900 dark:bg-zinc-100 transition-all duration-500 ease-out"
-                        style={{ width: `${stats.progressPercent}%` }}
+                        className={`h-full rounded-full ${accentColors.bar}`}
+                        style={{ width: accentColors.pct }}
                       />
                     </div>
                   </div>
+                </div>
 
-                  {/* Button "Mulai Quiz" */}
+                {/* Actions */}
+                <div className="mt-6 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 grid grid-cols-2 gap-2">
                   <button
-                    id={`start-quiz-btn-${subject.id}`}
-                    type="button"
-                    onClick={() => onStartQuiz(subject.id)}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-3 text-xs font-bold text-white shadow-2xs hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white active:scale-[0.98] transition-all font-mono"
+                    id={`home-btn-baca-${subId}`}
+                    onClick={() => {
+                      onSelectSubject(subId);
+                      onNavigate('subject');
+                    }}
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800 dark:hover:bg-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition-all active:scale-95"
                   >
-                    <Play className="h-3.5 w-3.5 fill-current" />
-                    <span>Mulai Quiz</span>
-                    <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:translate-x-1 transition-transform" />
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Materi LKS</span>
+                  </button>
+
+                  <button
+                    id={`home-btn-quiz-${subId}`}
+                    onClick={() => {
+                      onSelectSubject(subId);
+                      onNavigate('quiz');
+                    }}
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 text-xs font-semibold shadow-xs transition-all active:scale-95"
+                  >
+                    <Award className="w-3.5 h-3.5" />
+                    <span>Quiz (30 Soal)</span>
                   </button>
                 </div>
               </div>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Feature Highlights Footer */}
-      <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/60 p-6 dark:border-zinc-800/80 dark:bg-zinc-900/40">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center sm:text-left">
-          <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 shadow-2xs text-base">
-              ⚡
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                Latihan Interaktif & Cepat
-              </h4>
-              <p className="mt-0.5 text-[11.5px] text-zinc-500 dark:text-zinc-400">
-                Pengerjaan 1 soal per layar dengan keyboard shortcut dan palet nomor soal lengkap.
-              </p>
-            </div>
+      {/* 4. SMART LEARNING SUITE BENTO GRID */}
+      <section id="home-bento-section" className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* AI Tutor Card */}
+        <div
+          id="home-card-ai-tutor"
+          onClick={() => onNavigate('tutor')}
+          className="p-5 rounded-3xl bg-gradient-to-br from-purple-500/5 via-white/70 to-indigo-500/5 dark:from-purple-950/20 dark:via-zinc-900/80 dark:to-indigo-950/20 backdrop-blur-xl border border-purple-200/40 dark:border-purple-900/30 shadow-xs cursor-pointer hover:border-purple-300 dark:hover:border-purple-800 transition-all group"
+        >
+          <div className="w-10 h-10 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform border border-purple-200 dark:border-purple-800/40">
+            <Sparkles className="w-5 h-5" />
           </div>
-
-          <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 shadow-2xs text-base">
-              🏆
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                Leaderboard Harian & XP
-              </h4>
-              <p className="mt-0.5 text-[11.5px] text-zinc-500 dark:text-zinc-400">
-                Kumpulkan poin XP di setiap jawaban benar dan raih posisi teratas di papan peringkat.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 shadow-2xs text-base">
-              🔍
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                Pembahasan & Kunci Jawaban
-              </h4>
-              <p className="mt-0.5 text-[11.5px] text-zinc-500 dark:text-zinc-400">
-                Review mendalam dengan penjelasan komprehensif setelah menyelesaikan simulasi.
-              </p>
-            </div>
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            AI Tutor Pintar LKS
+          </h4>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
+            Ajukan pertanyaan tentang materi SKI, vocabulary Inggris, atau unggah-ungguh basa Jawa secara interaktif.
+          </p>
+          <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform">
+            <span>Tanya AI sekarang</span>
+            <ChevronRight className="w-3.5 h-3.5" />
           </div>
         </div>
-      </div>
 
-      {/* Admin Panel Access Banner */}
-      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-2xs dark:border-zinc-800/80 dark:bg-zinc-900/60">
-        <div className="flex items-center gap-3.5">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50 shadow-2xs">
-            <ShieldCheck className="h-5 w-5" />
+        {/* Leaderboard Honor Card */}
+        <div
+          id="home-card-hall-of-fame"
+          onClick={() => onNavigate('leaderboard')}
+          className="p-5 rounded-3xl bg-gradient-to-br from-amber-500/5 via-white/70 to-rose-500/5 dark:from-amber-950/20 dark:via-zinc-900/80 dark:to-rose-950/20 backdrop-blur-xl border border-amber-200/40 dark:border-amber-900/30 shadow-xs cursor-pointer hover:border-amber-300 dark:hover:border-amber-800 transition-all group"
+        >
+          <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform border border-amber-200 dark:border-amber-800/40">
+            <Trophy className="w-5 h-5" />
           </div>
-          <div>
-            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 font-mono flex items-center gap-1.5">
-              <span>Portal Administrator & Pemilik</span>
-              <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                Admin
-              </span>
-            </h4>
-            <p className="text-[11.5px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-              Kelola dan ubah bank soal, sesuaikan kunci jawaban & opsi pilihan ganda, serta pantau peserta.
-            </p>
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            Panggung Skor 100
+          </h4>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
+            Hanya peserta dengan nilai sempurna (100 poin) yang berhak tercatat di papan kehormatan juara.
+          </p>
+          <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
+            <span>Lihat Peringkat Juara</span>
+            <ChevronRight className="w-3.5 h-3.5" />
           </div>
         </div>
-        <div className="shrink-0">
-          {userRole === 'ADMIN' ? (
-            <button
-              type="button"
-              onClick={onNavigateToAdmin}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:text-zinc-950 dark:hover:bg-emerald-400 transition-colors shadow-2xs"
-            >
-              <span>Buka Admin Panel</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={onOpenAdminLogin}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2 text-xs font-bold text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 transition-colors shadow-2xs"
-            >
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>Login Admin (admin / admin123)</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          )}
+
+        {/* Study Strategy Tip Card */}
+        <div className="p-5 rounded-3xl bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/60 dark:border-zinc-800/80 shadow-xs">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 border border-indigo-200 dark:border-indigo-800/40">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            Tips Sukses PTS LKS
+          </h4>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
+            Baca rangkuman materi 10 menit sebelum mencoba quiz evaluasi 30 butir untuk menguji daya ingatmu.
+          </p>
+          <div className="mt-3 flex items-center gap-1 text-[11px] font-medium text-zinc-400">
+            <Clock className="w-3 h-3" />
+            <span>Target latihan: 20 menit per hari</span>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

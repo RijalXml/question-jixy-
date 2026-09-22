@@ -1,0 +1,11 @@
+{
+  "appConfig": {
+    "appName": "EDUKASI LKS",
+    "appDescription": "Platform Pembelajaran Modern Berbasis LKS — SKI, Bahasa Inggris, dan Bahasa Jawa",
+    "timerMinutes": 30,
+    "allowReview": true
+  },
+  "questionsList": [],
+  "leaderboardList": [],
+  "quizResultsHistory": []
+}

@@ -464,31 +464,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Matematika */}
+          {/* SKI */}
           <div
             className={`flex items-center justify-between rounded-xl border p-4 transition-colors ${
-              completedSubjectsSet.has('matematika')
+              completedSubjectsSet.has('ski')
                 ? 'border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/50 dark:bg-emerald-950/20'
                 : 'border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/40'
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">📐</span>
+              <span className="text-2xl">🕌</span>
               <div>
                 <span className="block text-xs font-bold text-zinc-900 dark:text-zinc-100">
-                  Matematika
+                  SKI
                 </span>
                 <span className="text-[11px] text-zinc-500">
-                  {completedSubjectsSet.has('matematika') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('ski') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('matematika') ? (
+            {completedSubjectsSet.has('ski') ? (
               <CheckCircle2 className="h-5 w-5 text-emerald-600" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('matematika')}
+                onClick={() => onStartQuiz('ski')}
                 className="rounded-lg bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
               >
                 Mulai
@@ -496,31 +496,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             )}
           </div>
 
-          {/* Qur'an Hadis */}
+          {/* Bahasa Inggris */}
           <div
             className={`flex items-center justify-between rounded-xl border p-4 transition-colors ${
-              completedSubjectsSet.has('quran_hadis')
+              completedSubjectsSet.has('bahasa_inggris')
                 ? 'border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/50 dark:bg-emerald-950/20'
                 : 'border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/40'
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">📖</span>
+              <span className="text-2xl">🔤</span>
               <div>
                 <span className="block text-xs font-bold text-zinc-900 dark:text-zinc-100">
-                  Qur'an Hadis
+                  Bahasa Inggris
                 </span>
                 <span className="text-[11px] text-zinc-500">
-                  {completedSubjectsSet.has('quran_hadis') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('bahasa_inggris') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('quran_hadis') ? (
+            {completedSubjectsSet.has('bahasa_inggris') ? (
               <CheckCircle2 className="h-5 w-5 text-emerald-600" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('quran_hadis')}
+                onClick={() => onStartQuiz('bahasa_inggris')}
                 className="rounded-lg bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
               >
                 Mulai
@@ -528,31 +528,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             )}
           </div>
 
-          {/* Seni Rupa */}
+          {/* Bahasa Jawa */}
           <div
             className={`flex items-center justify-between rounded-xl border p-4 transition-colors ${
-              completedSubjectsSet.has('seni_rupa')
+              completedSubjectsSet.has('bahasa_jawa')
                 ? 'border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/50 dark:bg-emerald-950/20'
                 : 'border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/40'
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">🎨</span>
+              <span className="text-2xl">📜</span>
               <div>
                 <span className="block text-xs font-bold text-zinc-900 dark:text-zinc-100">
-                  Seni Rupa
+                  Bahasa Jawa
                 </span>
                 <span className="text-[11px] text-zinc-500">
-                  {completedSubjectsSet.has('seni_rupa') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('bahasa_jawa') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('seni_rupa') ? (
+            {completedSubjectsSet.has('bahasa_jawa') ? (
               <CheckCircle2 className="h-5 w-5 text-emerald-600" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('seni_rupa')}
+                onClick={() => onStartQuiz('bahasa_jawa')}
                 className="rounded-lg bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
               >
                 Mulai
@@ -588,11 +588,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-lg">
-                    {item.subjectId === 'matematika'
-                      ? '📐'
-                      : item.subjectId === 'quran_hadis'
-                      ? '📖'
-                      : '🎨'}
+                    {item.subjectId === 'ski'
+                      ? '🕌'
+                      : item.subjectId === 'bahasa_inggris'
+                      ? '🔤'
+                      : '📜'}
                   </div>
                   <div>
                     <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">

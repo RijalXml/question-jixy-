@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 
 // Types
-export type SubjectId = 'matematika' | 'quran_hadis' | 'seni_rupa';
+export type SubjectId = 'ski' | 'bahasa_inggris' | 'bahasa_jawa';
 
 export interface Question {
   id: number;
@@ -56,8 +56,8 @@ const activeAdminTokens = new Set<string>();
 
 // Default Config
 let appConfig: AppConfig = {
-  appName: 'QUIZ EDUKASI',
-  appDescription: 'Belajar • Bermain • Raih Prestasi — Platform quiz edukasi modern dan minimalist premium untuk Matematika, Qur\'an Hadis, dan Seni Rupa.',
+  appName: 'EDUKASI LKS',
+  appDescription: 'Platform Pembelajaran Modern Berbasis LKS — SKI, Bahasa Inggris, dan Bahasa Jawa.',
   timerMinutes: 30,
   allowReview: true,
 };
@@ -92,7 +92,13 @@ async function initStore() {
       const parsed = JSON.parse(raw);
       if (parsed.appConfig) appConfig = parsed.appConfig;
       if (parsed.questionsList && Array.isArray(parsed.questionsList) && parsed.questionsList.length > 0) {
-        questionsList = parsed.questionsList;
+        // Only keep if it has the new subjects
+        const hasValidSubjects = parsed.questionsList.some(
+          (q: any) => q.subjectId === 'ski' || q.subjectId === 'bahasa_inggris' || q.subjectId === 'bahasa_jawa'
+        );
+        if (hasValidSubjects) {
+          questionsList = parsed.questionsList;
+        }
       }
       if (parsed.leaderboardList && Array.isArray(parsed.leaderboardList)) {
         const mockNames = [
@@ -123,27 +129,27 @@ async function initStore() {
   // If questionsList is empty, import from TS data files
   if (questionsList.length === 0) {
     try {
-      const { questionsMatematika } = await import('./src/data/matematika.js');
-      const { questionsQuranHadis } = await import('./src/data/quranHadis.js');
-      const { questionsSeniRupa } = await import('./src/data/seniRupa.js');
+      const { questionsSki } = await import('./src/data/ski.js');
+      const { questionsBahasaInggris } = await import('./src/data/bahasaInggris.js');
+      const { questionsBahasaJawa } = await import('./src/data/bahasaJawa.js');
 
       questionsList = [
-        ...questionsMatematika,
-        ...questionsQuranHadis,
-        ...questionsSeniRupa,
+        ...questionsSki,
+        ...questionsBahasaInggris,
+        ...questionsBahasaJawa,
       ];
       saveStore();
     } catch {
       // Fallback relative to current working directory
       try {
-        const { questionsMatematika } = await import('./src/data/matematika.ts');
-        const { questionsQuranHadis } = await import('./src/data/quranHadis.ts');
-        const { questionsSeniRupa } = await import('./src/data/seniRupa.ts');
+        const { questionsSki } = await import('./src/data/ski.ts');
+        const { questionsBahasaInggris } = await import('./src/data/bahasaInggris.ts');
+        const { questionsBahasaJawa } = await import('./src/data/bahasaJawa.ts');
 
         questionsList = [
-          ...questionsMatematika,
-          ...questionsQuranHadis,
-          ...questionsSeniRupa,
+          ...questionsSki,
+          ...questionsBahasaInggris,
+          ...questionsBahasaJawa,
         ];
         saveStore();
       } catch (err2) {
@@ -407,18 +413,18 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
         )
       : 85;
 
-  const matematikaCount = questionsList.filter((q) => q.subjectId === 'matematika').length;
-  const quranHadisCount = questionsList.filter((q) => q.subjectId === 'quran_hadis').length;
-  const seniRupaCount = questionsList.filter((q) => q.subjectId === 'seni_rupa').length;
+  const skiCount = questionsList.filter((q) => q.subjectId === 'ski').length;
+  const bahasaInggrisCount = questionsList.filter((q) => q.subjectId === 'bahasa_inggris').length;
+  const bahasaJawaCount = questionsList.filter((q) => q.subjectId === 'bahasa_jawa').length;
 
   res.json({
     totalUsers: distinctUsers || 6,
     totalQuestions: questionsList.length,
     totalQuizzesTaken: totalQuizzes || 23,
     averageScore,
-    matematikaCount,
-    quranHadisCount,
-    seniRupaCount,
+    skiCount,
+    bahasaInggrisCount,
+    bahasaJawaCount,
     recentActivity: quizResultsHistory.slice(0, 10),
   });
 });
@@ -463,7 +469,7 @@ app.post('/api/admin/questions', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Kunci jawaban benar (A, B, C, atau D) wajib ditentukan.' });
   }
 
-  if (!['matematika', 'quran_hadis', 'seni_rupa'].includes(subjectId)) {
+  if (!['ski', 'bahasa_inggris', 'bahasa_jawa'].includes(subjectId)) {
     return res.status(400).json({ error: 'Mata pelajaran tidak valid.' });
   }
 

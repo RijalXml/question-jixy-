@@ -1,4 +1,4 @@
-export type SubjectId = 'matematika' | 'quran_hadis' | 'seni_rupa';
+export type SubjectId = 'ski' | 'bahasa_inggris' | 'bahasa_jawa';
 
 export type UserRole = 'USER' | 'ADMIN';
 
@@ -6,7 +6,9 @@ export type ScreenState =
   | 'name'
   | 'home'
   | 'subject'
+  | 'materi'
   | 'quiz'
+  | 'tutor'
   | 'loading'
   | 'result'
   | 'review'
@@ -74,6 +76,7 @@ export interface UserProfile {
   quizzesCompleted: number;
   completedSubjects: SubjectId[];
   history: ExamResult[];
+  lastStudiedMateriId?: string;
 }
 
 export interface AppConfig {
@@ -88,9 +91,9 @@ export interface AdminStats {
   totalQuestions: number;
   totalQuizzesTaken: number;
   averageScore: number;
-  matematikaCount: number;
-  quranHadisCount: number;
-  seniRupaCount: number;
+  skiCount: number;
+  bahasaInggrisCount: number;
+  bahasaJawaCount: number;
   recentActivity: Array<{
     id: string;
     studentName: string;
@@ -98,4 +101,38 @@ export interface AdminStats {
     score: number;
     completedAt: string;
   }>;
+}
+
+// LKS Lesson Data Structures (Based on User's LKS Table of Contents)
+export interface LKSSubchapter {
+  id: string;
+  code: string; // e.g., "A", "B", "C", "D"
+  title: string;
+  page?: string;
+  readTime: string; // e.g. "5 menit"
+  summary: string;
+  keyPoints: string[];
+  vocabulary?: Array<{ term: string; meaning: string }>;
+  practicalTips?: string;
+}
+
+export interface LKSChapter {
+  id: string;
+  chapterNumber: string; // e.g. "BAB I", "Unit 1", "Wulangan I"
+  title: string;
+  description: string;
+  subchapters: LKSSubchapter[];
+}
+
+export interface LKSSubjectInfo {
+  id: SubjectId;
+  name: string;
+  codeName: string;
+  curriculum: string;
+  icon: string;
+  tagline: string;
+  description: string;
+  progressPercent: number;
+  totalMaterials: number;
+  chapters: LKSChapter[];
 }

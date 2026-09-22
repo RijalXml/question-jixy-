@@ -20,7 +20,7 @@ export const getStoredTheme = (): 'dark' | 'light' => {
   } catch (e) {
     console.error('Failed to read theme from storage', e);
   }
-  return 'dark'; // modern sleek dark default
+  return 'light'; // Modern clean Apple-inspired light palette by default
 };
 
 export const setStoredTheme = (theme: 'dark' | 'light') => {
@@ -69,6 +69,7 @@ export const getStoredUserProfile = (): UserProfile => {
     quizzesCompleted: 0,
     completedSubjects: [],
     history: [],
+    lastStudiedMateriId: 'ski-sub-a',
   };
 };
 
@@ -154,8 +155,8 @@ export const getStoredAppConfig = (): AppConfig => {
   } catch (e) {}
 
   return {
-    appName: 'QUIZ EDUKASI',
-    appDescription: 'Belajar • Bermain • Raih Prestasi — Platform quiz edukasi modern dan minimalist premium untuk Matematika, Qur\'an Hadis, dan Seni Rupa.',
+    appName: 'EDUKASI LKS',
+    appDescription: 'Platform Pembelajaran Modern Berbasis LKS — SKI, Bahasa Inggris, dan Bahasa Jawa.',
     timerMinutes: 30,
     allowReview: true,
   };

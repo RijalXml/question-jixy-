@@ -58,15 +58,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     totalQuestions: 0,
     totalQuizzesTaken: 0,
     averageScore: 0,
-    matematikaCount: 0,
-    quranHadisCount: 0,
-    seniRupaCount: 0,
+    skiCount: 0,
+    bahasaInggrisCount: 0,
+    bahasaJawaCount: 0,
     recentActivity: [],
   });
 
   // Bank Soal State
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('matematika');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ski');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -79,7 +79,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [isResetLeaderboardModalOpen, setIsResetLeaderboardModalOpen] = useState(false);
 
   // Form State for Add / Edit
-  const [formSubjectId, setFormSubjectId] = useState<SubjectId>('matematika');
+  const [formSubjectId, setFormSubjectId] = useState<SubjectId>('ski');
   const [formQuestion, setFormQuestion] = useState('');
   const [formOptionA, setFormOptionA] = useState('');
   const [formOptionB, setFormOptionB] = useState('');
@@ -462,27 +462,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-2xl">📐</span>
+                <span className="text-2xl">🕌</span>
                 <div>
                   <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                    Matematika
+                    SKI
                   </h3>
-                  <span className="text-xs text-zinc-500 font-mono">{stats.matematikaCount} Soal Tersedia</span>
-                </div>
-              </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800 mt-4">
-                <div className="h-full bg-indigo-500" style={{ width: '100%' }} />
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-2xl">📖</span>
-                <div>
-                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                    Qur'an Hadis
-                  </h3>
-                  <span className="text-xs text-zinc-500 font-mono">{stats.quranHadisCount} Soal Tersedia</span>
+                  <span className="text-xs text-zinc-500 font-mono">{stats.skiCount} Soal Tersedia</span>
                 </div>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800 mt-4">
@@ -492,16 +477,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-2xl">🎨</span>
+                <span className="text-2xl">🔤</span>
                 <div>
                   <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                    Seni Rupa
+                    Bahasa Inggris
                   </h3>
-                  <span className="text-xs text-zinc-500 font-mono">{stats.seniRupaCount} Soal Tersedia</span>
+                  <span className="text-xs text-zinc-500 font-mono">{stats.bahasaInggrisCount} Soal Tersedia</span>
                 </div>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800 mt-4">
-                <div className="h-full bg-rose-500" style={{ width: '100%' }} />
+                <div className="h-full bg-indigo-500" style={{ width: '100%' }} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-2xl">ꦗ</span>
+                <div>
+                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Bahasa Jawa
+                  </h3>
+                  <span className="text-xs text-zinc-500 font-mono">{stats.bahasaJawaCount} Soal Tersedia</span>
+                </div>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800 mt-4">
+                <div className="h-full bg-amber-500" style={{ width: '100%' }} />
               </div>
             </div>
           </div>
@@ -528,11 +528,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <div key={act.id} className="flex items-center justify-between p-4 text-xs font-mono">
                     <div className="flex items-center gap-3">
                       <span className="text-lg">
-                        {act.subjectId === 'matematika'
-                          ? '📐'
-                          : act.subjectId === 'quran_hadis'
-                          ? '📖'
-                          : '🎨'}
+                        {act.subjectId === 'ski'
+                          ? '🕌'
+                          : act.subjectId === 'bahasa_inggris'
+                          ? '🔤'
+                          : '📜'}
                       </span>
                       <div>
                         <span className="font-bold text-zinc-900 dark:text-zinc-100">
@@ -577,41 +577,41 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setSelectedSubject('matematika')}
+                onClick={() => setSelectedSubject('ski')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                  selectedSubject === 'matematika'
+                  selectedSubject === 'ski'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                     : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300'
                 }`}
               >
-                <span>📐</span>
-                <span>Matematika</span>
+                <span>🕌</span>
+                <span>SKI</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setSelectedSubject('quran_hadis')}
+                onClick={() => setSelectedSubject('bahasa_inggris')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                  selectedSubject === 'quran_hadis'
+                  selectedSubject === 'bahasa_inggris'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                     : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300'
                 }`}
               >
-                <span>📖</span>
-                <span>Qur'an Hadis</span>
+                <span>🔤</span>
+                <span>Bahasa Inggris</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setSelectedSubject('seni_rupa')}
+                onClick={() => setSelectedSubject('bahasa_jawa')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                  selectedSubject === 'seni_rupa'
+                  selectedSubject === 'bahasa_jawa'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                     : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300'
                 }`}
               >
-                <span>🎨</span>
-                <span>Seni Rupa</span>
+                <span>ꦗ</span>
+                <span>Bahasa Jawa</span>
               </button>
             </div>
 
@@ -901,9 +901,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     onChange={(e) => setFormSubjectId(e.target.value as SubjectId)}
                     className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-sans text-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
                   >
-                    <option value="matematika">📐 Matematika</option>
-                    <option value="quran_hadis">📖 Qur'an Hadis</option>
-                    <option value="seni_rupa">🎨 Seni Rupa</option>
+                    <option value="ski">🕌 SKI (Sejarah Kebudayaan Islam)</option>
+                    <option value="bahasa_inggris">🔤 Bahasa Inggris</option>
+                    <option value="bahasa_jawa">ꦗ Bahasa Jawa</option>
                   </select>
                 </div>
 

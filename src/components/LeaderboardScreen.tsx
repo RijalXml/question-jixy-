@@ -59,12 +59,12 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
   // Subject label helper
   const getSubjectBadge = (subId: SubjectId | 'all') => {
     switch (subId) {
-      case 'matematika':
-        return { label: 'Matematika', icon: '📐' };
-      case 'quran_hadis':
-        return { label: "Qur'an Hadis", icon: '📖' };
-      case 'seni_rupa':
-        return { label: 'Seni Rupa', icon: '🎨' };
+      case 'ski':
+        return { label: 'SKI (Sejarah Kebudayaan Islam)', icon: '🕌' };
+      case 'bahasa_inggris':
+        return { label: 'Bahasa Inggris', icon: '🔤' };
+      case 'bahasa_jawa':
+        return { label: 'Bahasa Jawa', icon: 'ꦗ' };
       default:
         return { label: 'Semua Mapel', icon: '🌟' };
     }
@@ -74,7 +74,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     if (subjectFilter !== 'all') {
       onStartQuiz(subjectFilter);
     } else {
-      onStartQuiz('matematika');
+      onStartQuiz('ski');
     }
   };
 
@@ -143,41 +143,41 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('matematika')}
+            onClick={() => setSubjectFilter('ski')}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'matematika'
+              subjectFilter === 'ski'
                 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                 : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
             }`}
           >
-            <span>📐</span>
-            <span>Matematika</span>
+            <span>🕌</span>
+            <span>SKI</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('quran_hadis')}
+            onClick={() => setSubjectFilter('bahasa_inggris')}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'quran_hadis'
+              subjectFilter === 'bahasa_inggris'
                 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                 : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
             }`}
           >
-            <span>📖</span>
-            <span>Qur'an Hadis</span>
+            <span>🔤</span>
+            <span>Bahasa Inggris</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('seni_rupa')}
+            onClick={() => setSubjectFilter('bahasa_jawa')}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'seni_rupa'
+              subjectFilter === 'bahasa_jawa'
                 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
                 : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
             }`}
           >
-            <span>🎨</span>
-            <span>Seni Rupa</span>
+            <span>ꦗ</span>
+            <span>Bahasa Jawa</span>
           </button>
         </div>
 

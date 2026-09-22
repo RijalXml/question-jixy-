@@ -1,6 +1,6 @@
 {
   "name": "QUIZ EDUKASI",
-  "description": "Belajar • Bermain • Raih Prestasi — Platform quiz edukasi modern dan minimalist premium untuk Matematika, Qur'an Hadis, dan Seni Rupa.",
+  "description": "Platform pembelajaran modern, minimalis, dan futuristik berbasis LKS untuk SKI (Sejarah Kebudayaan Islam), Bahasa Inggris, dan Bahasa Jawa.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

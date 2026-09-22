@@ -9,12 +9,18 @@ import {
   UserRole,
   AppConfig,
 } from './types';
-import { questionsMatematika } from './data/matematika';
-import { questionsQuranHadis } from './data/quranHadis';
-import { questionsSeniRupa } from './data/seniRupa';
-import { Navbar } from './components/Navbar';
-import { NameScreen } from './components/NameScreen';
+import { questionsSki } from './data/ski';
+import { questionsBahasaInggris } from './data/bahasaInggris';
+import { questionsBahasaJawa } from './data/bahasaJawa';
+
+import { Sidebar } from './components/Sidebar';
+import { NavigationPanel } from './components/NavigationPanel';
+import { TopBar } from './components/TopBar';
+
 import { HomeScreen } from './components/HomeScreen';
+import { SubjectScreen } from './components/SubjectScreen';
+import { MateriDetailScreen } from './components/MateriDetailScreen';
+import { AITutorScreen } from './components/AITutorScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ResultScreen } from './components/ResultScreen';
@@ -23,6 +29,8 @@ import { LeaderboardScreen } from './components/LeaderboardScreen';
 import { ProfileScreen } from './components/ProfileScreen';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminLoginModal } from './components/AdminLoginModal';
+import { NameScreen } from './components/NameScreen';
+
 import {
   getStoredTheme,
   setStoredTheme,
@@ -43,14 +51,14 @@ import { apiGetQuestions, apiAdminVerify, apiSubmitQuiz } from './utils/api';
 
 export const getSubjectTitle = (subjectId: SubjectId): string => {
   switch (subjectId) {
-    case 'matematika':
-      return 'Matematika';
-    case 'quran_hadis':
-      return "Qur'an Hadis";
-    case 'seni_rupa':
-      return 'Seni Rupa';
+    case 'ski':
+      return 'Sejarah Kebudayaan Islam (SKI)';
+    case 'bahasa_inggris':
+      return 'Bahasa Inggris';
+    case 'bahasa_jawa':
+      return 'Bahasa Jawa';
     default:
-      return 'Matematika';
+      return 'SKI';
   }
 };
 
@@ -60,6 +68,10 @@ export default function App() {
 
   // Navigation screen
   const [currentScreen, setCurrentScreen] = useState<ScreenState>('home');
+
+  // Selected Subject & Subchapter
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ski');
+  const [selectedSubchapterId, setSelectedSubchapterId] = useState<string>('ski-sub-a');
 
   // User Profile & Role
   const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile());
@@ -72,16 +84,15 @@ export default function App() {
 
   // Questions Map (cached by subject)
   const [questionsMap, setQuestionsMap] = useState<Record<SubjectId, Question[]>>({
-    matematika: questionsMatematika,
-    quran_hadis: questionsQuranHadis,
-    seni_rupa: questionsSeniRupa,
+    ski: questionsSki,
+    bahasa_inggris: questionsBahasaInggris,
+    bahasa_jawa: questionsBahasaJawa,
   });
 
   // Active Quiz State
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('matematika');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<number>(1800); // 30 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState<number>(1800);
 
   // Initialize data on mount
   useEffect(() => {
@@ -117,12 +128,10 @@ export default function App() {
             setUserRole('USER');
           }
         })
-        .catch(() => {
-          // offline or error, retain existing state
-        });
+        .catch(() => {});
     }
 
-    // 4. Fetch dynamic questions with guaranteed fallback
+    // 4. Fetch dynamic questions from API if available
     const fetchFreshQuestions = async (sub: SubjectId) => {
       try {
         const qList = await apiGetQuestions(sub);
@@ -134,9 +143,9 @@ export default function App() {
       }
     };
 
-    fetchFreshQuestions('matematika');
-    fetchFreshQuestions('quran_hadis');
-    fetchFreshQuestions('seni_rupa');
+    fetchFreshQuestions('ski');
+    fetchFreshQuestions('bahasa_inggris');
+    fetchFreshQuestions('bahasa_jawa');
 
     // 5. Active Exam Resume Check
     const activeExam = getStoredActiveExam();
@@ -144,7 +153,6 @@ export default function App() {
       setSelectedSubject(activeExam.subjectId);
       setAnswers(activeExam.answers || {});
       setTimeRemaining(activeExam.timeRemaining ?? 1800);
-      // We don't auto-redirect, we display resume banner on HomeScreen or allow manual resume
     }
 
     const lastResult = getStoredLastResult();
@@ -348,14 +356,17 @@ export default function App() {
         studentName: userProfile.name,
         avatar: userProfile.avatar,
         subjectId: selectedSubject,
-        answers: finalAnswers,
+        subjectTitle: getSubjectTitle(selectedSubject),
+        totalQuestions,
         score,
         correctCount,
-        totalQuestions,
-        xp: earnedXP,
+        incorrectCount,
+        unansweredCount,
+        percentage,
+        category,
       });
     } catch (e) {
-      // Offline fallback already handled
+      // Offline fallback
     }
 
     setCurrentScreen('loading');
@@ -381,141 +392,199 @@ export default function App() {
     setCurrentScreen(screen);
   };
 
+  // Handler to open subject view directly
+  const handleSelectSubject = (subjectId: SubjectId) => {
+    setSelectedSubject(subjectId);
+    setCurrentScreen('subject');
+  };
+
+  // Handler to open subchapter reading detail view
+  const handleSelectSubchapter = (subchapterId: string) => {
+    setSelectedSubchapterId(subchapterId);
+    setCurrentScreen('materi');
+  };
+
+  // Search state for TopBar
+  const [searchQuery, setSearchQuery] = useState('');
+
   const activeQuestions = (questionsMap[selectedSubject] || []).filter(
     (q) => q.isActive !== false
   );
   const activeSubjectTitle = getSubjectTitle(selectedSubject);
   const activeExam = getStoredActiveExam();
 
+  // Full screen standalone views that don't need the dashboard sidebar
+  const isDedicatedExamView = currentScreen === 'quiz' || currentScreen === 'loading' || currentScreen === 'name';
+
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#090a0d] dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans">
-      {/* Universal Navbar */}
-      <Navbar
-        currentScreen={currentScreen}
-        onNavigate={handleNavigate}
-        userRole={userRole}
-        userName={userProfile.name}
-        userAvatar={userProfile.avatar}
-        userXp={userProfile.xp}
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
-        onOpenAdminLogin={() => setIsAdminModalOpen(true)}
-        onAdminLogout={handleAdminLogout}
-        isQuizActive={currentScreen === 'quiz'}
-        timeRemaining={timeRemaining}
-        subjectTitle={activeSubjectTitle}
-      />
+    <div className="min-h-screen bg-zinc-100/70 dark:bg-[#090a0f] text-zinc-900 dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+      {/* 1. NAME SCREEN (ONBOARDING) */}
+      {currentScreen === 'name' && (
+        <NameScreen
+          initialName={userProfile.name !== 'Siswa' ? userProfile.name : ''}
+          onStart={handleStartName}
+        />
+      )}
 
-      {/* Main Dynamic View */}
-      <main className="flex-1">
-        {currentScreen === 'name' && (
-          <NameScreen
-            initialName={userProfile.name !== 'Siswa' ? userProfile.name : ''}
-            onStart={handleStartName}
-          />
-        )}
+      {/* 2. DEDICATED QUIZ VIEW */}
+      {currentScreen === 'quiz' && (
+        <QuizScreen
+          studentName={userProfile.name}
+          subjectId={selectedSubject}
+          subjectTitle={activeSubjectTitle}
+          questions={activeQuestions}
+          savedAnswers={answers}
+          initialTimeRemaining={timeRemaining}
+          onAnswerChange={handleAnswerChange}
+          onSubmitExam={handleSubmitExam}
+          onTimeTick={handleTimeTick}
+          onBackToMenu={handleBackToHome}
+        />
+      )}
 
-        {currentScreen === 'home' && (
-          <HomeScreen
-            userProfile={userProfile}
-            questionsMap={questionsMap}
-            onStartQuiz={handleStartQuiz}
-            onNavigateToLeaderboard={() => setCurrentScreen('leaderboard')}
-            onNavigateToProfile={() => setCurrentScreen('profile')}
-            activeExamSubjectId={activeExam && !activeExam.isFinished ? activeExam.subjectId : null}
-            onResumeExam={handleResumeExam}
+      {/* 3. LOADING TRANSITION VIEW */}
+      {currentScreen === 'loading' && (
+        <LoadingScreen onComplete={() => setCurrentScreen('result')} />
+      )}
+
+      {/* 4. MAIN SPATIAL DASHBOARD LAYOUT */}
+      {!isDedicatedExamView && (
+        <div className="flex-1 flex flex-col md:flex-row min-h-screen">
+          {/* A. FLOATING VERTICAL DOCK (SIDEBAR) */}
+          <Sidebar
+            currentScreen={currentScreen}
+            onNavigate={handleNavigate}
             userRole={userRole}
             onOpenAdminLogin={() => setIsAdminModalOpen(true)}
-            onNavigateToAdmin={() => setCurrentScreen('admin')}
+            totalXP={userProfile.xp}
           />
-        )}
 
-        {currentScreen === 'quiz' && (
-          <QuizScreen
-            studentName={userProfile.name}
-            subjectId={selectedSubject}
-            subjectTitle={activeSubjectTitle}
-            questions={activeQuestions}
-            savedAnswers={answers}
-            initialTimeRemaining={timeRemaining}
-            onAnswerChange={handleAnswerChange}
-            onSubmitExam={handleSubmitExam}
-            onTimeTick={handleTimeTick}
-            onBackToMenu={handleBackToHome}
-          />
-        )}
-
-        {currentScreen === 'loading' && (
-          <LoadingScreen onComplete={() => setCurrentScreen('result')} />
-        )}
-
-        {currentScreen === 'result' && examResult && (
-          <ResultScreen
-            result={examResult}
-            onReview={() => setCurrentScreen('review')}
-            onRetry={handleRetryExam}
-            onBackToMenu={handleBackToHome}
-            onViewLeaderboard={() => setCurrentScreen('leaderboard')}
-          />
-        )}
-
-        {currentScreen === 'review' && (
-          <ReviewScreen
-            questions={activeQuestions}
-            userAnswers={answers}
-            studentName={userProfile.name}
-            subjectTitle={activeSubjectTitle}
-            onBackToResult={() => setCurrentScreen('result')}
-            onRetry={handleRetryExam}
-            onBackToMenu={handleBackToHome}
-          />
-        )}
-
-        {currentScreen === 'leaderboard' && (
-          <LeaderboardScreen
-            currentStudentName={userProfile.name}
-            onStartQuiz={handleStartQuiz}
-          />
-        )}
-
-        {currentScreen === 'profile' && (
-          <ProfileScreen
+          {/* B. SECONDARY NAVIGATION PANEL (DESKTOP) */}
+          <NavigationPanel
+            currentScreen={currentScreen}
+            selectedSubject={selectedSubject}
+            onSelectSubject={handleSelectSubject}
+            onNavigate={handleNavigate}
             userProfile={userProfile}
-            onUpdateProfile={handleUpdateProfile}
-            onStartQuiz={handleStartQuiz}
-            onReviewQuizResult={(res) => {
-              setExamResult(res);
-              setSelectedSubject(res.subjectId);
-              setCurrentScreen('result');
-            }}
           />
-        )}
 
-        {currentScreen === 'admin' && userRole === 'ADMIN' && adminToken && (
-          <AdminPanel
-            adminToken={adminToken}
-            onLogout={handleAdminLogout}
-            onBackToHome={() => setCurrentScreen('home')}
-            appConfig={appConfig}
-            onUpdateAppConfig={(cfg) => {
-              setAppConfig(cfg);
-              setStoredAppConfig(cfg);
-            }}
-          />
-        )}
-      </main>
+          {/* C. MAIN CONTENT VIEWPORT */}
+          <div className="flex-1 flex flex-col min-w-0 pb-20 md:pb-6">
+            {/* SPATIAL TOP BAR */}
+            <TopBar
+              currentScreen={currentScreen}
+              selectedSubject={selectedSubject}
+              theme={theme}
+              onToggleTheme={handleToggleTheme}
+              userProfile={userProfile}
+              onOpenProfile={() => setCurrentScreen('profile')}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              onNavigate={handleNavigate}
+            />
 
-      {/* Admin Login Modal */}
+            {/* DYNAMIC SCREEN VIEW */}
+            <div className="flex-1 px-4 sm:px-8 py-6 max-w-7xl w-full mx-auto animate-in fade-in duration-200">
+              {currentScreen === 'home' && (
+                <HomeScreen
+                  userProfile={userProfile}
+                  onSelectSubject={handleSelectSubject}
+                  onNavigate={handleNavigate}
+                  onSelectSubchapter={handleSelectSubchapter}
+                />
+              )}
+
+              {currentScreen === 'subject' && (
+                <SubjectScreen
+                  selectedSubject={selectedSubject}
+                  onSelectSubject={setSelectedSubject}
+                  onSelectSubchapter={handleSelectSubchapter}
+                  onNavigate={handleNavigate}
+                />
+              )}
+
+              {currentScreen === 'materi' && (
+                <MateriDetailScreen
+                  subchapterId={selectedSubchapterId}
+                  selectedSubject={selectedSubject}
+                  onNavigate={handleNavigate}
+                  onSelectSubchapter={handleSelectSubchapter}
+                />
+              )}
+
+              {currentScreen === 'tutor' && (
+                <AITutorScreen
+                  selectedSubject={selectedSubject}
+                  onSelectSubject={setSelectedSubject}
+                  onNavigate={handleNavigate}
+                />
+              )}
+
+              {currentScreen === 'result' && examResult && (
+                <ResultScreen
+                  result={examResult}
+                  onReview={() => setCurrentScreen('review')}
+                  onRetry={handleRetryExam}
+                  onBackToMenu={handleBackToHome}
+                  onViewLeaderboard={() => setCurrentScreen('leaderboard')}
+                />
+              )}
+
+              {currentScreen === 'review' && (
+                <ReviewScreen
+                  questions={activeQuestions}
+                  userAnswers={answers}
+                  studentName={userProfile.name}
+                  subjectTitle={activeSubjectTitle}
+                  onBackToResult={() => setCurrentScreen('result')}
+                  onRetry={handleRetryExam}
+                  onBackToMenu={handleBackToHome}
+                />
+              )}
+
+              {currentScreen === 'leaderboard' && (
+                <LeaderboardScreen
+                  currentStudentName={userProfile.name}
+                  onStartQuiz={handleStartQuiz}
+                />
+              )}
+
+              {currentScreen === 'profile' && (
+                <ProfileScreen
+                  userProfile={userProfile}
+                  onUpdateProfile={handleUpdateProfile}
+                  onStartQuiz={handleStartQuiz}
+                  onReviewQuizResult={(res) => {
+                    setExamResult(res);
+                    setSelectedSubject(res.subjectId);
+                    setCurrentScreen('result');
+                  }}
+                />
+              )}
+
+              {currentScreen === 'admin' && userRole === 'ADMIN' && adminToken && (
+                <AdminPanel
+                  adminToken={adminToken}
+                  onLogout={handleAdminLogout}
+                  onBackToHome={() => setCurrentScreen('home')}
+                  appConfig={appConfig}
+                  onUpdateAppConfig={(cfg) => {
+                    setAppConfig(cfg);
+                    setStoredAppConfig(cfg);
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. ADMIN LOGIN MODAL */}
       <AdminLoginModal
         isOpen={isAdminModalOpen}
         onClose={() => setIsAdminModalOpen(false)}
         onLoginSuccess={handleLoginSuccess}
       />
-
-      {/* Minimalist Footer */}
-      <footer className="border-t border-zinc-200/80 bg-white/60 py-3.5 text-center text-[11px] text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-950/60 dark:text-zinc-400 font-mono">
-        <span>{appConfig.appName} • {appConfig.appDescription}</span>
-      </footer>
     </div>
   );
 }

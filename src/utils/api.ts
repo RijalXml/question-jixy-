@@ -1,26 +1,22 @@
 import { Question, SubjectId, LeaderboardEntry, AdminStats, AppConfig } from '../types';
-import { questionsMatematika } from '../data/matematika';
-import { questionsQuranHadis } from '../data/quranHadis';
-import { questionsSeniRupa } from '../data/seniRupa';
-import { getStoredAdminToken, setStoredAdminToken } from './storage';
+import { questionsSki } from '../data/ski';
+import { questionsBahasaInggris } from '../data/bahasaInggris';
+import { questionsBahasaJawa } from '../data/bahasaJawa';
 
 const LOCAL_STORAGE_KEYS = {
-  LEADERBOARD: 'quiz_edukasi_local_leaderboard',
-  QUESTIONS: 'quiz_edukasi_local_questions',
-  CONFIG: 'quiz_edukasi_local_config',
-  RESULTS: 'quiz_edukasi_local_results',
-  LOCAL_ADMIN_TOKEN: 'quiz_edukasi_admin_session',
+  LEADERBOARD: 'edukasi_lks_leaderboard',
+  QUESTIONS: 'edukasi_lks_questions',
+  CONFIG: 'edukasi_lks_config',
+  RESULTS: 'edukasi_lks_results',
+  LOCAL_ADMIN_TOKEN: 'edukasi_lks_admin_session',
 };
 
 // Initial Seed Questions Map
 const DEFAULT_QUESTIONS: Record<SubjectId, Question[]> = {
-  matematika: questionsMatematika,
-  quran_hadis: questionsQuranHadis,
-  seni_rupa: questionsSeniRupa,
+  ski: questionsSki,
+  bahasa_inggris: questionsBahasaInggris,
+  bahasa_jawa: questionsBahasaJawa,
 };
-
-// Initial Seed Leaderboard (Empty: only students reaching score >= 100 will enter)
-const DEFAULT_LEADERBOARD: LeaderboardEntry[] = [];
 
 /**
  * Safely parses response as JSON, verifying content-type first to avoid
@@ -32,7 +28,6 @@ async function safeFetchJson<T>(url: string, options?: RequestInit): Promise<{ o
     const contentType = res.headers.get('content-type') || '';
 
     if (!contentType.includes('application/json')) {
-      // Backend returned HTML or text (e.g. 404 page or index.html SPA redirect)
       return { ok: false, data: null, error: `Non-JSON response: ${res.status}` };
     }
 
@@ -64,16 +59,13 @@ export function getLocalLeaderboard(): LeaderboardEntry[] {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) {
-        // Enforce: ONLY participants with score >= 100 enter the leaderboard, purge legacy mock
+        // Enforce: ONLY participants with score >= 100 enter the leaderboard
         const cleaned = parsed.filter(
           (e) =>
             e &&
             Number(e.score) >= 100 &&
             !MOCK_STUDENT_NAMES.includes((e.studentName || '').toLowerCase().trim())
         );
-        if (cleaned.length !== parsed.length) {
-          localStorage.setItem(LOCAL_STORAGE_KEYS.LEADERBOARD, JSON.stringify(cleaned));
-        }
         return cleaned;
       }
     }
@@ -83,7 +75,6 @@ export function getLocalLeaderboard(): LeaderboardEntry[] {
 
 export function saveLocalLeaderboard(entries: LeaderboardEntry[]) {
   try {
-    // Only save entries that have score >= 100
     const valid = entries.filter((e) => e && Number(e.score) >= 100);
     localStorage.setItem(LOCAL_STORAGE_KEYS.LEADERBOARD, JSON.stringify(valid));
   } catch (e) {}
@@ -94,7 +85,7 @@ export function getLocalQuestions(): Record<SubjectId, Question[]> {
     const raw = localStorage.getItem(LOCAL_STORAGE_KEYS.QUESTIONS);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && parsed.matematika && parsed.quran_hadis && parsed.seni_rupa) {
+      if (parsed && parsed.ski && parsed.bahasa_inggris && parsed.bahasa_jawa) {
         return parsed;
       }
     }
@@ -138,109 +129,100 @@ export async function apiGetLeaderboard(
 
   const result = await safeFetchJson<{ items: LeaderboardEntry[] }>(`/api/leaderboard?${params.toString()}`);
   if (result.ok && result.data?.items) {
-    return result.data.items.filter((item) => item && item.score >= 100);
+    return (result.data.items || []).filter((e) => e && Number(e.score) >= 100);
   }
 
-  // Fallback to local leaderboard filter (strictly score >= 100)
-  const entries = getLocalLeaderboard();
-  let filtered = entries.filter((e) => e && e.score >= 100);
+  // Fallback to local storage
+  const local = getLocalLeaderboard();
+  let filtered = local.filter((e) => e && Number(e.score) >= 100);
 
   if (subject !== 'all') {
-    filtered = filtered.filter((e) => e.subjectId === subject || e.subjectId === 'all');
+    filtered = filtered.filter((i) => i.subjectId === subject || i.subjectId === 'all');
   }
 
   const now = Date.now();
   if (timeframe === 'daily') {
-    const oneDayAgo = now - 24 * 3600 * 1000;
-    filtered = filtered.filter((e) => new Date(e.completedAt).getTime() >= oneDayAgo);
+    const oneDayAgo = now - 24 * 60 * 60 * 1000;
+    filtered = filtered.filter((i) => new Date(i.completedAt).getTime() >= oneDayAgo);
   } else if (timeframe === 'weekly') {
-    const oneWeekAgo = now - 7 * 24 * 3600 * 1000;
-    filtered = filtered.filter((e) => new Date(e.completedAt).getTime() >= oneWeekAgo);
+    const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000;
+    filtered = filtered.filter((i) => new Date(i.completedAt).getTime() >= oneWeekAgo);
   }
 
-  // Sort descending by score, then XP
-  filtered.sort((a, b) => b.score - a.score || b.xp - a.xp);
+  filtered.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.xp - a.xp;
+  });
+
   return filtered;
 }
 
 /**
- * Submit Quiz Result
+ * Submit Quiz Result (Enforces score >= 100 for leaderboard entry)
  */
 export async function apiSubmitQuiz(data: {
   studentName: string;
   avatar?: string;
   subjectId: SubjectId;
-  answers: Record<number, number>;
+  subjectTitle: string;
+  totalQuestions: number;
   score: number;
   correctCount: number;
-  totalQuestions: number;
-  xp: number;
+  incorrectCount: number;
+  unansweredCount: number;
+  percentage: number;
+  category: string;
 }): Promise<{ ok: boolean; xpEarned: number }> {
-  const finalScore = Math.round(data.score);
-  const studentAvatar = data.avatar || '🎓';
+  const xpEarned = Math.round(data.correctCount * 10 + (data.score >= 90 ? 100 : data.score >= 75 ? 50 : 20));
 
-  // Strict Rule: ONLY students who achieve minimum 100 points will enter the leaderboard
-  if (finalScore >= 100) {
-    const currentLeaderboard = getLocalLeaderboard();
-    const existingIdx = currentLeaderboard.findIndex(
-      (e) =>
-        e.studentName.toLowerCase().trim() === data.studentName.toLowerCase().trim() &&
-        e.subjectId === data.subjectId
+  const result = await safeFetchJson<{ success: boolean; result: { xpEarned: number } }>('/api/quiz/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  // Also update local storage fallback
+  const localLeaderboard = getLocalLeaderboard();
+  if (Math.round(data.score) >= 100) {
+    const existingIdx = localLeaderboard.findIndex(
+      (l) => l.studentName.toLowerCase().trim() === data.studentName.toLowerCase().trim() && l.subjectId === data.subjectId
     );
 
     if (existingIdx >= 0) {
-      const existing = currentLeaderboard[existingIdx];
-      currentLeaderboard[existingIdx] = {
-        ...existing,
-        avatar: studentAvatar,
-        score: Math.max(existing.score, finalScore),
-        quizzesCompleted: existing.quizzesCompleted + 1,
-        xp: existing.xp + data.xp,
-        completedAt: new Date().toISOString(),
-      };
+      localLeaderboard[existingIdx].score = Math.max(localLeaderboard[existingIdx].score, Math.round(data.score));
+      localLeaderboard[existingIdx].xp += xpEarned;
+      localLeaderboard[existingIdx].quizzesCompleted += 1;
+      localLeaderboard[existingIdx].completedAt = new Date().toISOString();
     } else {
-      currentLeaderboard.push({
-        id: `lead-user-${Date.now()}`,
+      localLeaderboard.push({
+        id: 'lead-local-' + Date.now(),
         studentName: data.studentName.trim(),
-        avatar: studentAvatar,
+        avatar: data.avatar || '🎓',
         subjectId: data.subjectId,
-        score: finalScore,
+        score: Math.round(data.score),
         quizzesCompleted: 1,
-        xp: data.xp,
+        xp: xpEarned + 100,
         completedAt: new Date().toISOString(),
       });
     }
-
-    saveLocalLeaderboard(currentLeaderboard);
+    saveLocalLeaderboard(localLeaderboard);
   }
 
-  // Try to sync with backend if running
-  await safeFetchJson('/api/quiz/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      ...data,
-      avatar: studentAvatar,
-    }),
-  });
+  if (result.ok && result.data?.result) {
+    return { ok: true, xpEarned: result.data.result.xpEarned || xpEarned };
+  }
 
-  return { ok: true, xpEarned: data.xp };
+  return { ok: true, xpEarned };
 }
 
 /**
  * Admin Login
  */
-export async function apiAdminLogin(username: string, password: string): Promise<{
-  ok: boolean;
-  token?: string;
-  user?: { name: string; email: string; role: 'ADMIN' };
-  error?: string;
-}> {
-  // Try backend first
-  const result = await safeFetchJson<{
-    token: string;
-    user: { name: string; email: string; role: 'ADMIN' };
-  }>('/api/admin/login', {
+export async function apiAdminLogin(
+  username: string,
+  password: string
+): Promise<{ ok: boolean; token?: string; user?: any; error?: string }> {
+  const result = await safeFetchJson<{ success: boolean; token: string; user: any }>('/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password }),
@@ -316,10 +298,10 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
   const questionsMap = getLocalQuestions();
   const leaderboard = getLocalLeaderboard();
 
-  const matCount = (questionsMap.matematika || []).filter((q) => q.isActive !== false).length;
-  const qhCount = (questionsMap.quran_hadis || []).filter((q) => q.isActive !== false).length;
-  const srCount = (questionsMap.seni_rupa || []).filter((q) => q.isActive !== false).length;
-  const totalQ = matCount + qhCount + srCount;
+  const skiCount = (questionsMap.ski || []).filter((q) => q.isActive !== false).length;
+  const bahasaInggrisCount = (questionsMap.bahasa_inggris || []).filter((q) => q.isActive !== false).length;
+  const bahasaJawaCount = (questionsMap.bahasa_jawa || []).filter((q) => q.isActive !== false).length;
+  const totalQ = skiCount + bahasaInggrisCount + bahasaJawaCount;
 
   const totalQuizzes = leaderboard.reduce((acc, curr) => acc + (curr.quizzesCompleted || 1), 0);
   const avgScore = leaderboard.length > 0
@@ -331,9 +313,9 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
     totalQuestions: totalQ,
     totalQuizzesTaken: totalQuizzes,
     averageScore: avgScore,
-    matematikaCount: matCount,
-    quranHadisCount: qhCount,
-    seniRupaCount: srCount,
+    skiCount,
+    bahasaInggrisCount,
+    bahasaJawaCount,
     recentActivity: leaderboard.slice(0, 5),
   };
 }
