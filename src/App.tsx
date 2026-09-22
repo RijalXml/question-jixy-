@@ -13,14 +13,10 @@ import { questionsSki } from './data/ski';
 import { questionsBahasaInggris } from './data/bahasaInggris';
 import { questionsBahasaJawa } from './data/bahasaJawa';
 
-import { Sidebar } from './components/Sidebar';
-import { NavigationPanel } from './components/NavigationPanel';
-import { TopBar } from './components/TopBar';
-
+import { Navbar } from './components/Navbar';
 import { HomeScreen } from './components/HomeScreen';
 import { SubjectScreen } from './components/SubjectScreen';
 import { MateriDetailScreen } from './components/MateriDetailScreen';
-import { AITutorScreen } from './components/AITutorScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ResultScreen } from './components/ResultScreen';
@@ -30,6 +26,11 @@ import { ProfileScreen } from './components/ProfileScreen';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { NameScreen } from './components/NameScreen';
+import {
+  SketchScratchpadModal,
+  SketchPencilDoodle,
+  SketchWashiTape
+} from './components/SketchElements';
 
 import {
   getStoredTheme,
@@ -78,6 +79,9 @@ export default function App() {
   const [userRole, setUserRole] = useState<UserRole>('USER');
   const [adminToken, setAdminToken] = useState<string | null>(getStoredAdminToken());
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+
+  // Scratchpad modal state (Unfinished sketches & notes)
+  const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
 
   // App Configuration
   const [appConfig, setAppConfig] = useState<AppConfig>(getStoredAppConfig());
@@ -404,20 +408,18 @@ export default function App() {
     setCurrentScreen('materi');
   };
 
-  // Search state for TopBar
-  const [searchQuery, setSearchQuery] = useState('');
-
   const activeQuestions = (questionsMap[selectedSubject] || []).filter(
     (q) => q.isActive !== false
   );
   const activeSubjectTitle = getSubjectTitle(selectedSubject);
   const activeExam = getStoredActiveExam();
+  const activeExamSubjectId = (activeExam && !activeExam.isFinished) ? activeExam.subjectId : null;
 
-  // Full screen standalone views that don't need the dashboard sidebar
+  // Full screen standalone views that don't need the standard header
   const isDedicatedExamView = currentScreen === 'quiz' || currentScreen === 'loading' || currentScreen === 'name';
 
   return (
-    <div className="min-h-screen bg-zinc-100/70 dark:bg-[#090a0f] text-zinc-900 dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#090a0f] text-zinc-900 dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
       {/* 1. NAME SCREEN (ONBOARDING) */}
       {currentScreen === 'name' && (
         <NameScreen
@@ -447,139 +449,167 @@ export default function App() {
         <LoadingScreen onComplete={() => setCurrentScreen('result')} />
       )}
 
-      {/* 4. MAIN SPATIAL DASHBOARD LAYOUT */}
+      {/* 4. CLASSIC FAMILIAR GUI LAYOUT WITH NAVIGATION BAR */}
       {!isDedicatedExamView && (
-        <div className="flex-1 flex flex-col md:flex-row min-h-screen">
-          {/* A. FLOATING VERTICAL DOCK (SIDEBAR) */}
-          <Sidebar
+        <div className="flex-1 flex flex-col min-h-screen">
+          {/* TOP NAVBAR (CLASSIC FAMILIAR GUI) */}
+          <Navbar
             currentScreen={currentScreen}
             onNavigate={handleNavigate}
             userRole={userRole}
+            userName={userProfile.name}
+            userAvatar={userProfile.avatar}
+            userXp={userProfile.xp}
+            theme={theme}
+            onToggleTheme={handleToggleTheme}
             onOpenAdminLogin={() => setIsAdminModalOpen(true)}
-            totalXP={userProfile.xp}
+            onAdminLogout={handleAdminLogout}
+            onOpenScratchpad={() => setIsScratchpadOpen(true)}
+            isQuizActive={false}
+            timeRemaining={timeRemaining}
+            subjectTitle={activeSubjectTitle}
           />
 
-          {/* B. SECONDARY NAVIGATION PANEL (DESKTOP) */}
-          <NavigationPanel
-            currentScreen={currentScreen}
-            selectedSubject={selectedSubject}
-            onSelectSubject={handleSelectSubject}
-            onNavigate={handleNavigate}
-            userProfile={userProfile}
-          />
+          {/* MAIN CONTAINER */}
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 animate-in fade-in duration-200">
+            {currentScreen === 'home' && (
+              <HomeScreen
+                userProfile={userProfile}
+                onSelectSubject={handleSelectSubject}
+                onNavigate={handleNavigate}
+                onSelectSubchapter={handleSelectSubchapter}
+                activeExamSubjectId={activeExamSubjectId}
+                onResumeExam={handleResumeExam}
+                onOpenScratchpad={() => setIsScratchpadOpen(true)}
+              />
+            )}
 
-          {/* C. MAIN CONTENT VIEWPORT */}
-          <div className="flex-1 flex flex-col min-w-0 pb-20 md:pb-6">
-            {/* SPATIAL TOP BAR */}
-            <TopBar
-              currentScreen={currentScreen}
-              selectedSubject={selectedSubject}
-              theme={theme}
-              onToggleTheme={handleToggleTheme}
-              userProfile={userProfile}
-              onOpenProfile={() => setCurrentScreen('profile')}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              onNavigate={handleNavigate}
-            />
+            {currentScreen === 'subject' && (
+              <SubjectScreen
+                selectedSubject={selectedSubject}
+                onSelectSubject={setSelectedSubject}
+                onSelectSubchapter={handleSelectSubchapter}
+                onNavigate={handleNavigate}
+                onOpenScratchpad={() => setIsScratchpadOpen(true)}
+              />
+            )}
 
-            {/* DYNAMIC SCREEN VIEW */}
-            <div className="flex-1 px-4 sm:px-8 py-6 max-w-7xl w-full mx-auto animate-in fade-in duration-200">
-              {currentScreen === 'home' && (
-                <HomeScreen
-                  userProfile={userProfile}
-                  onSelectSubject={handleSelectSubject}
-                  onNavigate={handleNavigate}
-                  onSelectSubchapter={handleSelectSubchapter}
-                />
-              )}
+            {currentScreen === 'materi' && (
+              <MateriDetailScreen
+                subchapterId={selectedSubchapterId}
+                selectedSubject={selectedSubject}
+                onNavigate={handleNavigate}
+                onSelectSubchapter={handleSelectSubchapter}
+                onOpenScratchpad={() => setIsScratchpadOpen(true)}
+              />
+            )}
 
-              {currentScreen === 'subject' && (
-                <SubjectScreen
-                  selectedSubject={selectedSubject}
-                  onSelectSubject={setSelectedSubject}
-                  onSelectSubchapter={handleSelectSubchapter}
-                  onNavigate={handleNavigate}
-                />
-              )}
+            {currentScreen === 'result' && examResult && (
+              <ResultScreen
+                result={examResult}
+                onReview={() => setCurrentScreen('review')}
+                onRetry={handleRetryExam}
+                onBackToMenu={handleBackToHome}
+                onViewLeaderboard={() => setCurrentScreen('leaderboard')}
+              />
+            )}
 
-              {currentScreen === 'materi' && (
-                <MateriDetailScreen
-                  subchapterId={selectedSubchapterId}
-                  selectedSubject={selectedSubject}
-                  onNavigate={handleNavigate}
-                  onSelectSubchapter={handleSelectSubchapter}
-                />
-              )}
+            {currentScreen === 'review' && (
+              <ReviewScreen
+                questions={activeQuestions}
+                userAnswers={answers}
+                studentName={userProfile.name}
+                subjectTitle={activeSubjectTitle}
+                onBackToResult={() => setCurrentScreen('result')}
+                onRetry={handleRetryExam}
+                onBackToMenu={handleBackToHome}
+              />
+            )}
 
-              {currentScreen === 'tutor' && (
-                <AITutorScreen
-                  selectedSubject={selectedSubject}
-                  onSelectSubject={setSelectedSubject}
-                  onNavigate={handleNavigate}
-                />
-              )}
+            {currentScreen === 'leaderboard' && (
+              <LeaderboardScreen
+                currentStudentName={userProfile.name}
+                onStartQuiz={handleStartQuiz}
+              />
+            )}
 
-              {currentScreen === 'result' && examResult && (
-                <ResultScreen
-                  result={examResult}
-                  onReview={() => setCurrentScreen('review')}
-                  onRetry={handleRetryExam}
-                  onBackToMenu={handleBackToHome}
-                  onViewLeaderboard={() => setCurrentScreen('leaderboard')}
-                />
-              )}
+            {currentScreen === 'profile' && (
+              <ProfileScreen
+                userProfile={userProfile}
+                onUpdateProfile={handleUpdateProfile}
+                onStartQuiz={handleStartQuiz}
+                onReviewQuizResult={(res) => {
+                  setExamResult(res);
+                  setSelectedSubject(res.subjectId);
+                  setCurrentScreen('result');
+                }}
+              />
+            )}
 
-              {currentScreen === 'review' && (
-                <ReviewScreen
-                  questions={activeQuestions}
-                  userAnswers={answers}
-                  studentName={userProfile.name}
-                  subjectTitle={activeSubjectTitle}
-                  onBackToResult={() => setCurrentScreen('result')}
-                  onRetry={handleRetryExam}
-                  onBackToMenu={handleBackToHome}
-                />
-              )}
+            {currentScreen === 'admin' && userRole === 'ADMIN' && adminToken && (
+              <AdminPanel
+                adminToken={adminToken}
+                onLogout={handleAdminLogout}
+                onBackToHome={() => setCurrentScreen('home')}
+                appConfig={appConfig}
+                onUpdateAppConfig={(cfg) => {
+                  setAppConfig(cfg);
+                  setStoredAppConfig(cfg);
+                }}
+              />
+            )}
+          </main>
 
-              {currentScreen === 'leaderboard' && (
-                <LeaderboardScreen
-                  currentStudentName={userProfile.name}
-                  onStartQuiz={handleStartQuiz}
-                />
-              )}
-
-              {currentScreen === 'profile' && (
-                <ProfileScreen
-                  userProfile={userProfile}
-                  onUpdateProfile={handleUpdateProfile}
-                  onStartQuiz={handleStartQuiz}
-                  onReviewQuizResult={(res) => {
-                    setExamResult(res);
-                    setSelectedSubject(res.subjectId);
-                    setCurrentScreen('result');
-                  }}
-                />
-              )}
-
-              {currentScreen === 'admin' && userRole === 'ADMIN' && adminToken && (
-                <AdminPanel
-                  adminToken={adminToken}
-                  onLogout={handleAdminLogout}
-                  onBackToHome={() => setCurrentScreen('home')}
-                  appConfig={appConfig}
-                  onUpdateAppConfig={(cfg) => {
-                    setAppConfig(cfg);
-                    setStoredAppConfig(cfg);
-                  }}
-                />
-              )}
+          {/* CLASSIC FOOTER */}
+          <footer className="mt-auto border-t border-zinc-200/80 bg-white/70 dark:border-zinc-800/80 dark:bg-zinc-950/70 py-6 text-center text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <SketchWashiTape text="LKS GENAP 2026" color="zinc" />
+                <span className="font-mono text-[11px]">Quiz Edukasi Siswa</span>
+              </div>
+              <p className="text-[11px]">
+                Materi LKS: Sejarah Kebudayaan Islam • Bahasa Inggris • Bahasa Jawa
+              </p>
+              <div className="flex items-center gap-3 text-[11px]">
+                <button
+                  onClick={() => setIsScratchpadOpen(true)}
+                  className="hover:text-amber-600 transition-colors flex items-center gap-1 font-mono"
+                >
+                  <SketchPencilDoodle className="w-3.5 h-3.5" />
+                  <span>Kertas Coretan</span>
+                </button>
+                <span>•</span>
+                <button
+                  onClick={() => handleNavigate('leaderboard')}
+                  className="hover:text-indigo-600 transition-colors"
+                >
+                  Papan Juara 100
+                </button>
+              </div>
             </div>
-          </div>
+          </footer>
+
+          {/* FLOATING SKETCH DRAFT BUTTON (CORNER LAUNCHER) */}
+          <button
+            id="btn-floating-scratchpad"
+            onClick={() => setIsScratchpadOpen(true)}
+            className="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-mono text-xs font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all border border-amber-300 dark:border-amber-600"
+            title="Buka Kertas Coretan & Sketsa Pensil"
+          >
+            <SketchPencilDoodle className="w-4 h-4" />
+            <span className="hidden sm:inline">Kertas Coretan & Sketsa</span>
+            <span className="sm:hidden">Sketsa</span>
+          </button>
         </div>
       )}
 
-      {/* 5. ADMIN LOGIN MODAL */}
+      {/* 5. UNFINISHED SKETCH / SCRATCHPAD MODAL */}
+      <SketchScratchpadModal
+        isOpen={isScratchpadOpen}
+        onClose={() => setIsScratchpadOpen(false)}
+      />
+
+      {/* 6. ADMIN LOGIN MODAL */}
       <AdminLoginModal
         isOpen={isAdminModalOpen}
         onClose={() => setIsAdminModalOpen(false)}

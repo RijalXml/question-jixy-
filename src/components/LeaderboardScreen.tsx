@@ -13,6 +13,11 @@ import {
 import { LeaderboardEntry, SubjectId } from '../types';
 import { apiGetLeaderboard } from '../utils/api';
 import { UserAvatar } from './UserAvatar';
+import {
+  SketchTrophyIllustration,
+  SketchUnderline,
+  SketchWashiTape
+} from './SketchElements';
 
 interface LeaderboardScreenProps {
   currentStudentName: string;
@@ -83,26 +88,37 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
       {/* Header */}
       <div className="mb-6 text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300 font-mono mb-2">
-            <Trophy className="h-3.5 w-3.5 text-amber-500" />
-            <span>Panggung Kehormatan Siswa</span>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300 font-mono">
+              <Trophy className="h-3.5 w-3.5 text-amber-500" />
+              <span>Panggung Kehormatan Siswa</span>
+            </div>
+            <SketchWashiTape text="SKETSA JUARA 100" color="amber" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
-            LEADERBOARD
-          </h1>
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
+              LEADERBOARD
+            </h1>
+            <SketchUnderline className="text-amber-400/60 w-36 mt-1" />
+          </div>
           <p className="mt-1 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
             Daftar siswa berprestasi yang berhasil meraih skor sempurna minimal 100 poin.
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={fetchLeaderboard}
-          className="self-center sm:self-auto flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors shadow-2xs"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
-          <span>Segarkan Data</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block">
+            <SketchTrophyIllustration className="w-16 h-16 text-amber-500/80 drop-shadow-xs" />
+          </div>
+          <button
+            type="button"
+            onClick={fetchLeaderboard}
+            className="self-center sm:self-auto flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors shadow-2xs"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <span>Segarkan Data</span>
+          </button>
+        </div>
       </div>
 
       {/* Leaderboard Criteria Notice */}

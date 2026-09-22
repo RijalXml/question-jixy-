@@ -26,6 +26,7 @@ interface NavbarProps {
   onToggleTheme: () => void;
   onOpenAdminLogin: () => void;
   onAdminLogout: () => void;
+  onOpenScratchpad?: () => void;
   // Active quiz props (if on quiz screen)
   isQuizActive?: boolean;
   timeRemaining?: number;
@@ -43,6 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleTheme,
   onOpenAdminLogin,
   onAdminLogout,
+  onOpenScratchpad,
   isQuizActive = false,
   timeRemaining,
   subjectTitle,
@@ -138,6 +140,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <User className="h-3.5 w-3.5" />
                 <span>Profile</span>
               </button>
+
+              {onOpenScratchpad && (
+                <button
+                  id="nav-scratchpad"
+                  type="button"
+                  onClick={onOpenScratchpad}
+                  className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono text-amber-700 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-950/40 transition-colors border border-dashed border-amber-300 dark:border-amber-700"
+                  title="Buka Kertas Coretan & Sketsa Pensil"
+                >
+                  <span>✎ Sketsa</span>
+                </button>
+              )}
 
               {/* ADMIN PANEL: STRICTLY ONLY VISIBLE WHEN USER ROLE IS ADMIN */}
               {userRole === 'ADMIN' && (

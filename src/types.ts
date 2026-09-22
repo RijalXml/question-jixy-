@@ -8,7 +8,6 @@ export type ScreenState =
   | 'subject'
   | 'materi'
   | 'quiz'
-  | 'tutor'
   | 'loading'
   | 'result'
   | 'review'

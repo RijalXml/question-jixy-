@@ -20,6 +20,7 @@ interface MateriDetailScreenProps {
   selectedSubject: SubjectId;
   onNavigate: (screen: ScreenState) => void;
   onSelectSubchapter: (subchapterId: string) => void;
+  onOpenScratchpad?: () => void;
 }
 
 export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
@@ -27,6 +28,7 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
   selectedSubject,
   onNavigate,
   onSelectSubchapter,
+  onOpenScratchpad,
 }) => {
   const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['ski-sub-a'];
   const subjectInfo = LKS_SUBJECTS[selectedSubject];
@@ -143,16 +145,11 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
           </section>
         )}
 
-        {/* 6. SMART ACTION ROW */}
+        {/* 6. ACTION ROW */}
         <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <button
-            id="materi-btn-tutor"
-            onClick={() => onNavigate('tutor')}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 dark:bg-purple-950/50 dark:hover:bg-purple-900/50 dark:text-purple-300 border border-purple-200 dark:border-purple-800 text-xs font-semibold transition-all active:scale-95"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Tanya AI Tutor tentang Bab Ini</span>
-          </button>
+          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+            <span>✎ draft sketsa lks</span>
+          </div>
 
           <button
             id="materi-btn-quiz"
