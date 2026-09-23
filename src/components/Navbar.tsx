@@ -20,8 +20,8 @@ interface NavbarProps {
   userName: string;
   userAvatar: string;
   userXp: number;
-  spaceTheme: SpaceThemeMode;
-  onToggleSpaceTheme: () => void;
+  spaceTheme?: SpaceThemeMode;
+  onToggleSpaceTheme?: () => void;
   onOpenAdminLogin: () => void;
   onAdminLogout: () => void;
   onOpenScratchpad?: () => void;
@@ -198,23 +198,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* INTERACTIVE SPACE THEME TOGGLE (PLANET <-> BLACK HOLE) */}
-          <button
-            id="space-theme-toggle-btn"
-            type="button"
-            onClick={onToggleSpaceTheme}
-            className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-violet-400/30 bg-violet-950/60 hover:bg-violet-900/60 text-xs font-orbitron font-semibold text-white shadow-[0_0_14px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_rgba(139,92,246,0.6)] transition-all active:scale-95"
-            title={`Klik untuk beralih ke Mode ${spaceTheme === 'planet' ? 'Black Hole' : 'Planet'}`}
-          >
-            <span className="text-sm">
-              {spaceTheme === 'planet' ? '🪐' : '🕳️'}
-            </span>
-            <span className="hidden sm:inline text-[11px] text-violet-200">
-              {spaceTheme === 'planet' ? 'Mode Planet' : 'Black Hole'}
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping hidden sm:inline" />
-          </button>
-
           {/* XP Pill */}
           {!isQuizActive && (
             <div

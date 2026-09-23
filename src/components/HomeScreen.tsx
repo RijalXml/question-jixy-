@@ -38,8 +38,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   activeExamSubjectId,
   onResumeExam,
   onOpenScratchpad,
-  spaceTheme = 'planet',
-  onToggleSpaceTheme,
 }) => {
   const [activeTier, setActiveTier] = useState<SubjectId>('ipa');
 
@@ -54,12 +52,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           SECTION 1: IMAGE 1 EXACT REPLICA — THE "QUANTUM" COSMIC HERO VIEWPORT
       ========================================================================= */}
       <div className="relative pt-4 sm:pt-6">
-        {/* Foreground Floating 3D Asteroid Rocks (Exact Positioning from Image 1) */}
+        {/* Foreground 3D Asteroid Rocks (Exact Positioning from Image 1, Static & Ultra-lightweight) */}
         {/* Big foreground asteroid (Bottom Left, partially overlapping container) */}
         <FloatingAsteroid
           size={240}
           rotation={-18}
-          animation="float-1"
           className="absolute -bottom-16 -left-12 sm:-bottom-20 sm:-left-20 z-30 opacity-95 hidden sm:block"
         />
 
@@ -67,7 +64,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <FloatingAsteroid
           size={90}
           rotation={35}
-          animation="float-2"
           className="absolute -top-6 left-12 z-10 opacity-70 hidden md:block"
         />
 
@@ -75,7 +71,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <FloatingAsteroid
           size={110}
           rotation={-45}
-          animation="float-3"
           className="absolute top-1/3 -right-6 sm:-right-12 z-30 opacity-85"
         />
 
@@ -83,7 +78,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <FloatingAsteroid
           size={150}
           rotation={22}
-          animation="float-4"
           className="absolute -bottom-10 right-8 z-20 opacity-80 hidden lg:block"
         />
 
@@ -116,7 +110,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             {/* Left Nav Links */}
             <div className="flex items-center gap-4 text-xs font-space text-zinc-400">
               <div className="flex items-center gap-1.5 text-white font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
                 <span>Home</span>
               </div>
               <button
@@ -163,23 +157,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           {/* 2. Hero Content Body (Exact Layout & Typography from Image 1) */}
           <div className="relative z-20 px-6 sm:px-12 py-16 sm:py-24 text-center flex flex-col items-center">
-            {/* Floating Internal Asteroids inside the glass frame */}
+            {/* Internal Asteroids inside the glass frame */}
             <FloatingAsteroid
               size={90}
               rotation={15}
-              animation="float-2"
               className="absolute left-8 sm:left-16 top-1/2 -translate-y-1/2 opacity-75 hidden sm:block pointer-events-none"
             />
             <FloatingAsteroid
               size={100}
               rotation={-25}
-              animation="float-3"
               className="absolute right-8 sm:right-16 top-1/2 -translate-y-1/2 opacity-75 hidden sm:block pointer-events-none"
             />
 
             {/* Sub-tag kicker: ✦ Precision. Speed. Intelligence. */}
             <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               <span className="text-[11px] sm:text-xs font-space tracking-widest text-violet-200 uppercase font-medium">
                 Precision. Speed. Intelligence.
               </span>

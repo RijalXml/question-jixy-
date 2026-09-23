@@ -5,33 +5,28 @@ interface FloatingAsteroidProps {
   className?: string;
   size?: number | string;
   rotation?: number;
-  animation?: 'float-1' | 'float-2' | 'float-3' | 'float-4';
   blur?: boolean;
   glow?: boolean;
 }
 
+/**
+ * Ultra-lightweight static asteroid:
+ * - Removed infinite CSS keyframe transforms
+ * - Zero GPU / CPU cycle waste
+ * - Retains gorgeous chiseled 3D rock visual with specular rim highlight
+ */
 export const FloatingAsteroid: React.FC<FloatingAsteroidProps> = ({
   className = '',
   size = 120,
   rotation = 0,
-  animation = 'float-1',
   blur = false,
   glow = true,
 }) => {
-  const animClass =
-    animation === 'float-1'
-      ? 'animate-float-1'
-      : animation === 'float-2'
-      ? 'animate-float-2'
-      : animation === 'float-3'
-      ? 'animate-float-3'
-      : 'animate-float-4';
-
   const styleSize = typeof size === 'number' ? `${size}px` : size;
 
   return (
     <div
-      className={`pointer-events-none select-none z-20 ${animClass} ${className}`}
+      className={`pointer-events-none select-none z-20 ${className}`}
       style={{
         width: styleSize,
         height: styleSize,
@@ -44,8 +39,8 @@ export const FloatingAsteroid: React.FC<FloatingAsteroidProps> = ({
         className="w-full h-full object-contain"
         style={{
           mixBlendMode: 'screen',
-          filter: `${blur ? 'blur(3px)' : 'contrast(1.2) brightness(1.15)'} ${
-            glow ? 'drop-shadow(0 0 25px rgba(139, 92, 246, 0.45))' : ''
+          filter: `${blur ? 'blur(2px)' : 'contrast(1.15) brightness(1.1)'} ${
+            glow ? 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.4))' : ''
           }`,
         }}
         loading="lazy"

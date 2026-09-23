@@ -404,8 +404,8 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen text-white flex flex-col font-sans selection:bg-violet-600 selection:text-white overflow-x-hidden">
-      {/* Interactive Space Background (Stars, Nebula, Orbiting Planet or Black Hole) */}
-      <SpaceBackground mode={spaceTheme} />
+      {/* Ultra-lightweight Cosmic Space Background (Quantum Planet, 0% CPU overhead) */}
+      <SpaceBackground />
 
       {/* 1. NAME SCREEN (ONBOARDING) */}
       {currentScreen === 'name' && (
