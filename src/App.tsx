@@ -468,6 +468,8 @@ export default function App() {
                 activeExamSubjectId={activeExamSubjectId}
                 onResumeExam={handleResumeExam}
                 onOpenScratchpad={() => setIsScratchpadOpen(true)}
+                spaceTheme={spaceTheme}
+                onToggleSpaceTheme={handleToggleSpaceTheme}
               />
             )}
 

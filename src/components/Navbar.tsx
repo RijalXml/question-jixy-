@@ -71,10 +71,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Orbit className="w-5 h-5 animate-spin-slow text-cyan-200" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-wider text-white font-orbitron flex items-center gap-1.5">
-                <span>EDUKASI LKS</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-violet-500/30 text-cyan-300 border border-violet-400/40">
-                  KOSMIK
+              <span className="text-sm font-black tracking-widest text-white font-orbitron flex items-center gap-1.5">
+                <span>QUANTUM</span>
+                <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-violet-500/30 text-cyan-300 border border-violet-400/40">
+                  LKS 2026
                 </span>
               </span>
               <span className="text-[10.5px] font-medium text-violet-200/70 font-space tracking-wide">
