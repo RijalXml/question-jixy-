@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { Rocket } from 'lucide-react';
 
 interface LoadingScreenProps {
   onComplete: () => void;
 }
 
 const LOADING_STEPS = [
-  'Memeriksa jawaban...',
-  'Menghitung skor...',
-  'Menyiapkan hasil...',
+  'Memeriksa telemetri jawaban...',
+  'Menghitung skor evaluasi...',
+  'Menyiapkan laporan navigasi kosmik...',
 ];
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
@@ -16,7 +17,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   const [dotsPhase, setDotsPhase] = useState(0);
 
   useEffect(() => {
-    // Phase text changes: step 0 (0-550ms), step 1 (550-1150ms), step 2 (1150-1700ms)
     const stepTimer1 = setTimeout(() => {
       setCurrentStepIndex(1);
     }, 550);
@@ -36,7 +36,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  // Modern dot pulse cycle "● ○ ○" -> "○ ● ○" -> "○ ○ ●"
   useEffect(() => {
     const dotsInterval = setInterval(() => {
       setDotsPhase((prev) => (prev + 1) % 3);
@@ -46,44 +45,44 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-4 py-12">
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12 select-none relative z-10 font-sans">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.25 }}
-        className="flex w-full max-w-sm flex-col items-center text-center"
+        className="flex w-full max-w-sm flex-col items-center text-center rounded-3xl glass-panel border border-white/15 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
       >
-        {/* Logo Badge */}
-        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-zinc-900 shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100">
-          <div className="font-mono text-base font-bold tracking-tighter">PTS</div>
+        {/* Cosmic Badge */}
+        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-cyan-600 text-white shadow-[0_0_25px_rgba(6,182,212,0.5)] border border-cyan-400/40">
+          <Rocket className="h-8 w-8 text-cyan-200 animate-pulse" />
         </div>
 
         {/* Brand Title */}
-        <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
-          PTS MASTER
+        <h2 className="text-xl font-black tracking-tight text-white font-orbitron">
+          MEMPROSES EVALUASI
         </h2>
-        <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400 font-mono">
-          Penilaian Tengah Semester • Kelas 7
+        <p className="mt-1 text-xs text-violet-300/80 font-space">
+          Simulasi PTS Kosmik • LKS 2026
         </p>
 
-        {/* Modern Spinner / Progress Wheel */}
-        <div className="my-8 relative flex items-center justify-center">
-          <div className="h-14 w-14 rounded-full border-2 border-zinc-200 dark:border-zinc-800" />
-          <div className="absolute h-14 w-14 rounded-full border-2 border-transparent border-t-zinc-900 dark:border-t-zinc-100 animate-spin" />
+        {/* Cosmic Spinner / Progress Wheel */}
+        <div className="my-7 relative flex items-center justify-center">
+          <div className="h-16 w-16 rounded-full border-2 border-white/10" />
+          <div className="absolute h-16 w-16 rounded-full border-2 border-transparent border-t-cyan-400 border-r-violet-400 animate-spin shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
 
-          {/* Central Pulsing Dot */}
-          <div className="absolute h-3 w-3 rounded-full bg-zinc-900 dark:bg-zinc-100 animate-pulse" />
+          {/* Central Pulsing Star */}
+          <div className="absolute h-4 w-4 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 animate-ping" />
         </div>
 
-        {/* Modern Animated "● ○ ○" Indicator */}
-        <div className="flex items-center gap-2 mb-4 font-mono text-sm tracking-widest text-zinc-700 dark:text-zinc-300">
-          <span className={dotsPhase === 0 ? 'text-zinc-900 dark:text-zinc-100 font-bold scale-125' : 'text-zinc-300 dark:text-zinc-700'}>
+        {/* Animated Dots */}
+        <div className="flex items-center gap-2 mb-3 font-orbitron text-sm tracking-widest">
+          <span className={dotsPhase === 0 ? 'text-cyan-300 font-bold scale-125' : 'text-white/20'}>
             ●
           </span>
-          <span className={dotsPhase === 1 ? 'text-zinc-900 dark:text-zinc-100 font-bold scale-125' : 'text-zinc-300 dark:text-zinc-700'}>
+          <span className={dotsPhase === 1 ? 'text-violet-300 font-bold scale-125' : 'text-white/20'}>
             ●
           </span>
-          <span className={dotsPhase === 2 ? 'text-zinc-900 dark:text-zinc-100 font-bold scale-125' : 'text-zinc-300 dark:text-zinc-700'}>
+          <span className={dotsPhase === 2 ? 'text-cyan-300 font-bold scale-125' : 'text-white/20'}>
             ●
           </span>
         </div>
@@ -94,15 +93,15 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-          className="text-sm font-medium text-zinc-800 dark:text-zinc-200 font-mono"
+          className="text-xs font-semibold text-violet-200 font-space"
         >
           {LOADING_STEPS[currentStepIndex]}
         </motion.div>
 
-        {/* Subtle Progress Bar */}
-        <div className="mt-6 h-1 w-48 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+        {/* Subtle Cosmic Progress Bar */}
+        <div className="mt-6 h-1.5 w-52 overflow-hidden rounded-full bg-white/10">
           <motion.div
-            className="h-full bg-zinc-900 dark:bg-zinc-100"
+            className="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"
             initial={{ width: '15%' }}
             animate={{
               width: currentStepIndex === 0 ? '40%' : currentStepIndex === 1 ? '75%' : '100%',

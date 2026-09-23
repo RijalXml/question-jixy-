@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { AlertCircle, CheckCircle2, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 interface ConfirmModalProps {
   isOpen: boolean;
   title: string;
   message?: string;
-  totalQuestions: number;
-  answeredCount: number;
+  totalQuestions?: number;
+  answeredCount?: number;
+  confirmLabel?: string;
+  cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -15,8 +17,10 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
   title,
   message,
-  totalQuestions,
-  answeredCount,
+  totalQuestions = 30,
+  answeredCount = 0,
+  confirmLabel = 'Kumpulkan Ujian',
+  cancelLabel = 'Cek Lagi',
   onConfirm,
   onCancel,
 }) => {
@@ -33,54 +37,62 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   if (!isOpen) return null;
 
-  const unanswered = totalQuestions - answeredCount;
+  const unanswered = Math.max(0, totalQuestions - answeredCount);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs transition-opacity animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md transition-opacity animate-in fade-in duration-150 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="w-full max-w-sm overflow-hidden rounded-2xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
+        className="w-full max-w-sm overflow-hidden rounded-3xl glass-panel border border-white/20 bg-[#070b1a]/95 p-6 shadow-2xl"
       >
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
-            <HelpCircle className="h-5 w-5" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/25 text-amber-300 border border-amber-400/50 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+            <HelpCircle className="h-6 w-6" />
           </div>
           <div>
-            <h3 id="modal-title" className="text-base font-bold text-zinc-900 dark:text-zinc-100 font-mono">
+            <h3 id="modal-title" className="text-base font-bold text-white font-orbitron">
               {title}
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Penilaian Tengah Semester
+            <p className="text-xs text-violet-200/80 font-space">
+              Simulasi Ujian Antariksa
             </p>
           </div>
         </div>
 
-        <div className="mt-4 rounded-xl border border-zinc-100 bg-zinc-50/70 p-3 dark:border-zinc-800/80 dark:bg-zinc-950/40 text-xs">
-          <div className="flex justify-between py-1 text-zinc-600 dark:text-zinc-400">
-            <span>Soal Terjawab:</span>
-            <span className="font-semibold font-mono text-zinc-900 dark:text-zinc-100">
-              {answeredCount} / {totalQuestions}
-            </span>
-          </div>
-          <div className="flex justify-between py-1 text-zinc-600 dark:text-zinc-400">
-            <span>Belum Terjawab:</span>
-            <span
-              className={`font-semibold font-mono ${
-                unanswered > 0
-                  ? 'text-amber-600 dark:text-amber-400'
-                  : 'text-emerald-600 dark:text-emerald-400'
-              }`}
-            >
-              {unanswered} soal
-            </span>
-          </div>
-        </div>
+        {message && (
+          <p className="mt-3 text-xs text-violet-200 leading-relaxed font-space">
+            {message}
+          </p>
+        )}
 
-        {unanswered > 0 && (
-          <p className="mt-3 text-xs text-amber-700 dark:text-amber-400">
-            Perhatian: Masih ada {unanswered} soal yang belum kamu jawab. Jawaban yang kosong akan dihitung salah.
+        {totalQuestions > 0 && (
+          <div className="mt-4 rounded-2xl glass-panel border border-white/10 bg-white/5 p-3.5 text-xs font-space">
+            <div className="flex justify-between py-1 text-violet-200">
+              <span>Soal Terjawab:</span>
+              <span className="font-bold font-orbitron text-cyan-300">
+                {answeredCount} / {totalQuestions}
+              </span>
+            </div>
+            <div className="flex justify-between py-1 text-violet-200">
+              <span>Belum Terjawab:</span>
+              <span
+                className={`font-bold font-orbitron ${
+                  unanswered > 0
+                    ? 'text-amber-300'
+                    : 'text-emerald-300'
+                }`}
+              >
+                {unanswered} butir soal
+              </span>
+            </div>
+          </div>
+        )}
+
+        {unanswered > 0 && !message && (
+          <p className="mt-3 text-xs text-amber-300/90 font-space">
+            Perhatian: Masih ada {unanswered} soal yang belum terjawab. Soal kosong akan dihitung bernilai 0.
           </p>
         )}
 
@@ -89,17 +101,17 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             id="cancel-submit-btn"
             type="button"
             onClick={onCancel}
-            className="rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
+            className="rounded-xl glass-panel border border-white/15 px-4 py-2.5 text-xs font-space text-violet-200 hover:text-white hover:bg-white/10 transition-colors"
           >
-            Batal
+            {cancelLabel}
           </button>
           <button
             id="confirm-submit-btn"
             type="button"
             onClick={onConfirm}
-            className="rounded-xl bg-zinc-900 px-4 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors shadow-xs"
+            className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-xs font-orbitron font-bold text-white shadow-[0_0_15px_rgba(139,92,246,0.5)] active:scale-95 transition-all"
           >
-            Kumpulkan
+            {confirmLabel}
           </button>
         </div>
       </div>

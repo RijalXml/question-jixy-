@@ -1,7 +1,7 @@
 import { Question, SubjectId, LeaderboardEntry, AdminStats, AppConfig } from '../types';
-import { questionsSki } from '../data/ski';
-import { questionsBahasaInggris } from '../data/bahasaInggris';
-import { questionsBahasaJawa } from '../data/bahasaJawa';
+import { questionsIpa } from '../data/ipa';
+import { questionsFikih } from '../data/fikih';
+import { questionsPkn } from '../data/pkn';
 
 const LOCAL_STORAGE_KEYS = {
   LEADERBOARD: 'edukasi_lks_leaderboard',
@@ -13,9 +13,9 @@ const LOCAL_STORAGE_KEYS = {
 
 // Initial Seed Questions Map
 const DEFAULT_QUESTIONS: Record<SubjectId, Question[]> = {
-  ski: questionsSki,
-  bahasa_inggris: questionsBahasaInggris,
-  bahasa_jawa: questionsBahasaJawa,
+  ipa: questionsIpa,
+  fikih: questionsFikih,
+  pkn: questionsPkn,
 };
 
 /**
@@ -302,10 +302,10 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
   const questionsMap = getLocalQuestions();
   const leaderboard = getLocalLeaderboard();
 
-  const skiCount = (questionsMap.ski || []).filter((q) => q.isActive !== false).length;
-  const bahasaInggrisCount = (questionsMap.bahasa_inggris || []).filter((q) => q.isActive !== false).length;
-  const bahasaJawaCount = (questionsMap.bahasa_jawa || []).filter((q) => q.isActive !== false).length;
-  const totalQ = skiCount + bahasaInggrisCount + bahasaJawaCount;
+  const ipaCount = (questionsMap.ipa || []).filter((q) => q.isActive !== false).length;
+  const fikihCount = (questionsMap.fikih || []).filter((q) => q.isActive !== false).length;
+  const pknCount = (questionsMap.pkn || []).filter((q) => q.isActive !== false).length;
+  const totalQ = ipaCount + fikihCount + pknCount;
 
   const totalQuizzes = leaderboard.reduce((acc, curr) => acc + (curr.quizzesCompleted || 1), 0);
   const avgScore = leaderboard.length > 0
@@ -317,9 +317,9 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
     totalQuestions: totalQ,
     totalQuizzesTaken: totalQuizzes,
     averageScore: avgScore,
-    skiCount,
-    bahasaInggrisCount,
-    bahasaJawaCount,
+    ipaCount,
+    fikihCount,
+    pknCount,
     recentActivity: leaderboard.slice(0, 5),
   };
 }

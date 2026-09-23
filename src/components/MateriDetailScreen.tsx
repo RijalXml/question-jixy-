@@ -4,15 +4,12 @@ import { LKS_CHAPTERS_DETAIL, LKS_SUBJECTS } from '../data/lksLessons';
 import {
   ArrowLeft,
   BookOpen,
-  Sparkles,
   Award,
   Clock,
   CheckCircle2,
-  Bookmark,
-  Share2,
   ChevronLeft,
   ChevronRight,
-  Lightbulb
+  Lightbulb,
 } from 'lucide-react';
 
 interface MateriDetailScreenProps {
@@ -30,8 +27,8 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
   onSelectSubchapter,
   onOpenScratchpad,
 }) => {
-  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['ski-sub-a'];
-  const subjectInfo = LKS_SUBJECTS[selectedSubject];
+  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['ipa-sub-1a'];
+  const subjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['ipa'];
 
   // Find all subchapters in current subject for Next/Previous navigation
   const allSubchapters = subjectInfo.chapters.flatMap((c) => c.subchapters);
@@ -40,25 +37,25 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
   const nextSub = currentIndex < allSubchapters.length - 1 ? allSubchapters[currentIndex + 1] : null;
 
   return (
-    <div className="space-y-6 pb-16 max-w-4xl mx-auto select-none">
+    <div className="space-y-6 pb-16 max-w-4xl mx-auto select-none relative z-10 font-sans">
       {/* 1. TOP NAV / BREADCRUMB */}
       <div className="flex items-center justify-between">
         <button
           id="materi-btn-back"
           onClick={() => onNavigate('subject')}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/70 dark:bg-zinc-800/70 border border-zinc-200/60 dark:border-zinc-700/60 text-xs font-semibold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl glass-panel border border-white/15 text-xs font-space font-semibold text-violet-200 hover:text-white hover:bg-white/10 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-cyan-300" />
           <span>Kembali ke Daftar Bab</span>
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-zinc-400">
+          <span className="text-xs font-space text-violet-300">
             {subjectInfo.title}
           </span>
-          <span className="text-zinc-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
-            {materi.code}
+          <span className="text-white/20">•</span>
+          <span className="text-xs font-orbitron font-bold text-cyan-300 glass-panel px-2 py-0.5 rounded-lg border border-cyan-400/40">
+            Sub {materi.code}
           </span>
         </div>
       </div>
@@ -66,36 +63,36 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
       {/* 2. MATERI HEADER CARD */}
       <article
         id="materi-content-article"
-        className="rounded-3xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/70 dark:border-zinc-800/80 p-6 sm:p-8 shadow-xs space-y-6"
+        className="rounded-3xl glass-panel border border-white/15 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] space-y-6"
       >
-        <div className="border-b border-zinc-100 dark:border-zinc-800 pb-5 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-            <span className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/40">
-              {materi.code}
+        <div className="border-b border-white/10 pb-5 space-y-2">
+          <div className="flex items-center gap-2 text-xs font-orbitron font-bold text-violet-300">
+            <span className="px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
+              Subbab {materi.code}
             </span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5" />
+            <span className="flex items-center gap-1 text-violet-300/80 font-mono">
+              <Clock className="w-3.5 h-3.5 text-cyan-400" />
               {materi.estimatedReadTime}
             </span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-orbitron">
             {materi.title}
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
-            Berdasarkan Buku Lembar Kerja Siswa (LKS) Semester Genap.
+          <p className="text-xs sm:text-sm text-violet-200/80 leading-relaxed font-space">
+            Ringkasan kurikulum Lembar Kerja Siswa (LKS) Semester Genap 2026.
           </p>
         </div>
 
         {/* 3. RINGKASAN INTI LKS */}
         <section className="space-y-3">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-indigo-500" />
-            <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">
+            <BookOpen className="w-4 h-4 text-cyan-400" />
+            <h3 className="text-xs font-orbitron font-bold text-cyan-300 uppercase tracking-wider">
               Ringkasan Inti Materi
             </h3>
           </div>
-          <div className="p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-700/50 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+          <div className="p-4 rounded-2xl glass-panel border border-white/10 bg-white/[0.03] text-xs sm:text-sm text-violet-100 leading-relaxed font-space">
             {materi.summary}
           </div>
         </section>
@@ -103,18 +100,18 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         {/* 4. POIN-POIN PENTING */}
         <section className="space-y-3">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">
-              Poin-Poin Penting untuk Ujian PTS
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-xs font-orbitron font-bold text-emerald-300 uppercase tracking-wider">
+              Poin-Poin Penting untuk Ujian PTS / Simulasi
             </h3>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 font-space">
             {materi.keyPoints.map((point: string, idx: number) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200"
+                className="flex items-start gap-3 p-3.5 rounded-2xl glass-panel border border-white/10 bg-white/[0.03] text-xs sm:text-sm text-violet-100"
               >
-                <span className="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center justify-center flex-shrink-0 border border-emerald-200/60 dark:border-emerald-800/40">
+                <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-orbitron font-bold text-xs flex items-center justify-center flex-shrink-0 border border-emerald-400/40">
                   {idx + 1}
                 </span>
                 <p className="leading-relaxed">{point}</p>
@@ -127,16 +124,16 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         {materi.vocabOrTerms && materi.vocabOrTerms.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-amber-500" />
-              <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">
-                Istilah & Kosa Kata Penting
+              <Lightbulb className="w-4 h-4 text-amber-400" />
+              <h3 className="text-xs font-orbitron font-bold text-amber-300 uppercase tracking-wider">
+                Istilah & Kosa Kata Kunci
               </h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-space">
               {materi.vocabOrTerms.map((term: string, idx: number) => (
                 <div
                   key={idx}
-                  className="p-2.5 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/40 dark:border-amber-900/30 text-xs text-amber-900 dark:text-amber-200 font-medium"
+                  className="p-3 rounded-2xl glass-panel border border-amber-400/30 bg-amber-950/20 text-xs text-amber-200 font-medium"
                 >
                   {term}
                 </div>
@@ -146,18 +143,23 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         )}
 
         {/* 6. ACTION ROW */}
-        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
-            <span>✎ draft sketsa lks</span>
-          </div>
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {onOpenScratchpad ? (
+            <button
+              onClick={onOpenScratchpad}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-dashed border-amber-400/50 bg-amber-500/10 text-amber-200 text-xs font-mono hover:bg-amber-500/20 transition-all"
+            >
+              <span>✎ Buka Kertas Coretan</span>
+            </button>
+          ) : <div />}
 
           <button
             id="materi-btn-quiz"
             onClick={() => onNavigate('quiz')}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 text-xs font-semibold shadow-xs transition-all active:scale-95"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white text-xs font-orbitron font-bold shadow-[0_0_20px_rgba(139,92,246,0.6)] active:scale-95 transition-all"
           >
-            <Award className="w-4 h-4" />
-            <span>Uji Pemahaman di Quiz Soal</span>
+            <Award className="w-4 h-4 text-cyan-200" />
+            <span>Uji Pemahaman di Simulasi Quiz</span>
           </button>
         </div>
       </article>
@@ -167,13 +169,13 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         {prevSub ? (
           <button
             onClick={() => onSelectSubchapter(prevSub.id)}
-            className="p-3.5 rounded-2xl bg-white/70 dark:bg-zinc-900/70 border border-zinc-200/60 dark:border-zinc-800 text-left hover:border-indigo-300 dark:hover:border-indigo-700 transition-all group"
+            className="p-4 rounded-3xl glass-panel border border-white/10 text-left hover:border-cyan-400/50 hover:bg-white/10 transition-all group"
           >
-            <div className="flex items-center gap-1 text-[11px] font-semibold text-zinc-400 group-hover:text-indigo-600 transition-colors">
-              <ChevronLeft className="w-3 h-3" />
+            <div className="flex items-center gap-1 text-[11px] font-space font-semibold text-violet-300 group-hover:text-cyan-300 transition-colors">
+              <ChevronLeft className="w-3.5 h-3.5" />
               <span>Materi Sebelumnya</span>
             </div>
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-0.5 truncate">
+            <p className="text-xs font-bold text-white mt-1 truncate font-space">
               {prevSub.code}: {prevSub.title}
             </p>
           </button>
@@ -182,13 +184,13 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         {nextSub ? (
           <button
             onClick={() => onSelectSubchapter(nextSub.id)}
-            className="p-3.5 rounded-2xl bg-white/70 dark:bg-zinc-900/70 border border-zinc-200/60 dark:border-zinc-800 text-right hover:border-indigo-300 dark:hover:border-indigo-700 transition-all group"
+            className="p-4 rounded-3xl glass-panel border border-white/10 text-right hover:border-cyan-400/50 hover:bg-white/10 transition-all group"
           >
-            <div className="flex items-center justify-end gap-1 text-[11px] font-semibold text-zinc-400 group-hover:text-indigo-600 transition-colors">
+            <div className="flex items-center justify-end gap-1 text-[11px] font-space font-semibold text-violet-300 group-hover:text-cyan-300 transition-colors">
               <span>Materi Selanjutnya</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </div>
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-0.5 truncate">
+            <p className="text-xs font-bold text-white mt-1 truncate font-space">
               {nextSub.code}: {nextSub.title}
             </p>
           </button>

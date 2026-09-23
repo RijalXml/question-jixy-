@@ -7,11 +7,9 @@ import {
   RotateCcw,
   BookOpen,
   Filter,
-  Check,
-  X,
   Info,
 } from 'lucide-react';
-import { Question, SubjectId } from '../types';
+import { Question } from '../types';
 
 interface ReviewScreenProps {
   questions: Question[];
@@ -64,23 +62,24 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
   });
 
   return (
-    <div className="mx-auto min-h-[calc(100vh-3.5rem)] max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
-      {/* Top Header */}
-      <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="mx-auto min-h-screen max-w-4xl px-4 py-6 sm:px-6 sm:py-8 font-sans select-none relative z-10">
+      {/* Top Header Card */}
+      <div className="mb-6 rounded-3xl glass-panel border border-white/12 p-5 sm:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <button
             id="back-to-result-btn"
             onClick={onBackToResult}
-            className="mb-2 inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+            className="mb-2 inline-flex items-center gap-1.5 text-xs font-space font-semibold text-cyan-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            <span>Kembali ke Skor</span>
+            <span>Kembali ke Ringkasan Skor</span>
           </button>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
-            Review Pembahasan Jawaban
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-orbitron">
+            Review Pembahasan Jawaban Kosmik
           </h1>
-          <p className="text-xs text-zinc-600 dark:text-zinc-400">
-            {subjectTitle} • Siswa: <strong className="font-semibold text-zinc-900 dark:text-zinc-100">{studentName}</strong>
+          <p className="text-xs text-violet-200/80 mt-1 font-space">
+            {subjectTitle} • Penjelajah:{' '}
+            <strong className="font-semibold text-cyan-200">{studentName}</strong>
           </p>
         </div>
 
@@ -88,14 +87,14 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={onRetry}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-all font-mono"
+            className="inline-flex items-center gap-1.5 rounded-2xl glass-panel border border-white/15 px-3.5 py-2 text-xs font-orbitron font-bold text-violet-100 hover:bg-white/10 transition-all"
           >
-            <RotateCcw className="h-3.5 w-3.5" />
+            <RotateCcw className="h-3.5 w-3.5 text-cyan-400" />
             <span>Ulangi Tes</span>
           </button>
           <button
             onClick={onBackToMenu}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-600 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-all font-mono"
+            className="inline-flex items-center gap-1.5 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2 text-xs font-orbitron font-bold text-white shadow-[0_0_15px_rgba(139,92,246,0.5)] active:scale-95 transition-all"
           >
             <span>Menu Utama</span>
           </button>
@@ -103,13 +102,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       </div>
 
       {/* Filter Tabs */}
-      <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-800">
+      <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-white/10 pb-3">
         <button
           onClick={() => setFilter('all')}
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium font-mono transition-colors ${
+          className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
             filter === 'all'
-              ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-              : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800'
+              ? 'bg-violet-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.5)] border border-violet-400/40'
+              : 'text-violet-300 hover:bg-white/5'
           }`}
         >
           <span>Semua ({questions.length})</span>
@@ -117,144 +116,144 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
         <button
           onClick={() => setFilter('correct')}
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium font-mono transition-colors ${
+          className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
             filter === 'correct'
-              ? 'bg-emerald-600 text-white'
-              : 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40'
+              ? 'bg-emerald-500/30 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.4)] border border-emerald-400/50'
+              : 'text-emerald-300/80 hover:bg-emerald-500/10'
           }`}
         >
-          <Check className="h-3 w-3" />
-          <span>✅ Benar ({correctCount})</span>
+          <CheckCircle2 className="h-3.5 w-3.5" />
+          <span>Benar ({correctCount})</span>
         </button>
 
         <button
           onClick={() => setFilter('incorrect')}
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium font-mono transition-colors ${
+          className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
             filter === 'incorrect'
-              ? 'bg-rose-600 text-white'
-              : 'text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40'
+              ? 'bg-rose-500/30 text-rose-200 shadow-[0_0_12px_rgba(244,63,94,0.4)] border border-rose-400/50'
+              : 'text-rose-300/80 hover:bg-rose-500/10'
           }`}
         >
-          <X className="h-3 w-3" />
-          <span>❌ Salah ({incorrectCount})</span>
+          <XCircle className="h-3.5 w-3.5" />
+          <span>Salah ({incorrectCount})</span>
         </button>
 
         <button
           onClick={() => setFilter('unanswered')}
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium font-mono transition-colors ${
+          className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
             filter === 'unanswered'
-              ? 'bg-zinc-600 text-white'
-              : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800'
+              ? 'bg-white/20 text-white border border-white/30'
+              : 'text-violet-300/80 hover:bg-white/5'
           }`}
         >
-          <HelpCircle className="h-3 w-3" />
-          <span>⚪ Tidak dijawab ({unansweredCount})</span>
+          <HelpCircle className="h-3.5 w-3.5" />
+          <span>Kosong ({unansweredCount})</span>
         </button>
       </div>
 
       {/* Questions Review List */}
       <div className="space-y-6">
         {filteredQuestions.length === 0 ? (
-          <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900">
-            Tidak ada soal dalam kategori ini.
+          <div className="rounded-3xl glass-panel border border-white/10 p-8 text-center text-xs font-space text-violet-300">
+            Tidak ada soal dalam kategori filter ini.
           </div>
         ) : (
-          filteredQuestions.map((q, index) => {
+          filteredQuestions.map((q) => {
             return (
               <div
                 key={q.id}
-                className="overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-2xs dark:border-zinc-800 dark:bg-zinc-900/90 transition-all"
+                className="overflow-hidden rounded-3xl glass-panel border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all"
               >
                 {/* Question Header Status */}
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 bg-zinc-50/70 px-5 py-3 dark:border-zinc-800/80 dark:bg-zinc-950/40">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 bg-white/5 px-5 py-3">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-zinc-800 dark:text-zinc-200">
+                    <span className="font-orbitron text-xs font-bold text-white">
                       Soal #{q.id}
                     </span>
-                    <span className="rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-mono text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
+                    <span className="rounded-md border border-cyan-400/30 bg-cyan-500/10 px-2 py-0.5 text-[11px] font-orbitron text-cyan-300">
                       {q.indicator}
                     </span>
                   </div>
 
                   {/* Status Badge */}
                   {q.isCorrect && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-orbitron font-bold text-emerald-300 border border-emerald-400/40 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
                       <CheckCircle2 className="h-3.5 w-3.5" />
-                      ✅ Jawaban Benar
+                      Jawaban Benar (+1 Poin)
                     </span>
                   )}
                   {q.isIncorrect && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700 dark:bg-rose-950/50 dark:text-rose-400">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-rose-500/20 px-3 py-1 text-xs font-orbitron font-bold text-rose-300 border border-rose-400/40 shadow-[0_0_10px_rgba(244,63,94,0.3)]">
                       <XCircle className="h-3.5 w-3.5" />
-                      ❌ Jawaban Salah
+                      Jawaban Salah
                     </span>
                   )}
                   {q.isUnanswered && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-xs font-orbitron font-bold text-violet-300 border border-white/15">
                       <HelpCircle className="h-3.5 w-3.5" />
-                      ⚪ Tidak Dijawab
+                      Tidak Dijawab
                     </span>
                   )}
                 </div>
 
                 {/* Content Area */}
-                <div className="p-5 sm:p-6">
+                <div className="p-5 sm:p-6 space-y-4">
                   {/* Optional Passage */}
                   {q.passage && (
-                    <div className="mb-4 rounded-xl border border-zinc-100 bg-zinc-50/70 p-3.5 dark:border-zinc-800/80 dark:bg-zinc-950/40">
-                      <div className="mb-1 text-[10px] font-mono uppercase tracking-wider text-zinc-400 font-semibold">
+                    <div className="rounded-2xl glass-panel border border-violet-500/30 bg-violet-950/30 p-4">
+                      <div className="mb-1 text-[10px] font-orbitron uppercase tracking-wider text-cyan-300 font-semibold">
                         Kutipan Teks:
                       </div>
-                      <p className="whitespace-pre-line text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                      <p className="whitespace-pre-line text-xs sm:text-sm text-violet-100 font-space">
                         {q.passage}
                       </p>
                     </div>
                   )}
 
                   {/* Question Text */}
-                  <div className="text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-100 leading-relaxed mb-5">
+                  <div className="text-sm sm:text-base font-medium text-white leading-relaxed font-space">
                     {q.question}
                   </div>
 
                   {/* Options with Visual States */}
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {q.options.map((opt, optIdx) => {
                       const letter = OPTION_LABELS[optIdx];
                       const isCorrect = optIdx === q.correctAnswer;
                       const isUserPick = optIdx === q.userAnswer;
 
-                      let rowClass = 'border-zinc-200 bg-white text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/40 dark:text-zinc-300';
-                      let badgeClass = 'border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400';
+                      let rowClass = 'border-white/10 bg-white/[0.03] text-violet-200';
+                      let badgeClass = 'border-white/15 bg-white/10 text-violet-300';
 
                       if (isCorrect) {
-                        rowClass = 'border-emerald-500/80 bg-emerald-50/60 text-emerald-950 dark:border-emerald-500/60 dark:bg-emerald-950/30 dark:text-emerald-200 font-medium';
-                        badgeClass = 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-zinc-950 font-bold';
+                        rowClass = 'border-emerald-400/60 bg-emerald-500/20 text-emerald-100 font-medium shadow-[0_0_16px_rgba(16,185,129,0.3)]';
+                        badgeClass = 'bg-emerald-400 text-black font-bold shadow-[0_0_10px_rgba(16,185,129,0.8)]';
                       } else if (isUserPick && !isCorrect) {
-                        rowClass = 'border-rose-400 bg-rose-50/60 text-rose-950 dark:border-rose-700/60 dark:bg-rose-950/30 dark:text-rose-200';
-                        badgeClass = 'bg-rose-600 text-white dark:bg-rose-600';
+                        rowClass = 'border-rose-400/60 bg-rose-500/20 text-rose-100 shadow-[0_0_16px_rgba(244,63,94,0.3)]';
+                        badgeClass = 'bg-rose-500 text-white font-bold';
                       }
 
                       return (
                         <div
                           key={optIdx}
-                          className={`flex items-start sm:items-center justify-between gap-3 rounded-xl border p-3 text-xs sm:text-sm transition-colors ${rowClass}`}
+                          className={`flex items-start sm:items-center justify-between gap-3 rounded-2xl border p-3.5 text-xs sm:text-sm transition-all ${rowClass}`}
                         >
                           <div className="flex items-start sm:items-center gap-3">
-                            <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-xs ${badgeClass}`}>
+                            <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-xl font-orbitron text-xs ${badgeClass}`}>
                               {letter}
                             </span>
-                            <span className="leading-relaxed">{opt}</span>
+                            <span className="leading-relaxed font-space">{opt}</span>
                           </div>
 
-                          <div className="shrink-0 font-mono text-[11px] font-semibold">
+                          <div className="shrink-0 font-orbitron text-[11px] font-bold">
                             {isCorrect && (
-                              <span className="text-emerald-700 dark:text-emerald-400">
-                                Kunci Benar
+                              <span className="text-emerald-300">
+                                ✓ Kunci Benar
                               </span>
                             )}
                             {isUserPick && !isCorrect && (
-                              <span className="text-rose-600 dark:text-rose-400">
-                                Pilihan Kamu
+                              <span className="text-rose-300">
+                                ✗ Pilihan Kamu
                               </span>
                             )}
                           </div>
@@ -264,12 +263,12 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
                   </div>
 
                   {/* Explanation Box */}
-                  <div className="mt-5 rounded-xl border border-zinc-200 bg-zinc-50/90 p-4 dark:border-zinc-800/80 dark:bg-zinc-950/60 text-xs">
-                    <div className="flex items-center gap-1.5 font-mono font-semibold text-zinc-900 dark:text-zinc-100 mb-1">
-                      <Info className="h-3.5 w-3.5 text-zinc-500" />
-                      <span>Pembahasan & Penjelasan:</span>
+                  <div className="mt-4 rounded-2xl glass-panel border border-violet-400/30 bg-violet-950/40 p-4">
+                    <div className="flex items-center gap-1.5 text-xs font-orbitron font-bold text-cyan-300 mb-1">
+                      <Info className="h-4 w-4" />
+                      <span>Pembahasan Materi & Penjelasan:</span>
                     </div>
-                    <p className="leading-relaxed text-zinc-600 dark:text-zinc-300">
+                    <p className="text-xs sm:text-sm text-violet-100 leading-relaxed font-space">
                       {q.explanation}
                     </p>
                   </div>
@@ -278,17 +277,6 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
             );
           })
         )}
-      </div>
-
-      {/* Back to top / return button */}
-      <div className="mt-8 flex justify-center pb-8">
-        <button
-          onClick={onBackToResult}
-          className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-5 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition-all font-mono"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Kembali ke Halaman Hasil</span>
-        </button>
       </div>
     </div>
   );

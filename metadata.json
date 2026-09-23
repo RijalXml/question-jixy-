@@ -1,6 +1,6 @@
 {
   "name": "QUIZ EDUKASI",
-  "description": "Platform pembelajaran modern, minimalis, dan futuristik berbasis LKS untuk SKI (Sejarah Kebudayaan Islam), Bahasa Inggris, dan Bahasa Jawa.",
+  "description": "Platform pembelajaran modern, minimalis, dan futuristik berbasis LKS dengan tema luar angkasa & glassmorphism untuk IPA, Fikih, dan PKn.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

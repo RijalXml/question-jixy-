@@ -1,7 +1,8 @@
-import { ActiveExamState, ExamResult, SubjectId, UserProfile, AppConfig } from '../types';
+import { ActiveExamState, ExamResult, SubjectId, UserProfile, AppConfig, SpaceThemeMode } from '../types';
 
 const STORAGE_KEYS = {
   THEME: 'quiz_edukasi_theme',
+  SPACE_THEME: 'quiz_edukasi_space_theme',
   STUDENT_NAME: 'quiz_edukasi_student_name',
   USER_PROFILE: 'quiz_edukasi_user_profile',
   ACTIVE_EXAM: 'quiz_edukasi_active_exam',
@@ -10,25 +11,32 @@ const STORAGE_KEYS = {
   APP_CONFIG: 'quiz_edukasi_app_config',
 };
 
-export const getStoredTheme = (): 'dark' | 'light' => {
+export const getStoredSpaceTheme = (): SpaceThemeMode => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEYS.THEME);
-    if (saved === 'dark' || saved === 'light') return saved;
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
+    const saved = localStorage.getItem(STORAGE_KEYS.SPACE_THEME);
+    if (saved === 'planet' || saved === 'blackhole') return saved;
   } catch (e) {
-    console.error('Failed to read theme from storage', e);
+    console.error('Failed to read space theme from storage', e);
   }
-  return 'light'; // Modern clean Apple-inspired light palette by default
+  return 'planet';
+};
+
+export const setStoredSpaceTheme = (mode: SpaceThemeMode) => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.SPACE_THEME, mode);
+  } catch (e) {
+    console.error('Failed to save space theme to storage', e);
+  }
+};
+
+export const getStoredTheme = (): 'dark' | 'light' => {
+  return 'dark'; // Always dark space theme as requested by Part 1
 };
 
 export const setStoredTheme = (theme: 'dark' | 'light') => {
   try {
     localStorage.setItem(STORAGE_KEYS.THEME, theme);
-  } catch (e) {
-    console.error('Failed to save theme to storage', e);
-  }
+  } catch (e) {}
 };
 
 export const getStoredStudentName = (): string => {
@@ -69,7 +77,7 @@ export const getStoredUserProfile = (): UserProfile => {
     quizzesCompleted: 0,
     completedSubjects: [],
     history: [],
-    lastStudiedMateriId: 'ski-sub-a',
+    lastStudiedMateriId: 'ipa-sub-1a',
   };
 };
 
@@ -155,8 +163,8 @@ export const getStoredAppConfig = (): AppConfig => {
   } catch (e) {}
 
   return {
-    appName: 'EDUKASI LKS',
-    appDescription: 'Platform Pembelajaran Modern Berbasis LKS — SKI, Bahasa Inggris, dan Bahasa Jawa.',
+    appName: 'EDUKASI LKS KOSMIK',
+    appDescription: 'Platform Pembelajaran Modern Berbasis LKS Tema Luar Angkasa — IPA, Fikih, dan PKn.',
     timerMinutes: 30,
     allowReview: true,
   };

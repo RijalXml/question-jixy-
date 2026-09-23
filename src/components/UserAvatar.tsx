@@ -26,7 +26,7 @@ const ROUNDED_CLASSES = {
 };
 
 export const UserAvatar: React.FC<UserAvatarProps> = ({
-  avatar = '🎓',
+  avatar = '👨‍🎓',
   name = 'Siswa',
   size = 'md',
   className = '',
@@ -45,7 +45,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
   if (isImageUrl) {
     return (
       <div
-        className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden border border-zinc-200/80 bg-zinc-100 shadow-2xs dark:border-zinc-700/80 dark:bg-zinc-800 ${sizeClass} ${roundedClass} ${className}`}
+        className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden border border-white/20 glass-panel shadow-[0_0_15px_rgba(139,92,246,0.35)] ${sizeClass} ${roundedClass} ${className}`}
       >
         <img
           src={avatar}
@@ -57,12 +57,12 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
     );
   }
 
-  // Otherwise render emoji or initial
+  // Otherwise render emoji
   return (
     <div
-      className={`relative inline-flex shrink-0 items-center justify-center select-none border border-zinc-200/80 bg-zinc-100 shadow-2xs dark:border-zinc-800 dark:bg-zinc-800/90 ${sizeClass} ${roundedClass} ${className}`}
+      className={`relative inline-flex shrink-0 items-center justify-center select-none border border-white/20 glass-panel bg-white/10 shadow-[0_0_15px_rgba(139,92,246,0.35)] ${sizeClass} ${roundedClass} ${className}`}
     >
-      <span>{avatar || '🎓'}</span>
+      <span>{avatar || '👨‍🎓'}</span>
     </div>
   );
 };

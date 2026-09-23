@@ -7,23 +7,18 @@ import {
   Sparkles,
   Trophy,
   ArrowRight,
-  Clock,
-  CheckCircle2,
   Bookmark,
   ChevronRight,
   TrendingUp,
   FileText,
   RotateCcw,
-  Edit3
+  Compass,
+  Atom,
 } from 'lucide-react';
 import {
-  SketchBookIllustration,
-  SketchTrophyIllustration,
-  SketchArrow,
-  SketchUnderline,
   SketchWashiTape,
+  SketchUnderline,
   SketchDraftGrid,
-  SketchPencilDoodle
 } from './SketchElements';
 
 interface HomeScreenProps {
@@ -45,37 +40,39 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onResumeExam,
   onOpenScratchpad,
 }) => {
-  const subjects: SubjectId[] = ['ski', 'bahasa_inggris', 'bahasa_jawa'];
+  const subjects: SubjectId[] = ['ipa', 'fikih', 'pkn'];
 
-  // Calculate quick stats
-  const totalSubchapters = 12 + 10 + 8; // 30
-  const completedCount = Math.min(totalSubchapters, userProfile.quizzesCompleted * 3 + 6);
+  // Calculate quick stats across the 3 subjects
+  const totalSubchapters = 11 + 10 + 9; // 30 subchapters
+  const completedCount = Math.min(totalSubchapters, userProfile.quizzesCompleted * 3 + 5);
   const overallPercentage = Math.round((completedCount / totalSubchapters) * 100);
 
   // Quick continue subchapter
-  const lastSubchapterId = userProfile.lastStudiedMateriId || 'ski-sub-a';
-  const lastSubchapter = LKS_CHAPTERS_DETAIL[lastSubchapterId];
+  const lastSubchapterId = userProfile.lastStudiedMateriId || 'ipa-sub-1a';
+  const lastSubchapter = LKS_CHAPTERS_DETAIL[lastSubchapterId] || LKS_CHAPTERS_DETAIL['ipa-sub-1a'];
 
   return (
-    <div className="space-y-7 pb-16 select-none">
+    <div className="space-y-7 pb-16 select-none relative z-10 font-sans">
       {/* 0. ACTIVE EXAM RESUME BANNER (IF ACTIVE EXAM EXISTS) */}
       {activeExamSubjectId && onResumeExam && (
         <section
           id="home-active-exam-banner"
-          className="relative overflow-hidden rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-dashed border-amber-400 dark:border-amber-600 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm"
+          className="relative overflow-hidden rounded-3xl glass-panel border border-amber-400/50 bg-amber-950/30 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_0_25px_rgba(245,158,11,0.25)] backdrop-blur-xl"
         >
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-800 dark:text-amber-300 flex items-center justify-center flex-shrink-0 animate-pulse">
+            <div className="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center flex-shrink-0 animate-pulse border border-amber-400/40">
               <RotateCcw className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <SketchWashiTape text="UJIAN BERJALAN" color="amber" />
-                <span className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                <span className="text-[10px] font-orbitron font-bold px-2 py-0.5 rounded-full bg-amber-500/30 text-amber-200 border border-amber-400/50">
+                  SIMULASI AKTIF
+                </span>
+                <span className="text-xs font-bold text-amber-200 font-space">
                   Quiz Belum Diselesaikan
                 </span>
               </div>
-              <p className="text-xs text-amber-800/80 dark:text-amber-300/80 mt-0.5">
+              <p className="text-xs text-amber-300/80 mt-0.5">
                 Kamu memiliki sesi ujian aktif mata pelajaran {LKS_SUBJECTS[activeExamSubjectId]?.title}.
               </p>
             </div>
@@ -83,7 +80,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           <button
             onClick={onResumeExam}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-bold text-xs shadow-xs active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-orbitron font-bold text-xs shadow-[0_0_15px_rgba(245,158,11,0.4)] active:scale-95 transition-all"
           >
             <span>Lanjutkan Mengerjakan</span>
             <ArrowRight className="w-4 h-4" />
@@ -91,140 +88,124 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </section>
       )}
 
-      {/* 1. HERO GREETING BANNER WITH UNFINISHED BOOK SKETCH */}
+      {/* 1. HERO GREETING BANNER WITH COSMIC GLASS DESIGN */}
       <section
         id="home-hero-banner"
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-zinc-900 via-zinc-800 to-indigo-950 text-white p-6 sm:p-8 shadow-xl border border-white/10"
+        className="relative overflow-hidden rounded-3xl glass-panel border border-white/15 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-gradient-to-r from-[#0d0722]/85 via-[#160b33]/85 to-[#0b102b]/85 backdrop-blur-2xl"
       >
-        {/* Sketch draft background pattern */}
-        <SketchDraftGrid className="absolute inset-0 w-full h-full" />
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 -mb-16 w-60 h-60 rounded-full bg-violet-500/10 blur-3xl pointer-events-none" />
+        <SketchDraftGrid className="absolute inset-0 w-full h-full opacity-10" />
+        <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-violet-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 left-1/4 w-64 h-64 rounded-full bg-cyan-500/20 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="max-w-xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-zinc-200">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-violet-400/30 text-xs font-space font-semibold text-violet-200">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
               <span>Kurikulum LKS Semester Genap 2026</span>
-              <span className="text-[10px] font-mono text-amber-300 font-normal">✎ draft_wip</span>
+              <span className="text-[10px] font-orbitron text-amber-300 font-bold">KOSMIK v2.0</span>
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2 flex-wrap">
-                <span>Halo, {userProfile.name || 'Siswa Berprestasi'}</span>
-                <span className="text-2xl">👋</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2 flex-wrap font-orbitron">
+                <span>Halo, {userProfile.name || 'Penjelajah Antariksa'}</span>
+                <span className="text-2xl">🚀</span>
               </h2>
-              <SketchUnderline className="text-amber-400/70 w-36 mt-1" />
+              <div className="h-1 w-36 bg-gradient-to-r from-violet-500 via-cyan-400 to-transparent rounded-full mt-2" />
             </div>
 
-            <p className="text-sm text-zinc-300 leading-relaxed font-normal">
-              Pelajari materi Lembar Kerja Siswa (LKS) secara terstruktur, buat coretan sketsa rumus di kertas draft, dan buktikan kemampuanmu di Quiz Evaluasi untuk meraih skor sempurna 100.
+            <p className="text-xs sm:text-sm text-violet-200/80 leading-relaxed font-space">
+              Jelajahi Lembar Kerja Siswa (LKS) Kosmik: Pelajari fenomena IPA tata surya, kuasai hukum Fikih ibadah, dan pahami norma PKn. Uji kompetensimu melalui 30 simulasi soal berimbang untuk meraih nilai sempurna 100!
             </p>
 
             {/* Quick Actions inside hero */}
             <div className="flex items-center gap-3 pt-1 flex-wrap">
               <button
                 onClick={() => onNavigate('subject')}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-zinc-950 text-xs font-bold hover:bg-zinc-100 shadow-sm active:scale-95 transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-orbitron font-bold shadow-[0_0_15px_rgba(139,92,246,0.5)] active:scale-95 transition-all"
               >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Pelajari Materi LKS</span>
+                <BookOpen className="w-3.5 h-3.5 text-cyan-300" />
+                <span>Buka Materi LKS</span>
+              </button>
+
+              <button
+                onClick={() => onSelectSubject('ipa')}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass-panel border border-cyan-400/40 text-cyan-200 text-xs font-space font-semibold hover:bg-cyan-500/20 shadow-[0_0_12px_rgba(6,182,212,0.25)] active:scale-95 transition-all"
+              >
+                <span>Mulai Quiz IPA</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
               {onOpenScratchpad && (
                 <button
                   onClick={onOpenScratchpad}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 text-xs font-semibold backdrop-blur-sm active:scale-95 transition-all"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed border-amber-400/50 bg-amber-500/10 text-amber-200 text-xs font-mono hover:bg-amber-500/20 transition-all"
+                  title="Kertas Coretan & Sketsa Pensil"
                 >
-                  <SketchPencilDoodle className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Kertas Coretan & Sketsa</span>
+                  <span>✎ Kertas Coretan</span>
                 </button>
               )}
             </div>
           </div>
 
-          {/* Right Hero Side: Unfinished Book Sketch + Progress Ring */}
-          <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-4">
-            {/* Unfinished Book Sketch with hand-drawn blueprint aesthetics */}
-            <div className="relative p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-3">
-              <SketchBookIllustration className="w-24 h-20 text-indigo-300 drop-shadow-sm" />
-              <div className="text-left font-mono">
-                <span className="text-[10px] uppercase tracking-wider text-amber-300 block font-bold">
-                  [SKETSA LKS DRAFT]
-                </span>
-                <span className="text-xs text-white font-bold block mt-0.5">
-                  3 Mata Pelajaran
-                </span>
-                <span className="text-[10px] text-zinc-400 block">
-                  SKI • B.Inggris • B.Jawa
-                </span>
-              </div>
+          {/* Hero Quick Progress Hologram */}
+          <div className="w-full lg:w-72 glass-panel p-4 rounded-2xl border border-white/15 space-y-3 bg-white/5 shadow-inner backdrop-blur-xl">
+            <div className="flex items-center justify-between text-xs font-orbitron">
+              <span className="text-violet-300 font-bold flex items-center gap-1.5">
+                <Atom className="w-4 h-4 text-cyan-400 animate-spin-slow" />
+                Eksplorasi Materi
+              </span>
+              <span className="text-cyan-300 font-bold">{overallPercentage}%</span>
             </div>
 
-            {/* Quick Progress Ring */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 flex items-center gap-4 min-w-[220px]">
-              <div className="relative w-12 h-12 flex items-center justify-center">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                  <path
-                    className="text-white/20"
-                    strokeWidth="3.5"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    className="text-emerald-400"
-                    strokeDasharray={`${overallPercentage}, 100`}
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <span className="absolute text-[11px] font-bold text-white">{overallPercentage}%</span>
+            <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-violet-500 via-cyan-400 to-emerald-400 rounded-full transition-all duration-500"
+                style={{ width: `${overallPercentage}%` }}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pt-1 text-center font-orbitron">
+              <div className="p-2 rounded-xl bg-white/5 border border-white/10">
+                <span className="block text-lg font-extrabold text-white">{userProfile.quizzesCompleted}</span>
+                <span className="text-[10px] text-violet-300 font-space">Quiz Selesai</span>
               </div>
-              <div>
-                <p className="text-[11px] text-zinc-300 font-medium">Progres Pembelajaran</p>
-                <p className="text-xs font-bold text-white mt-0.5">{completedCount}/{totalSubchapters} Materi</p>
-                <p className="text-[10px] text-emerald-300 mt-0.5 flex items-center gap-1 font-semibold">
-                  <TrendingUp className="w-3 h-3" /> Siap Ujian PTS
-                </p>
+              <div className="p-2 rounded-xl bg-white/5 border border-white/10">
+                <span className="block text-lg font-extrabold text-amber-300">{userProfile.xp}</span>
+                <span className="text-[10px] text-violet-300 font-space">Poin XP</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. RECENT ACTIVITY RESUME (CONTINUE READING) */}
+      {/* 2. CONTINUE READING CARD (IF AVAILABLE) */}
       {lastSubchapter && (
         <section
           id="home-continue-card"
-          className="relative p-4 sm:p-5 rounded-3xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/60 dark:border-zinc-800/80 shadow-xs hover:border-indigo-300 dark:hover:border-indigo-800/80 transition-all"
+          className="relative p-4 sm:p-5 rounded-3xl glass-panel border border-cyan-500/30 bg-cyan-950/20 backdrop-blur-xl shadow-[0_4px_24px_rgba(6,182,212,0.15)] hover:border-cyan-400/50 transition-all"
         >
-          <div className="absolute top-2 right-4 hidden sm:block">
-            <SketchWashiTape text="LANJUTKAN BACA" color="blue" />
-          </div>
-
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-start sm:items-center gap-3.5">
-              <div className="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-100 dark:border-indigo-900/40">
-                <Bookmark className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center flex-shrink-0 border border-cyan-400/40 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+                <Bookmark className="w-6 h-6" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase font-mono">
-                    {lastSubchapter.code}
+                  <span className="text-[11px] font-bold tracking-wider text-cyan-300 uppercase font-orbitron">
+                    SUB {lastSubchapter.code}
                   </span>
-                  <span className="text-zinc-300 dark:text-zinc-700">•</span>
-                  <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                    {lastSubchapter.estimatedReadTime}
+                  <span className="text-violet-400">•</span>
+                  <span className="text-[11px] text-violet-300/80 font-space">
+                    {lastSubchapter.estimatedReadTime || '6 menit'}
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-400/30">
+                    Lanjutkan Baca
                   </span>
                 </div>
-                <h4 className="text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 mt-0.5">
+                <h4 className="text-sm sm:text-base font-bold text-white font-space mt-1">
                   {lastSubchapter.title}
                 </h4>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
+                <p className="text-xs text-violet-200/70 line-clamp-1 mt-0.5 font-space">
                   {lastSubchapter.summary}
                 </p>
               </div>
@@ -239,7 +220,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onNavigate('materi');
                 }
               }}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 text-xs font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-sm active:scale-95 transition-all self-start sm:self-center"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-orbitron font-bold hover:from-cyan-400 hover:to-blue-500 shadow-[0_0_14px_rgba(6,182,212,0.4)] active:scale-95 transition-all self-start sm:self-center"
             >
               <span>Buka Ringkasan</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -248,23 +229,25 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </section>
       )}
 
-      {/* 3. PRIMARY MATA PELAJARAN LKS CARDS (3 MATA PELAJARAN) */}
+      {/* 3. PRIMARY MATA PELAJARAN LKS CARDS (IPA, FIKIH, PKN) */}
       <section id="home-subjects-section" className="space-y-4">
         <div className="flex items-center justify-between px-1">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                Mata Pelajaran LKS
+              <h3 className="text-lg font-bold text-white tracking-tight font-orbitron flex items-center gap-2">
+                <span>Mata Pelajaran LKS</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-violet-500/20 text-cyan-300 border border-violet-400/30 font-space font-normal">
+                  3 Mapel Terstruktur
+                </span>
               </h3>
-              <SketchWashiTape text="SKETSA 3 MAPEL" color="emerald" />
             </div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-              Pilih mata pelajaran untuk membaca ringkasan materi atau mengerjakan simulasi quiz 30 soal
+            <p className="text-xs text-violet-200/70 mt-0.5 font-space">
+              Pilih mata pelajaran untuk membaca ringkasan materi interaktif atau memulai quiz simulasi 30 soal seimbang
             </p>
           </div>
           <button
             onClick={() => onNavigate('subject')}
-            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+            className="text-xs font-semibold text-cyan-300 hover:text-cyan-200 flex items-center gap-1 font-space transition-colors"
           >
             <span>Lihat Semua Bab</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -274,37 +257,38 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {subjects.map((subId) => {
             const subjectInfo = LKS_SUBJECTS[subId];
+            if (!subjectInfo) return null;
             const chapterCount = subjectInfo.chapters.length;
             const subCount = subjectInfo.chapters.reduce((a, b) => a + b.subchapters.length, 0);
 
-            // Subject theme accents
-            const accentColors = {
-              ski: {
-                badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-800/40',
-                btn: 'hover:border-emerald-300 dark:hover:border-emerald-700',
-                iconBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60',
-                bar: 'bg-emerald-500',
-                pct: '75%',
-                tapeColor: 'emerald' as const,
-                tag: 'SKETSA SKI',
+            // Subject theme styling
+            const themeConfig = {
+              ipa: {
+                border: 'border-cyan-500/35 hover:border-cyan-400/70',
+                glow: 'hover:shadow-[0_0_25px_rgba(6,182,212,0.35)]',
+                iconBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                badge: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40',
+                btnGrad: 'from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500',
+                btnGlow: 'shadow-[0_0_14px_rgba(6,182,212,0.35)]',
+                tag: 'KOSMIK IPA',
               },
-              bahasa_inggris: {
-                badge: 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border-blue-200/60 dark:border-blue-800/40',
-                btn: 'hover:border-blue-300 dark:hover:border-blue-700',
-                iconBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/60',
-                bar: 'bg-blue-500',
-                pct: '60%',
-                tapeColor: 'blue' as const,
-                tag: 'SKETSA INGGRIS',
+              fikih: {
+                border: 'border-emerald-500/35 hover:border-emerald-400/70',
+                glow: 'hover:shadow-[0_0_25px_rgba(16,185,129,0.35)]',
+                iconBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40 shadow-[0_0_15px_rgba(16,185,129,0.3)]',
+                badge: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40',
+                btnGrad: 'from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500',
+                btnGlow: 'shadow-[0_0_14px_rgba(16,185,129,0.35)]',
+                tag: 'FIKIH IBADAH',
               },
-              bahasa_jawa: {
-                badge: 'bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200/60 dark:border-amber-800/40',
-                btn: 'hover:border-amber-300 dark:hover:border-amber-700',
-                iconBg: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/60',
-                bar: 'bg-amber-500',
-                pct: '80%',
-                tapeColor: 'amber' as const,
-                tag: 'SKETSA JAWA',
+              pkn: {
+                border: 'border-amber-500/35 hover:border-amber-400/70',
+                glow: 'hover:shadow-[0_0_25px_rgba(245,158,11,0.35)]',
+                iconBg: 'bg-amber-500/20 text-amber-300 border-amber-400/40 shadow-[0_0_15px_rgba(245,158,11,0.3)]',
+                badge: 'bg-amber-500/20 text-amber-200 border-amber-400/40',
+                btnGrad: 'from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500',
+                btnGlow: 'shadow-[0_0_14px_rgba(245,158,11,0.35)]',
+                tag: 'PKN PANCASILA',
               },
             }[subId];
 
@@ -312,84 +296,65 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <div
                 key={subId}
                 id={`home-subject-card-${subId}`}
-                className={`relative rounded-3xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/70 dark:border-zinc-800/80 p-5 shadow-xs flex flex-col justify-between transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${accentColors.btn}`}
+                className={`relative rounded-3xl glass-panel border p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 ${themeConfig.border} ${themeConfig.glow}`}
               >
-                {/* Washi tape on top right corner */}
+                {/* Top Corner Pill */}
                 <div className="absolute -top-2.5 right-4 z-10">
-                  <SketchWashiTape text={accentColors.tag} color={accentColors.tapeColor} />
+                  <span className="text-[10px] font-orbitron font-bold px-2.5 py-0.5 rounded-full bg-zinc-900/90 text-white border border-white/20 shadow-md">
+                    {themeConfig.tag}
+                  </span>
                 </div>
 
                 <div>
                   {/* Card Header: Icon + Badge */}
                   <div className="flex items-center justify-between mb-3.5">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border ${accentColors.iconBg}`}>
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border ${themeConfig.iconBg}`}>
                       {subjectInfo.icon}
                     </div>
-                    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${accentColors.badge}`}>
+                    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border font-space ${themeConfig.badge}`}>
                       {chapterCount} Bab • {subCount} Materi
                     </span>
                   </div>
 
                   {/* Title & Description */}
-                  <h4 className="text-base font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                  <h4 className="text-base font-bold text-white tracking-tight font-space">
                     {subjectInfo.title}
                   </h4>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-violet-200/70 mt-1 line-clamp-2 leading-relaxed font-space">
                     {subjectInfo.description}
                   </p>
 
                   {/* Chapter Highlights */}
-                  <div className="mt-4 pt-3 border-t border-dashed border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                  <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5 font-space">
                     {subjectInfo.chapters.map((ch) => (
-                      <div key={ch.id} className="flex items-center gap-1.5 text-[11px] text-zinc-600 dark:text-zinc-300 truncate">
-                        <FileText className="w-3 h-3 text-zinc-400 flex-shrink-0" />
+                      <div key={ch.id} className="flex items-center gap-1.5 text-[11px] text-violet-200/80 truncate">
+                        <FileText className="w-3 h-3 text-violet-400 flex-shrink-0" />
                         <span className="font-medium truncate">{ch.title}</span>
                       </div>
                     ))}
                   </div>
-
-                  {/* Progress Indicator with sketch blueprint label */}
-                  <div className="mt-4">
-                    <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 mb-1">
-                      <span className="font-mono text-[10px]">kelengkapan_draft</span>
-                      <span className="font-semibold text-zinc-700 dark:text-zinc-300">{accentColors.pct}</span>
-                    </div>
-                    <div className="w-full h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${accentColors.bar}`}
-                        style={{ width: accentColors.pct }}
-                      />
-                    </div>
-                  </div>
                 </div>
 
-                {/* Actions */}
-                <div className="mt-6 pt-3 border-t border-zinc-100 dark:border-zinc-800/80">
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      id={`home-btn-baca-${subId}`}
-                      onClick={() => {
-                        onSelectSubject(subId);
-                        onNavigate('subject');
-                      }}
-                      className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800 dark:hover:bg-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition-all active:scale-95"
-                    >
-                      <BookOpen className="w-3.5 h-3.5" />
-                      <span>Materi LKS</span>
-                    </button>
+                {/* Card Actions */}
+                <div className="mt-5 pt-3 border-t border-white/10 flex items-center gap-2">
+                  <button
+                    id={`btn-open-subject-${subId}`}
+                    onClick={() => onSelectSubject(subId)}
+                    className="flex-1 py-2 px-3 rounded-xl glass-panel border border-white/15 text-violet-100 hover:text-white hover:bg-white/10 text-xs font-space font-medium transition-all text-center"
+                  >
+                    Buka Bab
+                  </button>
 
-                    <button
-                      id={`home-btn-quiz-${subId}`}
-                      onClick={() => {
-                        onSelectSubject(subId);
-                        onNavigate('quiz');
-                      }}
-                      className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 text-xs font-semibold shadow-xs transition-all active:scale-95"
-                    >
-                      <Award className="w-3.5 h-3.5" />
-                      <span>Quiz (30 Soal)</span>
-                    </button>
-                  </div>
+                  <button
+                    id={`btn-start-quiz-${subId}`}
+                    onClick={() => {
+                      onSelectSubject(subId);
+                      onNavigate('quiz');
+                    }}
+                    className={`flex-1 py-2 px-3 rounded-xl bg-gradient-to-r ${themeConfig.btnGrad} text-white text-xs font-orbitron font-bold transition-all text-center ${themeConfig.btnGlow} active:scale-95`}
+                  >
+                    Mulai Quiz
+                  </button>
                 </div>
               </div>
             );
@@ -397,88 +362,38 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* 4. SMART LEARNING SUITE BENTO GRID (WITH UNFINISHED SKETCHES) */}
-      <section id="home-bento-section" className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Kertas Coretan & Sketsa Card (Replaces AI Tutor, fits user sketch request!) */}
-        <div
-          id="home-card-scratchpad"
-          onClick={() => {
-            if (onOpenScratchpad) {
-              onOpenScratchpad();
-            } else {
-              onNavigate('subject');
-            }
-          }}
-          className="relative p-5 rounded-3xl bg-amber-50/60 dark:bg-amber-950/20 backdrop-blur-xl border border-dashed border-amber-300 dark:border-amber-800/60 shadow-xs cursor-pointer hover:border-amber-400 dark:hover:border-amber-700 transition-all group overflow-hidden"
-        >
-          <SketchDraftGrid className="absolute inset-0 w-full h-full opacity-40" />
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-400/20 text-amber-800 dark:text-amber-300 flex items-center justify-center group-hover:scale-105 transition-transform border border-amber-300 dark:border-amber-700">
-                <Edit3 className="w-5 h-5" />
-              </div>
-              <SketchWashiTape text="SKETSA & CORETAN" color="amber" />
+      {/* 4. LEADERBOARD & PERFORMANCE TEASER (GLASS PANEL) */}
+      <section
+        id="home-leaderboard-teaser"
+        className="rounded-3xl glass-panel border border-amber-400/30 p-5 sm:p-6 bg-amber-950/20 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-5"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center flex-shrink-0 text-3xl shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+            🏆
+          </div>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-orbitron font-bold px-2 py-0.5 rounded-full bg-amber-500/25 text-amber-200 border border-amber-400/40">
+                PAPAN JUARA 100
+              </span>
+              <span className="text-xs text-amber-300 font-space">Hanya Skor Sempurna</span>
             </div>
-
-            <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
-              <span>Kertas Coretan Siswa</span>
-              <span className="text-xs text-amber-600 dark:text-amber-400">✎</span>
+            <h4 className="text-base font-bold text-white font-orbitron">
+              Panggung Kehormatan Siswa Terbaik
             </h4>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-              Buka lembar sketsa untuk mencatat rumus, coretan kosakata bahasa, atau corat-coret sebelum ujian.
+            <p className="text-xs text-violet-200/70 max-w-xl font-space">
+              Jawab 30 butir soal tanpa kesalahan untuk mencatatkan namamu di Papan Juara Kosmik bersama peringkat siswa berprestasi lainnya!
             </p>
-            <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-amber-800 dark:text-amber-300 group-hover:translate-x-1 transition-transform">
-              <span>Buka lembar sketsa sekarang</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </div>
           </div>
         </div>
 
-        {/* Leaderboard Honor Card with Unfinished Trophy Sketch */}
-        <div
-          id="home-card-hall-of-fame"
+        <button
           onClick={() => onNavigate('leaderboard')}
-          className="relative p-5 rounded-3xl bg-gradient-to-br from-amber-500/5 via-white/70 to-rose-500/5 dark:from-amber-950/20 dark:via-zinc-900/80 dark:to-rose-950/20 backdrop-blur-xl border border-amber-200/40 dark:border-amber-900/30 shadow-xs cursor-pointer hover:border-amber-300 dark:hover:border-amber-800 transition-all group overflow-hidden"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-orbitron font-bold text-xs shadow-[0_0_15px_rgba(245,158,11,0.4)] hover:from-amber-400 hover:to-orange-400 transition-all active:scale-95 flex-shrink-0"
         >
-          {/* Subtle unfinished trophy sketch in background */}
-          <div className="absolute -right-2 -bottom-2 opacity-15 dark:opacity-20 pointer-events-none">
-            <SketchTrophyIllustration className="w-28 h-28 text-amber-600" />
-          </div>
-
-          <div className="relative z-10">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform border border-amber-200 dark:border-amber-800/40">
-              <Trophy className="w-5 h-5" />
-            </div>
-            <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-              Panggung Skor 100
-            </h4>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
-              Hanya peserta dengan nilai sempurna (100 poin) yang berhak tercatat di papan kehormatan juara.
-            </p>
-            <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
-              <span>Lihat Peringkat Juara</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </div>
-          </div>
-        </div>
-
-        {/* Study Strategy Tip Card with hand-drawn note style */}
-        <div className="relative p-5 rounded-3xl bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-dashed border-zinc-300 dark:border-zinc-700 shadow-xs">
-          <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 border border-indigo-200 dark:border-indigo-800/40">
-            <CheckCircle2 className="w-5 h-5" />
-          </div>
-          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            Tips Sukses PTS LKS
-          </h4>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
-            Baca rangkuman materi 10 menit sebelum mencoba quiz evaluasi 30 butir untuk menguji daya ingatmu.
-          </p>
-          <div className="mt-3 flex items-center gap-1 text-[11px] font-medium text-zinc-400">
-            <Clock className="w-3 h-3" />
-            <span>Target latihan: 20 menit per hari</span>
-          </div>
-        </div>
+          <Trophy className="w-4 h-4" />
+          <span>Buka Leaderboard</span>
+        </button>
       </section>
     </div>
   );

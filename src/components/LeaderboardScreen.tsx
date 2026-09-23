@@ -13,11 +13,6 @@ import {
 import { LeaderboardEntry, SubjectId } from '../types';
 import { apiGetLeaderboard } from '../utils/api';
 import { UserAvatar } from './UserAvatar';
-import {
-  SketchTrophyIllustration,
-  SketchUnderline,
-  SketchWashiTape
-} from './SketchElements';
 
 interface LeaderboardScreenProps {
   currentStudentName: string;
@@ -50,8 +45,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     fetchLeaderboard();
   }, [subjectFilter, timeframeFilter]);
 
-  // Client side search filter
-  // Filter entries strictly for score >= 100
+  // Client side search filter & strictly score >= 100
   const filteredEntries = entries
     .filter((entry) => entry && Number(entry.score) >= 100)
     .filter((entry) =>
@@ -61,15 +55,14 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
   const topThree = filteredEntries.slice(0, 3);
   const remainingPlayers = filteredEntries.slice(3);
 
-  // Subject label helper
   const getSubjectBadge = (subId: SubjectId | 'all') => {
     switch (subId) {
-      case 'ski':
-        return { label: 'SKI (Sejarah Kebudayaan Islam)', icon: '🕌' };
-      case 'bahasa_inggris':
-        return { label: 'Bahasa Inggris', icon: '🔤' };
-      case 'bahasa_jawa':
-        return { label: 'Bahasa Jawa', icon: 'ꦗ' };
+      case 'ipa':
+        return { label: 'IPA (Tata Surya & Sains)', icon: '🔭' };
+      case 'fikih':
+        return { label: 'Fikih Ibadah', icon: '🕌' };
+      case 'pkn':
+        return { label: 'Pendidikan Pancasila (PKn)', icon: '🦅' };
       default:
         return { label: 'Semua Mapel', icon: '🌟' };
     }
@@ -79,59 +72,58 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     if (subjectFilter !== 'all') {
       onStartQuiz(subjectFilter);
     } else {
-      onStartQuiz('ski');
+      onStartQuiz('ipa');
     }
   };
 
   return (
-    <div className="mx-auto min-h-[calc(100vh-4rem)] max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="mx-auto min-h-[calc(100vh-4rem)] max-w-5xl px-4 py-8 sm:px-6 sm:py-10 font-sans select-none relative z-10">
       {/* Header */}
       <div className="mb-6 text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300 font-mono">
-              <Trophy className="h-3.5 w-3.5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-2 justify-center sm:justify-start">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-500/20 px-3 py-1 text-xs font-orbitron font-bold text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+              <Trophy className="h-3.5 w-3.5 text-amber-400" />
               <span>Panggung Kehormatan Siswa</span>
             </div>
-            <SketchWashiTape text="SKETSA JUARA 100" color="amber" />
+            <span className="text-[10px] font-orbitron font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
+              SKOR 100
+            </span>
           </div>
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 font-mono">
-              LEADERBOARD
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-orbitron">
+              LEADERBOARD KOSMIK
             </h1>
-            <SketchUnderline className="text-amber-400/60 w-36 mt-1" />
+            <div className="h-1 w-36 bg-gradient-to-r from-amber-400 via-violet-400 to-transparent rounded-full mt-1.5" />
           </div>
-          <p className="mt-1 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
-            Daftar siswa berprestasi yang berhasil meraih skor sempurna minimal 100 poin.
+          <p className="mt-1 text-xs sm:text-sm text-violet-200/80 font-space">
+            Daftar siswa berprestasi yang berhasil meraih skor sempurna minimal 100 poin di simulasi ujian.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:block">
-            <SketchTrophyIllustration className="w-16 h-16 text-amber-500/80 drop-shadow-xs" />
-          </div>
+        <div className="flex items-center justify-center sm:justify-end gap-3">
           <button
             type="button"
             onClick={fetchLeaderboard}
-            className="self-center sm:self-auto flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors shadow-2xs"
+            className="flex items-center gap-1.5 rounded-2xl glass-panel border border-white/15 px-4 py-2.5 text-xs font-orbitron font-bold text-violet-100 hover:text-white hover:bg-white/10 transition-colors shadow-sm"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 text-cyan-400 ${loading ? 'animate-spin' : ''}`} />
             <span>Segarkan Data</span>
           </button>
         </div>
       </div>
 
       {/* Leaderboard Criteria Notice */}
-      <div className="mb-8 flex items-start gap-3 rounded-2xl border border-amber-200/90 bg-amber-50/70 p-4 dark:border-amber-900/50 dark:bg-amber-950/30">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-white shadow-2xs font-mono font-bold text-sm">
+      <div className="mb-8 flex items-start gap-3 rounded-3xl glass-panel border border-amber-400/40 bg-amber-950/25 p-4 sm:p-5 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500/30 text-amber-300 border border-amber-400/50 shadow-[0_0_12px_rgba(245,158,11,0.4)] font-orbitron font-bold text-sm">
           100
         </div>
         <div className="text-xs">
-          <h2 className="font-bold text-amber-950 dark:text-amber-200">
-            Syarat Masuk Leaderboard: Skor Minimal 100 Poin
+          <h2 className="font-bold text-amber-200 font-orbitron text-sm">
+            Syarat Masuk Leaderboard: Skor Sempurna 100 Poin
           </h2>
-          <p className="text-amber-800/90 dark:text-amber-300/80 mt-0.5 leading-relaxed">
-            Hanya peserta yang menjawab seluruh pertanyaan dengan benar dan mencapai nilai sempurna (100) yang akan masuk ke daftar Leaderboard ini beserta perolehan skor dan XP-nya.
+          <p className="text-amber-300/80 mt-0.5 leading-relaxed font-space">
+            Hanya peserta yang menjawab seluruh 30 butir pertanyaan dengan benar dan mencapai nilai sempurna (100) yang akan dicatat di Papan Peringkat Kosmik ini.
           </p>
         </div>
       </div>
@@ -139,75 +131,75 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
       {/* Filter Tabs & Search Bar */}
       <div className="mb-8 space-y-4">
         {/* Subject Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mr-2 flex items-center gap-1">
-            <Filter className="h-3.5 w-3.5" />
+        <div className="flex flex-wrap items-center gap-2 border-b border-white/10 pb-3">
+          <span className="text-xs font-semibold text-violet-300 mr-2 flex items-center gap-1 font-space">
+            <Filter className="h-3.5 w-3.5 text-cyan-400" />
             Mata Pelajaran:
           </span>
 
           <button
             type="button"
             onClick={() => setSubjectFilter('all')}
-            className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+            className={`rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
               subjectFilter === 'all'
-                ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
-                : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.5)] border border-violet-400/50'
+                : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            Semua Mata Pelajaran
+            Semua Mapel
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('ski')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'ski'
-                ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
-                : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+            onClick={() => setSubjectFilter('ipa')}
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
+              subjectFilter === 'ipa'
+                ? 'bg-cyan-500/30 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.5)] border border-cyan-400/60'
+                : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>🔭</span>
+            <span>IPA</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSubjectFilter('fikih')}
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
+              subjectFilter === 'fikih'
+                ? 'bg-emerald-500/30 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.5)] border border-emerald-400/60'
+                : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
             <span>🕌</span>
-            <span>SKI</span>
+            <span>Fikih</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('bahasa_inggris')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'bahasa_inggris'
-                ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
-                : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+            onClick={() => setSubjectFilter('pkn')}
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
+              subjectFilter === 'pkn'
+                ? 'bg-amber-500/30 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.5)] border border-amber-400/60'
+                : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🔤</span>
-            <span>Bahasa Inggris</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSubjectFilter('bahasa_jawa')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-              subjectFilter === 'bahasa_jawa'
-                ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xs'
-                : 'border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
-            }`}
-          >
-            <span>ꦗ</span>
-            <span>Bahasa Jawa</span>
+            <span>🦅</span>
+            <span>PKn</span>
           </button>
         </div>
 
         {/* Timeframe & Search Row */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           {/* Timeframe Selector */}
-          <div className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 p-1 dark:border-zinc-800 dark:bg-zinc-900">
+          <div className="flex items-center gap-1.5 rounded-2xl glass-panel border border-white/10 p-1">
             <button
               type="button"
               onClick={() => setTimeframeFilter('daily')}
-              className={`rounded-lg px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-xl px-3 py-1 text-xs font-orbitron transition-all ${
                 timeframeFilter === 'daily'
-                  ? 'bg-white text-zinc-900 shadow-2xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold'
-                  : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
+                  ? 'bg-white/20 text-white font-bold shadow-xs'
+                  : 'text-violet-300 hover:text-white'
               }`}
             >
               Harian
@@ -215,10 +207,10 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
             <button
               type="button"
               onClick={() => setTimeframeFilter('weekly')}
-              className={`rounded-lg px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-xl px-3 py-1 text-xs font-orbitron transition-all ${
                 timeframeFilter === 'weekly'
-                  ? 'bg-white text-zinc-900 shadow-2xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold'
-                  : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
+                  ? 'bg-white/20 text-white font-bold shadow-xs'
+                  : 'text-violet-300 hover:text-white'
               }`}
             >
               Mingguan
@@ -226,275 +218,208 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
             <button
               type="button"
               onClick={() => setTimeframeFilter('all')}
-              className={`rounded-lg px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-xl px-3 py-1 text-xs font-orbitron transition-all ${
                 timeframeFilter === 'all'
-                  ? 'bg-white text-zinc-900 shadow-2xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold'
-                  : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
+                  ? 'bg-white/20 text-white font-bold shadow-xs'
+                  : 'text-violet-300 hover:text-white'
               }`}
             >
-              Keseluruhan
+              Semua Waktu
             </button>
           </div>
 
-          {/* Search Input */}
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-zinc-400" />
+          {/* Search Box */}
+          <div className="relative flex-1 sm:w-64 sm:flex-none">
+            <Search className="absolute left-3.5 top-2.5 h-3.5 w-3.5 text-violet-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari nama siswa..."
-              className="w-full rounded-xl border border-zinc-200 bg-white pl-9 pr-3 py-1.5 text-xs text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-hidden dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-100"
+              placeholder="Cari nama juara..."
+              className="w-full rounded-2xl glass-panel border border-white/15 bg-white/5 pl-9 pr-4 py-2 text-xs font-space text-white placeholder-violet-300/50 focus:border-cyan-400 focus:outline-hidden"
             />
           </div>
         </div>
       </div>
 
-      {/* TOP 3 PODIUM DISPLAY */}
+      {/* Podium for Top 3 (Score 100) */}
       {topThree.length > 0 && !searchQuery && (
-        <div className="mb-10">
-          <h2 className="mb-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 text-center">
-            Panggung Kehormatan 3 Besar
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            {/* RANK 2 (Silver) */}
-            {topThree[1] && (
-              <div className="order-2 md:order-1 rounded-2xl border border-zinc-200 bg-white p-5 text-center shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 relative pt-7 transition-all hover:scale-[1.02]">
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex h-7 items-center gap-1 rounded-full border border-slate-300 bg-slate-100 px-2.5 text-xs font-bold text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 shadow-2xs font-mono">
-                  🥈 Rank 2
+        <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+          {/* Second Place */}
+          {topThree[1] && (
+            <div className="order-2 md:order-1 rounded-3xl glass-panel border border-cyan-400/40 p-5 text-center shadow-[0_0_20px_rgba(6,182,212,0.2)] flex flex-col justify-between">
+              <div>
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-orbitron font-black text-sm">
+                  #2
                 </div>
-                <div className="mx-auto mb-2 flex justify-center">
-                  <UserAvatar
-                    avatar={topThree[1].avatar}
-                    name={topThree[1].studentName}
-                    size="xl"
-                  />
+                <div className="flex justify-center mb-2">
+                  <UserAvatar avatar={topThree[1].avatar} name={topThree[1].studentName} size="md" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
+                <h3 className="text-sm font-bold text-white font-orbitron truncate">
                   {topThree[1].studentName}
                 </h3>
-                <span className="inline-block mt-0.5 rounded-md bg-zinc-100 px-2 py-0.5 text-[10.5px] font-mono text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                  {getSubjectBadge(topThree[1].subjectId).icon}{' '}
+                <div className="text-xs text-cyan-300/80 font-space mt-0.5">
                   {getSubjectBadge(topThree[1].subjectId).label}
-                </span>
-
-                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-around font-mono text-xs">
-                  <div>
-                    <span className="block text-[10px] text-zinc-400 uppercase">Skor</span>
-                    <span className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-                      {topThree[1].score}
-                    </span>
-                  </div>
-                  <div className="h-6 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-                  <div>
-                    <span className="block text-[10px] text-zinc-400 uppercase">XP</span>
-                    <span className="text-sm font-bold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-0.5">
-                      <Sparkles className="h-3 w-3" />
-                      {topThree[1].xp}
-                    </span>
-                  </div>
                 </div>
               </div>
-            )}
 
-            {/* RANK 1 (Gold) — Center and elevated */}
-            {topThree[0] && (
-              <div className="order-1 md:order-2 rounded-2xl border-2 border-amber-300 bg-linear-to-b from-amber-50/50 to-white p-6 text-center shadow-md dark:border-amber-700/60 dark:from-amber-950/20 dark:to-zinc-900 relative pt-8 transition-all hover:scale-[1.03] md:-translate-y-2">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex h-8 items-center gap-1.5 rounded-full border border-amber-400 bg-amber-400 px-3.5 text-xs font-extrabold text-amber-950 shadow-xs font-mono">
-                  🥇 Rank 1
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-around font-orbitron text-xs">
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">Skor</span>
+                  <span className="text-lg font-black text-white">{topThree[1].score}</span>
                 </div>
-                <div className="mx-auto mb-2 flex justify-center">
-                  <UserAvatar
-                    avatar={topThree[0].avatar}
-                    name={topThree[0].studentName}
-                    size="2xl"
-                    className="ring-4 ring-amber-300 dark:ring-amber-700"
-                  />
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">XP</span>
+                  <span className="text-lg font-black text-cyan-300">{topThree[1].xp}</span>
                 </div>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">
+              </div>
+            </div>
+          )}
+
+          {/* First Place (Champion) */}
+          {topThree[0] && (
+            <div className="order-1 md:order-2 rounded-3xl glass-panel border border-amber-400/60 p-6 text-center shadow-[0_0_30px_rgba(245,158,11,0.35)] flex flex-col justify-between transform md:-translate-y-2 bg-amber-950/20">
+              <div>
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-black font-orbitron font-black text-base shadow-[0_0_15px_rgba(245,158,11,0.6)]">
+                  👑 #1
+                </div>
+                <div className="flex justify-center mb-2">
+                  <UserAvatar avatar={topThree[0].avatar} name={topThree[0].studentName} size="lg" />
+                </div>
+                <h3 className="text-base font-black text-white font-orbitron truncate">
                   {topThree[0].studentName}
                 </h3>
-                <span className="inline-block mt-0.5 rounded-md bg-amber-100/80 px-2 py-0.5 text-[10.5px] font-mono font-medium text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
-                  {getSubjectBadge(topThree[0].subjectId).icon}{' '}
+                <div className="text-xs text-amber-300 font-space mt-0.5 font-semibold">
                   {getSubjectBadge(topThree[0].subjectId).label}
-                </span>
-
-                <div className="mt-4 pt-3 border-t border-amber-100 dark:border-zinc-800 flex items-center justify-around font-mono text-xs">
-                  <div>
-                    <span className="block text-[10px] text-zinc-500 uppercase font-semibold">
-                      Skor Juara
-                    </span>
-                    <span className="text-2xl font-black text-amber-700 dark:text-amber-400">
-                      {topThree[0].score}
-                    </span>
-                  </div>
-                  <div className="h-7 w-[1px] bg-amber-200 dark:bg-zinc-800" />
-                  <div>
-                    <span className="block text-[10px] text-zinc-500 uppercase font-semibold">
-                      Total XP
-                    </span>
-                    <span className="text-base font-bold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-0.5">
-                      <Sparkles className="h-3.5 w-3.5" />
-                      {topThree[0].xp}
-                    </span>
-                  </div>
                 </div>
               </div>
-            )}
 
-            {/* RANK 3 (Bronze) */}
-            {topThree[2] && (
-              <div className="order-3 rounded-2xl border border-zinc-200 bg-white p-5 text-center shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 relative pt-7 transition-all hover:scale-[1.02]">
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex h-7 items-center gap-1 rounded-full border border-amber-700/30 bg-amber-100 px-2.5 text-xs font-bold text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 shadow-2xs font-mono">
-                  🥉 Rank 3
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-around font-orbitron text-xs">
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">Skor</span>
+                  <span className="text-2xl font-black text-amber-300">{topThree[0].score}</span>
                 </div>
-                <div className="mx-auto mb-2 flex justify-center">
-                  <UserAvatar
-                    avatar={topThree[2].avatar}
-                    name={topThree[2].studentName}
-                    size="xl"
-                  />
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">XP</span>
+                  <span className="text-2xl font-black text-amber-300">{topThree[0].xp}</span>
                 </div>
-                <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
+              </div>
+            </div>
+          )}
+
+          {/* Third Place */}
+          {topThree[2] && (
+            <div className="order-3 md:order-3 rounded-3xl glass-panel border border-violet-400/40 p-5 text-center shadow-[0_0_20px_rgba(139,92,246,0.2)] flex flex-col justify-between">
+              <div>
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-300 border border-violet-400/40 font-orbitron font-black text-sm">
+                  #3
+                </div>
+                <div className="flex justify-center mb-2">
+                  <UserAvatar avatar={topThree[2].avatar} name={topThree[2].studentName} size="md" />
+                </div>
+                <h3 className="text-sm font-bold text-white font-orbitron truncate">
                   {topThree[2].studentName}
                 </h3>
-                <span className="inline-block mt-0.5 rounded-md bg-zinc-100 px-2 py-0.5 text-[10.5px] font-mono text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                  {getSubjectBadge(topThree[2].subjectId).icon}{' '}
+                <div className="text-xs text-violet-300/80 font-space mt-0.5">
                   {getSubjectBadge(topThree[2].subjectId).label}
-                </span>
-
-                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-around font-mono text-xs">
-                  <div>
-                    <span className="block text-[10px] text-zinc-400 uppercase">Skor</span>
-                    <span className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-                      {topThree[2].score}
-                    </span>
-                  </div>
-                  <div className="h-6 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-                  <div>
-                    <span className="block text-[10px] text-zinc-400 uppercase">XP</span>
-                    <span className="text-sm font-bold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-0.5">
-                      <Sparkles className="h-3 w-3" />
-                      {topThree[2].xp}
-                    </span>
-                  </div>
                 </div>
               </div>
-            )}
-          </div>
+
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-around font-orbitron text-xs">
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">Skor</span>
+                  <span className="text-lg font-black text-white">{topThree[2].score}</span>
+                </div>
+                <div>
+                  <span className="block text-[10px] text-violet-300 font-space">XP</span>
+                  <span className="text-lg font-black text-violet-300">{topThree[2].xp}</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {/* REMAINING PLAYERS LIST TABLE */}
-      <div className="rounded-2xl border border-zinc-200/90 bg-white shadow-xs dark:border-zinc-800 dark:bg-zinc-900/90 overflow-hidden">
-        <div className="border-b border-zinc-100 bg-zinc-50/70 px-5 py-3.5 dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="flex items-center justify-between text-xs font-mono font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
-            <span>Daftar Peringkat Peserta</span>
-            <span>{filteredEntries.length} Peserta Terdaftar</span>
-          </div>
+      {/* Main Leaderboard Table / Cards */}
+      <div className="rounded-3xl glass-panel border border-white/15 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
+        <div className="border-b border-white/10 bg-white/5 px-6 py-4 flex items-center justify-between text-xs font-orbitron font-bold text-violet-200">
+          <span>Daftar Siswa Peraih Nilai 100</span>
+          <span>{filteredEntries.length} Siswa Terdaftar</span>
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-xs text-zinc-500 font-mono">
-            <RefreshCw className="h-5 w-5 animate-spin mx-auto mb-2 text-zinc-400" />
-            Memuat data peringkat...
+          <div className="p-12 text-center text-xs font-space text-violet-300">
+            <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-cyan-400" />
+            <span>Memuat data peringkat kosmik...</span>
           </div>
         ) : filteredEntries.length === 0 ? (
-          <div className="py-16 px-4 text-center">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 shadow-2xs text-2xl">
-              🏆
+          <div className="p-12 text-center space-y-4">
+            <Trophy className="h-12 w-12 mx-auto text-violet-400/40" />
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-white font-orbitron">
+                Belum Ada Siswa yang Meraih Nilai 100
+              </h3>
+              <p className="text-xs text-violet-200/70 max-w-md mx-auto font-space">
+                Jadilah siswa pertama yang menyelesaikan seluruh butir soal dengan benar untuk membuka panggung juara ini!
+              </p>
             </div>
-            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 font-mono">
-              Panggung Kehormatan Masih Menunggu Juara!
-            </h3>
-            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
-              Belum ada peserta yang mencapai skor minimal 100 poin untuk filter ini. Kerjakan quiz sekarang, jawab semua soal dengan tepat, dan raih nilai 100 untuk mengukir namamu di sini!
-            </p>
-            <div className="mt-5 flex items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={handleStartActiveSubject}
-                className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2 text-xs font-bold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition-colors shadow-xs"
-              >
-                <span>Mulai Quiz & Raih Nilai 100</span>
-              </button>
-            </div>
+            <button
+              onClick={handleStartActiveSubject}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-orbitron font-bold shadow-[0_0_15px_rgba(139,92,246,0.5)] active:scale-95 transition-all"
+            >
+              <span>Mulai Ujian Sekarang</span>
+            </button>
           </div>
         ) : (
-          <div className="divide-y divide-zinc-100 dark:divide-zinc-800/80">
-            {filteredEntries.map((player, index) => {
-              const rank = index + 1;
+          <div className="divide-y divide-white/10 font-space">
+            {filteredEntries.map((entry, idx) => {
               const isCurrentUser =
-                player.studentName.toLowerCase().trim() === currentStudentName.toLowerCase().trim();
+                entry.studentName.toLowerCase() === currentStudentName.toLowerCase();
 
               return (
                 <div
-                  key={player.id || index}
-                  className={`flex items-center justify-between px-4 sm:px-6 py-3.5 transition-colors ${
+                  key={entry.id || idx}
+                  className={`flex items-center justify-between p-4 sm:px-6 transition-colors ${
                     isCurrentUser
-                      ? 'bg-amber-50/40 dark:bg-amber-950/20'
-                      : 'hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40'
+                      ? 'bg-violet-600/20 border-l-4 border-violet-400'
+                      : 'hover:bg-white/5'
                   }`}
                 >
-                  {/* Rank & Player Details */}
-                  <div className="flex items-center gap-3.5">
-                    {/* Rank Badge */}
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-mono text-xs font-bold ${
-                        rank === 1
-                          ? 'bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200'
-                          : rank === 2
-                          ? 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
-                          : rank === 3
-                          ? 'bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                          : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'
-                      }`}
-                    >
-                      {rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`}
-                    </div>
-
-                    {/* Avatar & Name */}
-                    <div className="flex items-center gap-2.5">
-                      <UserAvatar avatar={player.avatar} name={player.studentName} size="sm" />
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                            {player.studentName}
+                  <div className="flex items-center gap-4">
+                    <span className="w-6 text-center font-orbitron font-black text-xs text-violet-300">
+                      #{idx + 1}
+                    </span>
+                    <UserAvatar avatar={entry.avatar} name={entry.studentName} size="sm" />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-white font-space">
+                          {entry.studentName}
+                        </span>
+                        {isCurrentUser && (
+                          <span className="text-[10px] font-orbitron font-bold px-1.5 py-0.2 rounded-full bg-violet-500/30 text-cyan-300 border border-violet-400/40">
+                            Kamu
                           </span>
-                          {isCurrentUser && (
-                            <span className="rounded-md bg-amber-100 px-1.5 py-0.2 text-[9.5px] font-semibold text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-mono">
-                              Anda
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2 text-[10.5px] text-zinc-500 dark:text-zinc-400">
-                          <span>
-                            {getSubjectBadge(player.subjectId).icon}{' '}
-                            {getSubjectBadge(player.subjectId).label}
-                          </span>
-                          <span>•</span>
-                          <span>{player.quizzesCompleted}x Selesai</span>
-                        </div>
+                        )}
                       </div>
+                      <span className="text-[11px] text-violet-300/80 block">
+                        {getSubjectBadge(entry.subjectId).icon}{' '}
+                        {getSubjectBadge(entry.subjectId).label}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Score & XP Stats */}
-                  <div className="flex items-center gap-4 sm:gap-8 font-mono text-right">
+                  <div className="flex items-center gap-6 text-right font-orbitron">
                     <div>
-                      <span className="block text-[10px] text-zinc-400 uppercase">Skor</span>
-                      <span className="text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100">
-                        {player.score}
+                      <span className="text-sm sm:text-base font-black text-amber-300">
+                        {entry.score}
                       </span>
+                      <span className="block text-[10px] text-violet-300 font-space">Poin</span>
                     </div>
-
-                    <div className="min-w-[70px]">
-                      <span className="block text-[10px] text-zinc-400 uppercase">XP</span>
-                      <span className="text-xs sm:text-sm font-semibold text-amber-600 dark:text-amber-400 flex items-center justify-end gap-0.5">
-                        <Sparkles className="h-3 w-3" />
-                        {player.xp}
+                    <div>
+                      <span className="text-sm sm:text-base font-black text-cyan-300">
+                        {entry.xp}
                       </span>
+                      <span className="block text-[10px] text-violet-300 font-space">XP</span>
                     </div>
                   </div>
                 </div>

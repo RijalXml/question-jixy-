@@ -1,4 +1,6 @@
-export type SubjectId = 'ski' | 'bahasa_inggris' | 'bahasa_jawa';
+export type SubjectId = 'ipa' | 'fikih' | 'pkn';
+
+export type SpaceThemeMode = 'planet' | 'blackhole';
 
 export type UserRole = 'USER' | 'ADMIN';
 
@@ -90,13 +92,16 @@ export interface AdminStats {
   totalQuestions: number;
   totalQuizzesTaken: number;
   averageScore: number;
-  skiCount: number;
-  bahasaInggrisCount: number;
-  bahasaJawaCount: number;
+  ipaCount: number;
+  fikihCount: number;
+  pknCount: number;
+  skiCount?: number;
+  bahasaInggrisCount?: number;
+  bahasaJawaCount?: number;
   recentActivity: Array<{
     id: string;
     studentName: string;
-    subjectId: SubjectId | 'all';
+    subjectId: SubjectId | 'all' | string;
     score: number;
     completedAt: string;
   }>;

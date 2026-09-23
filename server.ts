@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 
 // Types
-export type SubjectId = 'ski' | 'bahasa_inggris' | 'bahasa_jawa';
+export type SubjectId = 'ipa' | 'fikih' | 'pkn';
 
 export interface Question {
   id: number;
@@ -34,7 +34,7 @@ export interface LeaderboardEntry {
   id: string;
   studentName: string;
   avatar: string;
-  subjectId: SubjectId | 'all';
+  subjectId: SubjectId | 'all' | string;
   score: number;
   quizzesCompleted: number;
   xp: number;
@@ -56,8 +56,8 @@ const activeAdminTokens = new Set<string>();
 
 // Default Config
 let appConfig: AppConfig = {
-  appName: 'EDUKASI LKS',
-  appDescription: 'Platform Pembelajaran Modern Berbasis LKS — SKI, Bahasa Inggris, dan Bahasa Jawa.',
+  appName: 'EDUKASI LKS KOSMIK',
+  appDescription: 'Platform Pembelajaran Modern Berbasis LKS Tema Luar Angkasa — IPA, Fikih, dan PKn.',
   timerMinutes: 30,
   allowReview: true,
 };
@@ -86,20 +86,25 @@ function saveStore() {
 
 // Helper to load store from file or seed from TypeScript files
 async function initStore() {
+  let needsSeed = false;
+
   if (fs.existsSync(DB_FILE)) {
     try {
       const raw = fs.readFileSync(DB_FILE, 'utf-8');
       const parsed = JSON.parse(raw);
       if (parsed.appConfig) appConfig = parsed.appConfig;
       if (parsed.questionsList && Array.isArray(parsed.questionsList) && parsed.questionsList.length > 0) {
-        // Only keep if it has the new subjects and is not all-zero answers
-        const hasValidSubjects = parsed.questionsList.some(
-          (q: any) => q.subjectId === 'ski' || q.subjectId === 'bahasa_inggris' || q.subjectId === 'bahasa_jawa'
+        // Check if it already contains the new subjects: ipa, fikih, pkn
+        const hasNewSubjects = parsed.questionsList.some(
+          (q: any) => q.subjectId === 'ipa' || q.subjectId === 'fikih' || q.subjectId === 'pkn'
         );
-        const isAllZeros = parsed.questionsList.length > 0 && parsed.questionsList.every((q: any) => q.correctAnswer === 0);
-        if (hasValidSubjects && !isAllZeros) {
+        if (hasNewSubjects) {
           questionsList = parsed.questionsList;
+        } else {
+          needsSeed = true;
         }
+      } else {
+        needsSeed = true;
       }
       if (parsed.leaderboardList && Array.isArray(parsed.leaderboardList)) {
         const mockNames = [
@@ -124,33 +129,35 @@ async function initStore() {
       }
     } catch (e) {
       console.error('Error reading db_store.json, will re-import:', e);
+      needsSeed = true;
     }
+  } else {
+    needsSeed = true;
   }
 
-  // If questionsList is empty, import from TS data files
-  if (questionsList.length === 0) {
+  // If questionsList needs seed or is empty, import from TS data files
+  if (needsSeed || questionsList.length === 0) {
     try {
-      const { questionsSki } = await import('./src/data/ski.js');
-      const { questionsBahasaInggris } = await import('./src/data/bahasaInggris.js');
-      const { questionsBahasaJawa } = await import('./src/data/bahasaJawa.js');
+      const { questionsIpa } = await import('./src/data/ipa.ts');
+      const { questionsFikih } = await import('./src/data/fikih.ts');
+      const { questionsPkn } = await import('./src/data/pkn.ts');
 
       questionsList = [
-        ...questionsSki,
-        ...questionsBahasaInggris,
-        ...questionsBahasaJawa,
+        ...questionsIpa,
+        ...questionsFikih,
+        ...questionsPkn,
       ];
       saveStore();
     } catch {
-      // Fallback relative to current working directory
       try {
-        const { questionsSki } = await import('./src/data/ski.ts');
-        const { questionsBahasaInggris } = await import('./src/data/bahasaInggris.ts');
-        const { questionsBahasaJawa } = await import('./src/data/bahasaJawa.ts');
+        const { questionsIpa } = await import('./src/data/ipa.js');
+        const { questionsFikih } = await import('./src/data/fikih.js');
+        const { questionsPkn } = await import('./src/data/pkn.js');
 
         questionsList = [
-          ...questionsSki,
-          ...questionsBahasaInggris,
-          ...questionsBahasaJawa,
+          ...questionsIpa,
+          ...questionsFikih,
+          ...questionsPkn,
         ];
         saveStore();
       } catch (err2) {
@@ -414,18 +421,18 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
         )
       : 85;
 
-  const skiCount = questionsList.filter((q) => q.subjectId === 'ski').length;
-  const bahasaInggrisCount = questionsList.filter((q) => q.subjectId === 'bahasa_inggris').length;
-  const bahasaJawaCount = questionsList.filter((q) => q.subjectId === 'bahasa_jawa').length;
+  const ipaCount = questionsList.filter((q) => q.subjectId === 'ipa').length;
+  const fikihCount = questionsList.filter((q) => q.subjectId === 'fikih').length;
+  const pknCount = questionsList.filter((q) => q.subjectId === 'pkn').length;
 
   res.json({
     totalUsers: distinctUsers || 6,
     totalQuestions: questionsList.length,
     totalQuizzesTaken: totalQuizzes || 23,
     averageScore,
-    skiCount,
-    bahasaInggrisCount,
-    bahasaJawaCount,
+    ipaCount,
+    fikihCount,
+    pknCount,
     recentActivity: quizResultsHistory.slice(0, 10),
   });
 });
@@ -470,8 +477,8 @@ app.post('/api/admin/questions', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Kunci jawaban benar (A, B, C, atau D) wajib ditentukan.' });
   }
 
-  if (!['ski', 'bahasa_inggris', 'bahasa_jawa'].includes(subjectId)) {
-    return res.status(400).json({ error: 'Mata pelajaran tidak valid.' });
+  if (!['ipa', 'fikih', 'pkn'].includes(subjectId)) {
+    return res.status(400).json({ error: 'Mata pelajaran tidak valid. Pilihan: ipa, fikih, pkn.' });
   }
 
   const nextId =

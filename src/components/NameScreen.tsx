@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Terminal, User, Sparkles, BookOpen, Clock } from 'lucide-react';
+import { ArrowRight, User, Sparkles, Rocket } from 'lucide-react';
 
 interface NameScreenProps {
   initialName?: string;
@@ -22,33 +22,33 @@ export const NameScreen: React.FC<NameScreenProps> = ({ initialName = '', onStar
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4 sm:p-6">
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4 sm:p-6 select-none relative z-10 font-sans">
       <div className="w-full max-w-md">
         {/* Main Card */}
-        <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/90 transition-all">
+        <div className="overflow-hidden rounded-3xl glass-panel border border-white/15 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all">
           {/* Header Badge */}
           <div className="mb-6 flex items-center justify-between">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-400">
-              <Terminal className="h-3.5 w-3.5 text-emerald-500" />
-              <span>kelas-7 :: semester-1</span>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-cyan-500/20 px-3 py-1 text-xs font-orbitron font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+              <Rocket className="h-3.5 w-3.5 text-cyan-400" />
+              <span>MISI SIMULASI KOSMIK</span>
             </div>
-            <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400">
-              Kurikulum Merdeka
+            <div className="text-[11px] font-orbitron font-bold text-violet-300">
+              LKS GENAP 2026
             </div>
           </div>
 
           {/* Titles */}
           <div className="space-y-1.5">
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-3xl font-mono">
-              PTS MASTER
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-orbitron">
+              EDU-QUIZ KOSMIK
             </h1>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300">
-              Latihan PTS Kelas 7
+            <p className="text-xs sm:text-sm text-cyan-300 font-space font-medium">
+              Simulasi Ujian Interaktif Bertema Luar Angkasa
             </p>
           </div>
 
-          <p className="mt-3 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Aplikasi latihan interaktif Penilaian Tengah Semester dengan evaluasi otomatis, penjelasan komprehensif, dan simulasi waktu nyata.
+          <p className="mt-3 text-xs leading-relaxed text-violet-200/80 font-space">
+            Jelajahi petualangan sains & pengetahuan pada mata pelajaran IPA, Fikih, dan PKn dengan evaluasi otomatis, penjelasan komprehensif, dan papan peringkat.
           </p>
 
           {/* Form */}
@@ -56,12 +56,12 @@ export const NameScreen: React.FC<NameScreenProps> = ({ initialName = '', onStar
             <div>
               <label
                 htmlFor="student-name-input"
-                className="block text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 font-mono mb-2"
+                className="block text-xs font-orbitron font-bold uppercase tracking-wider text-violet-200 mb-2"
               >
-                Identitas Siswa
+                Nama Penjelajah / Siswa
               </label>
               <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-600 dark:text-zinc-400">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-cyan-400">
                   <User className="h-4 w-4" />
                 </div>
                 <input
@@ -73,16 +73,16 @@ export const NameScreen: React.FC<NameScreenProps> = ({ initialName = '', onStar
                     setName(e.target.value);
                     if (error) setError('');
                   }}
-                  placeholder="Masukkan nama kamu"
-                  className={`block w-full rounded-xl border bg-zinc-50/50 py-3 pl-10 pr-4 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all focus:bg-white focus:outline-none focus:ring-2 dark:bg-zinc-950/60 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:bg-zinc-950 ${
+                  placeholder="Ketik nama kamu di sini..."
+                  className={`block w-full rounded-2xl glass-panel border bg-white/5 py-3 pl-10 pr-4 text-sm text-white placeholder:text-violet-400/50 transition-all focus:border-cyan-400 focus:outline-hidden font-space ${
                     error
-                      ? 'border-rose-300 focus:border-rose-400 focus:ring-rose-200 dark:border-rose-800 dark:focus:ring-rose-950'
-                      : 'border-zinc-200 focus:border-zinc-400 focus:ring-zinc-200 dark:border-zinc-800 dark:focus:border-zinc-700 dark:focus:ring-zinc-800'
+                      ? 'border-rose-400/80'
+                      : 'border-white/15'
                   }`}
                 />
               </div>
               {error && (
-                <p className="mt-2 text-xs font-medium text-rose-500 dark:text-rose-400">
+                <p className="mt-2 text-xs font-space font-medium text-rose-300">
                   {error}
                 </p>
               )}
@@ -91,24 +91,12 @@ export const NameScreen: React.FC<NameScreenProps> = ({ initialName = '', onStar
             <button
               id="start-btn"
               type="submit"
-              className="group relative flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 py-3 px-4 text-sm font-semibold text-white transition-all hover:bg-zinc-800 active:scale-[0.99] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm"
+              className="group relative flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 py-3.5 px-4 text-xs font-orbitron font-bold text-white shadow-[0_0_20px_rgba(139,92,246,0.6)] hover:from-violet-500 hover:to-cyan-400 active:scale-[0.98] transition-all"
             >
-              <span>Mulai</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <span>Mulai Petualangan</span>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-cyan-200" />
             </button>
           </form>
-
-          {/* Quick Info Badges */}
-          <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-zinc-800/80 grid grid-cols-2 gap-2 text-[11px] text-zinc-600 dark:text-zinc-400">
-            <div className="flex items-center gap-1.5">
-              <BookOpen className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
-              <span>30 Soal / Mapel</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
-              <span>Waktu 30 Menit</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

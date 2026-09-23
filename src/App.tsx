@@ -8,11 +8,13 @@ import {
   UserProfile,
   UserRole,
   AppConfig,
+  SpaceThemeMode,
 } from './types';
-import { questionsSki } from './data/ski';
-import { questionsBahasaInggris } from './data/bahasaInggris';
-import { questionsBahasaJawa } from './data/bahasaJawa';
+import { questionsIpa } from './data/ipa';
+import { questionsFikih } from './data/fikih';
+import { questionsPkn } from './data/pkn';
 
+import { SpaceBackground } from './components/SpaceBackground';
 import { Navbar } from './components/Navbar';
 import { HomeScreen } from './components/HomeScreen';
 import { SubjectScreen } from './components/SubjectScreen';
@@ -29,12 +31,9 @@ import { NameScreen } from './components/NameScreen';
 import {
   SketchScratchpadModal,
   SketchPencilDoodle,
-  SketchWashiTape
 } from './components/SketchElements';
 
 import {
-  getStoredTheme,
-  setStoredTheme,
   getStoredStudentName,
   setStoredStudentName,
   getStoredActiveExam,
@@ -52,27 +51,30 @@ import { apiGetQuestions, apiAdminVerify, apiSubmitQuiz } from './utils/api';
 
 export const getSubjectTitle = (subjectId: SubjectId): string => {
   switch (subjectId) {
-    case 'ski':
-      return 'Sejarah Kebudayaan Islam (SKI)';
-    case 'bahasa_inggris':
-      return 'Bahasa Inggris';
-    case 'bahasa_jawa':
-      return 'Bahasa Jawa';
+    case 'ipa':
+      return 'Ilmu Pengetahuan Alam (IPA)';
+    case 'fikih':
+      return 'Fikih Ibadah';
+    case 'pkn':
+      return 'Pendidikan Pancasila & Kewarganegaraan (PKn)';
     default:
-      return 'SKI';
+      return 'IPA';
   }
 };
 
 export default function App() {
-  // Theme state
-  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  // Space theme mode: 'planet' | 'blackhole'
+  const [spaceTheme, setSpaceTheme] = useState<SpaceThemeMode>(() => {
+    const saved = localStorage.getItem('space_theme_mode');
+    return (saved === 'blackhole' ? 'blackhole' : 'planet') as SpaceThemeMode;
+  });
 
   // Navigation screen
   const [currentScreen, setCurrentScreen] = useState<ScreenState>('home');
 
   // Selected Subject & Subchapter
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ski');
-  const [selectedSubchapterId, setSelectedSubchapterId] = useState<string>('ski-sub-a');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ipa');
+  const [selectedSubchapterId, setSelectedSubchapterId] = useState<string>('ipa-sub-1a');
 
   // User Profile & Role
   const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile());
@@ -80,7 +82,7 @@ export default function App() {
   const [adminToken, setAdminToken] = useState<string | null>(getStoredAdminToken());
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
-  // Scratchpad modal state (Unfinished sketches & notes)
+  // Scratchpad modal state
   const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
 
   // App Configuration
@@ -88,9 +90,9 @@ export default function App() {
 
   // Questions Map (cached by subject)
   const [questionsMap, setQuestionsMap] = useState<Record<SubjectId, Question[]>>({
-    ski: questionsSki,
-    bahasa_inggris: questionsBahasaInggris,
-    bahasa_jawa: questionsBahasaJawa,
+    ipa: questionsIpa,
+    fikih: questionsFikih,
+    pkn: questionsPkn,
   });
 
   // Active Quiz State
@@ -98,18 +100,19 @@ export default function App() {
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(1800);
 
+  // Toggle space theme mode
+  const handleToggleSpaceTheme = () => {
+    const nextMode: SpaceThemeMode = spaceTheme === 'planet' ? 'blackhole' : 'planet';
+    setSpaceTheme(nextMode);
+    localStorage.setItem('space_theme_mode', nextMode);
+  };
+
   // Initialize data on mount
   useEffect(() => {
-    // 1. Theme
-    const initialTheme = getStoredTheme();
-    setTheme(initialTheme);
-    if (initialTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // Force dark class for cosmic theme
+    document.documentElement.classList.add('dark');
 
-    // 2. Profile Sync
+    // 1. Profile Sync
     const profile = getStoredUserProfile();
     const legacyName = getStoredStudentName();
     if (legacyName && profile.name === 'Siswa') {
@@ -118,7 +121,7 @@ export default function App() {
     }
     setUserProfile(profile);
 
-    // 3. Admin Token verification
+    // 2. Admin Token verification
     const token = getStoredAdminToken();
     if (token) {
       apiAdminVerify(token)
@@ -135,7 +138,7 @@ export default function App() {
         .catch(() => {});
     }
 
-    // 4. Fetch dynamic questions from API if available
+    // 3. Fetch dynamic questions from API if available
     const fetchFreshQuestions = async (sub: SubjectId) => {
       try {
         const qList = await apiGetQuestions(sub);
@@ -143,15 +146,15 @@ export default function App() {
           setQuestionsMap((prev) => ({ ...prev, [sub]: qList }));
         }
       } catch (err) {
-        // Fallback to static data
+        // Fallback to static seed data
       }
     };
 
-    fetchFreshQuestions('ski');
-    fetchFreshQuestions('bahasa_inggris');
-    fetchFreshQuestions('bahasa_jawa');
+    fetchFreshQuestions('ipa');
+    fetchFreshQuestions('fikih');
+    fetchFreshQuestions('pkn');
 
-    // 5. Active Exam Resume Check
+    // 4. Active Exam Resume Check
     const activeExam = getStoredActiveExam();
     if (activeExam && !activeExam.isFinished) {
       setSelectedSubject(activeExam.subjectId);
@@ -171,18 +174,6 @@ export default function App() {
       setCurrentScreen('home');
     }
   }, []);
-
-  // Theme toggle handler
-  const handleToggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    setStoredTheme(nextTheme);
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   // Name Screen Submission
   const handleStartName = (name: string) => {
@@ -234,7 +225,6 @@ export default function App() {
     const initialTime = (appConfig.timerMinutes || 30) * 60;
     setTimeRemaining(initialTime);
 
-    // Save active state to storage
     const newExamState: ActiveExamState = {
       studentName: userProfile.name,
       subjectId,
@@ -352,7 +342,7 @@ export default function App() {
     // Save result to local storage
     setExamResult(calculatedResult);
     setStoredLastResult(calculatedResult);
-    setStoredActiveExam(null); // Clear active exam
+    setStoredActiveExam(null);
 
     // Sync with backend / local leaderboard safely
     try {
@@ -376,18 +366,15 @@ export default function App() {
     setCurrentScreen('loading');
   };
 
-  // Retry test
   const handleRetryExam = () => {
     handleStartQuiz(selectedSubject);
   };
 
-  // Return to Home
   const handleBackToHome = () => {
     setStoredActiveExam(null);
     setCurrentScreen('home');
   };
 
-  // Protected Admin Navigation check
   const handleNavigate = (screen: ScreenState) => {
     if (screen === 'admin' && userRole !== 'ADMIN') {
       setIsAdminModalOpen(true);
@@ -396,13 +383,11 @@ export default function App() {
     setCurrentScreen(screen);
   };
 
-  // Handler to open subject view directly
   const handleSelectSubject = (subjectId: SubjectId) => {
     setSelectedSubject(subjectId);
     setCurrentScreen('subject');
   };
 
-  // Handler to open subchapter reading detail view
   const handleSelectSubchapter = (subchapterId: string) => {
     setSelectedSubchapterId(subchapterId);
     setCurrentScreen('materi');
@@ -415,11 +400,13 @@ export default function App() {
   const activeExam = getStoredActiveExam();
   const activeExamSubjectId = (activeExam && !activeExam.isFinished) ? activeExam.subjectId : null;
 
-  // Full screen standalone views that don't need the standard header
   const isDedicatedExamView = currentScreen === 'quiz' || currentScreen === 'loading' || currentScreen === 'name';
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#090a0f] text-zinc-900 dark:text-zinc-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="relative min-h-screen text-white flex flex-col font-sans selection:bg-violet-600 selection:text-white overflow-x-hidden">
+      {/* Interactive Space Background (Stars, Nebula, Orbiting Planet or Black Hole) */}
+      <SpaceBackground mode={spaceTheme} />
+
       {/* 1. NAME SCREEN (ONBOARDING) */}
       {currentScreen === 'name' && (
         <NameScreen
@@ -451,8 +438,8 @@ export default function App() {
 
       {/* 4. CLASSIC FAMILIAR GUI LAYOUT WITH NAVIGATION BAR */}
       {!isDedicatedExamView && (
-        <div className="flex-1 flex flex-col min-h-screen">
-          {/* TOP NAVBAR (CLASSIC FAMILIAR GUI) */}
+        <div className="relative z-10 flex-1 flex flex-col min-h-screen">
+          {/* TOP NAVBAR (COSMIC GLASSMORPHISM) */}
           <Navbar
             currentScreen={currentScreen}
             onNavigate={handleNavigate}
@@ -460,8 +447,8 @@ export default function App() {
             userName={userProfile.name}
             userAvatar={userProfile.avatar}
             userXp={userProfile.xp}
-            theme={theme}
-            onToggleTheme={handleToggleTheme}
+            spaceTheme={spaceTheme}
+            onToggleSpaceTheme={handleToggleSpaceTheme}
             onOpenAdminLogin={() => setIsAdminModalOpen(true)}
             onAdminLogout={handleAdminLogout}
             onOpenScratchpad={() => setIsScratchpadOpen(true)}
@@ -560,28 +547,30 @@ export default function App() {
             )}
           </main>
 
-          {/* CLASSIC FOOTER */}
-          <footer className="mt-auto border-t border-zinc-200/80 bg-white/70 dark:border-zinc-800/80 dark:bg-zinc-950/70 py-6 text-center text-xs text-zinc-500 dark:text-zinc-400">
-            <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* COSMIC GLASSMORPHISM FOOTER */}
+          <footer className="mt-auto border-t border-white/10 glass-panel py-6 text-center text-xs text-violet-300">
+            <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-space">
               <div className="flex items-center gap-2">
-                <SketchWashiTape text="LKS GENAP 2026" color="zinc" />
-                <span className="font-mono text-[11px]">Quiz Edukasi Siswa</span>
+                <span className="inline-flex items-center gap-1 rounded-full border border-cyan-400/40 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-orbitron font-bold text-cyan-300">
+                  LKS GENAP 2026
+                </span>
+                <span className="text-[11px] text-violet-200">Quiz Edukasi Kosmik</span>
               </div>
-              <p className="text-[11px]">
-                Materi LKS: Sejarah Kebudayaan Islam • Bahasa Inggris • Bahasa Jawa
+              <p className="text-[11px] text-violet-300/80">
+                Mata Pelajaran: 🔭 IPA (Sains & Tata Surya) • 🕌 Fikih Ibadah • 🦅 PKn (Pancasila)
               </p>
               <div className="flex items-center gap-3 text-[11px]">
                 <button
                   onClick={() => setIsScratchpadOpen(true)}
-                  className="hover:text-amber-600 transition-colors flex items-center gap-1 font-mono"
+                  className="hover:text-cyan-300 transition-colors flex items-center gap-1 font-mono text-amber-300"
                 >
                   <SketchPencilDoodle className="w-3.5 h-3.5" />
                   <span>Kertas Coretan</span>
                 </button>
-                <span>•</span>
+                <span className="text-white/20">•</span>
                 <button
                   onClick={() => handleNavigate('leaderboard')}
-                  className="hover:text-indigo-600 transition-colors"
+                  className="hover:text-cyan-300 transition-colors text-amber-300 font-semibold"
                 >
                   Papan Juara 100
                 </button>
@@ -589,16 +578,16 @@ export default function App() {
             </div>
           </footer>
 
-          {/* FLOATING SKETCH DRAFT BUTTON (CORNER LAUNCHER) */}
+          {/* FLOATING SCRATCHPAD BUTTON */}
           <button
             id="btn-floating-scratchpad"
             onClick={() => setIsScratchpadOpen(true)}
-            className="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-mono text-xs font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all border border-amber-300 dark:border-amber-600"
-            title="Buka Kertas Coretan & Sketsa Pensil"
+            className="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-orbitron text-xs font-bold shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_25px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 transition-all border border-amber-300"
+            title="Buka Kertas Coretan & Sketsa"
           >
             <SketchPencilDoodle className="w-4 h-4" />
-            <span className="hidden sm:inline">Kertas Coretan & Sketsa</span>
-            <span className="sm:hidden">Sketsa</span>
+            <span className="hidden sm:inline">Kertas Coretan</span>
+            <span className="sm:hidden">Coretan</span>
           </button>
         </div>
       )}
