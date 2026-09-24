@@ -5,6 +5,7 @@
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-heading: 'Orbitron', 'Space Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
   }
 
   body {
@@ -97,4 +98,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.6);
+}
+
+/* Arabic Typography Enhancements for Harakat Clarity */
+.font-arabic, [lang="ar"] {
+  font-family: var(--font-arabic), serif;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
 }

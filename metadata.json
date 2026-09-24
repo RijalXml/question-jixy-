@@ -1,6 +1,6 @@
 {
   "name": "QUIZ EDUKASI",
-  "description": "Platform pembelajaran modern, minimalis, dan futuristik berbasis LKS dengan tema luar angkasa & glassmorphism untuk IPA, Fikih, dan PKn.",
+  "description": "Platform pembelajaran modern berbasis LKS dengan tema luar angkasa & glassmorphism untuk Bahasa Arab Kelas 7 SMP/MTs.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

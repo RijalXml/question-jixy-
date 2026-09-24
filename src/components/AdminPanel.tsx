@@ -58,15 +58,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     totalQuestions: 0,
     totalQuizzesTaken: 0,
     averageScore: 0,
-    ipaCount: 0,
-    fikihCount: 0,
-    pknCount: 0,
+    taarufCount: 0,
+    adawatCount: 0,
+    usrahCount: 0,
     recentActivity: [],
   });
 
   // Bank Soal State
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ipa');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('taaruf');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -79,7 +79,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [isResetLeaderboardModalOpen, setIsResetLeaderboardModalOpen] = useState(false);
 
   // Form State for Add / Edit
-  const [formSubjectId, setFormSubjectId] = useState<SubjectId>('ipa');
+  const [formSubjectId, setFormSubjectId] = useState<SubjectId>('taaruf');
   const [formQuestion, setFormQuestion] = useState('');
   const [formOptionA, setFormOptionA] = useState('');
   const [formOptionB, setFormOptionB] = useState('');
@@ -297,7 +297,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </span>
             </div>
             <p className="text-xs text-emerald-200/80 font-space mt-0.5">
-              Kelola 3 bank soal (IPA, Fikih, PKn), pantau analitik siswa, dan atur parameter kuis kosmik.
+              Kelola 3 bank soal Bahasa Arab Kelas 7 (At-Ta'aruf, Al-Adawat, Al-Usrah), pantau analitik siswa, dan atur parameter kuis.
             </p>
           </div>
         </div>
@@ -454,12 +454,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-3xl glass-panel border border-cyan-400/30 p-5 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-3xl">🔭</span>
+                <span className="text-3xl">🤝</span>
                 <div>
                   <h3 className="text-sm font-bold text-white font-orbitron">
-                    IPA (Sains & Astronomi)
+                    At-Ta'aruf & Fasilitas
                   </h3>
-                  <span className="text-xs text-cyan-300 font-space">{stats.ipaCount} Soal Aktif</span>
+                  <span className="text-xs text-cyan-300 font-space">{stats.taarufCount || 15} Soal Aktif</span>
                 </div>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10 mt-4">
@@ -469,12 +469,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             <div className="rounded-3xl glass-panel border border-emerald-400/30 p-5 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-3xl">🕌</span>
+                <span className="text-3xl">🎒</span>
                 <div>
                   <h3 className="text-sm font-bold text-white font-orbitron">
-                    Fikih Ibadah
+                    Al-Adawat & Al-'Unwan
                   </h3>
-                  <span className="text-xs text-emerald-300 font-space">{stats.fikihCount} Soal Aktif</span>
+                  <span className="text-xs text-emerald-300 font-space">{stats.adawatCount || 15} Soal Aktif</span>
                 </div>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10 mt-4">
@@ -484,12 +484,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             <div className="rounded-3xl glass-panel border border-amber-400/30 p-5 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-3xl">🦅</span>
+                <span className="text-3xl">🏡</span>
                 <div>
                   <h3 className="text-sm font-bold text-white font-orbitron">
-                    PKn (Pancasila & Norma)
+                    Al-Bait & Al-Usrah
                   </h3>
-                  <span className="text-xs text-amber-300 font-space">{stats.pknCount} Soal Aktif</span>
+                  <span className="text-xs text-amber-300 font-space">{stats.usrahCount || 15} Soal Aktif</span>
                 </div>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10 mt-4">
@@ -569,41 +569,41 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setSelectedSubject('ipa')}
+                onClick={() => setSelectedSubject('taaruf')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-orbitron font-bold transition-all ${
-                  selectedSubject === 'ipa'
+                  selectedSubject === 'taaruf'
                     ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
                     : 'glass-panel border border-white/10 text-violet-300 hover:text-white'
                 }`}
               >
-                <span>🔭</span>
-                <span>IPA</span>
+                <span>🤝</span>
+                <span>At-Ta'aruf</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setSelectedSubject('fikih')}
+                onClick={() => setSelectedSubject('adawat')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-orbitron font-bold transition-all ${
-                  selectedSubject === 'fikih'
+                  selectedSubject === 'adawat'
                     ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/60 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
                     : 'glass-panel border border-white/10 text-violet-300 hover:text-white'
                 }`}
               >
-                <span>🕌</span>
-                <span>Fikih</span>
+                <span>🎒</span>
+                <span>Al-Adawat</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setSelectedSubject('pkn')}
+                onClick={() => setSelectedSubject('usrah')}
                 className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-orbitron font-bold transition-all ${
-                  selectedSubject === 'pkn'
+                  selectedSubject === 'usrah'
                     ? 'bg-amber-500/30 text-amber-200 border border-amber-400/60 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
                     : 'glass-panel border border-white/10 text-violet-300 hover:text-white'
                 }`}
               >
-                <span>🦅</span>
-                <span>PKn</span>
+                <span>🏡</span>
+                <span>Al-Usrah</span>
               </button>
             </div>
 
@@ -829,9 +829,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     onChange={(e) => setFormSubjectId(e.target.value as SubjectId)}
                     className="w-full rounded-xl glass-panel border border-white/15 bg-zinc-900 px-3 py-2 text-xs text-white"
                   >
-                    <option value="ipa">🔭 IPA (Sains & Astronomi)</option>
-                    <option value="fikih">🕌 Fikih Ibadah</option>
-                    <option value="pkn">🦅 PKn (Pancasila & Norma)</option>
+                    <option value="taaruf">🤝 Paket 1: At-Ta'aruf & Fasilitas</option>
+                    <option value="adawat">🎒 Paket 2: Al-Adawat & Al-'Unwan</option>
+                    <option value="usrah">🏡 Paket 3: Al-Bait & Al-Usrah</option>
                   </select>
                 </div>
 

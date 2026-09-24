@@ -24,8 +24,8 @@ export const SubjectScreen: React.FC<SubjectScreenProps> = ({
   onNavigate,
   onOpenScratchpad,
 }) => {
-  const currentSubjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['ipa'];
-  const subjectKeys: SubjectId[] = ['ipa', 'fikih', 'pkn'];
+  const currentSubjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['taaruf'];
+  const subjectKeys: SubjectId[] = ['taaruf', 'adawat', 'usrah'];
 
   return (
     <div className="space-y-6 pb-12 select-none relative z-10 font-sans">
@@ -46,7 +46,7 @@ export const SubjectScreen: React.FC<SubjectScreenProps> = ({
               }`}
             >
               <span className="text-base">{info.icon}</span>
-              <span>{info.title}</span>
+              <span>{info.name}</span>
               <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-space ${
                 isActive ? 'bg-white/20 text-white' : 'bg-transparent text-violet-400'
               }`}>
@@ -71,13 +71,13 @@ export const SubjectScreen: React.FC<SubjectScreenProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-orbitron font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
-                LKS KOSMIK 2026
+                BAHASA ARAB KELAS 7
               </span>
-              <span className="text-xs text-violet-300 font-space">Semester Genap</span>
+              <span className="text-xs text-violet-300 font-space">Kurikulum Merdeka / MTs</span>
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-orbitron">
-                {currentSubjectInfo.title}
+                {currentSubjectInfo.tagline}
               </h2>
               <div className="h-1 w-28 bg-gradient-to-r from-cyan-400 to-transparent rounded-full mt-1.5" />
             </div>
@@ -105,7 +105,7 @@ export const SubjectScreen: React.FC<SubjectScreenProps> = ({
             className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 text-white text-xs font-orbitron font-bold shadow-[0_0_20px_rgba(139,92,246,0.6)] active:scale-95 transition-all"
           >
             <Award className="w-4 h-4 text-cyan-300" />
-            <span>Mulai Evaluasi (30 Soal)</span>
+            <span>Mulai Quiz Bahasa Arab</span>
           </button>
         </div>
       </div>

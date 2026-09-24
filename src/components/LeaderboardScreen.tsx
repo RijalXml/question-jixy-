@@ -57,14 +57,17 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
   const getSubjectBadge = (subId: SubjectId | 'all') => {
     switch (subId) {
+      case 'taaruf':
       case 'ipa':
-        return { label: 'IPA (Tata Surya & Sains)', icon: '🔭' };
+        return { label: 'At-Ta\'aruf & Fasilitas', icon: '🤝' };
+      case 'adawat':
       case 'fikih':
-        return { label: 'Fikih Ibadah', icon: '🕌' };
+        return { label: 'Al-Adawat & Al-\'Unwan', icon: '🎒' };
+      case 'usrah':
       case 'pkn':
-        return { label: 'Pendidikan Pancasila (PKn)', icon: '🦅' };
+        return { label: 'Al-Bait & Al-Usrah', icon: '🏡' };
       default:
-        return { label: 'Semua Mapel', icon: '🌟' };
+        return { label: 'Semua Paket B. Arab', icon: '🌟' };
     }
   };
 
@@ -72,7 +75,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     if (subjectFilter !== 'all') {
       onStartQuiz(subjectFilter);
     } else {
-      onStartQuiz('ipa');
+      onStartQuiz('taaruf');
     }
   };
 
@@ -151,41 +154,41 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('ipa')}
+            onClick={() => setSubjectFilter('taaruf')}
             className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'ipa'
+              subjectFilter === 'taaruf'
                 ? 'bg-cyan-500/30 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.5)] border border-cyan-400/60'
                 : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🔭</span>
-            <span>IPA</span>
+            <span>🤝</span>
+            <span>At-Ta'aruf</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('fikih')}
+            onClick={() => setSubjectFilter('adawat')}
             className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'fikih'
+              subjectFilter === 'adawat'
                 ? 'bg-emerald-500/30 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.5)] border border-emerald-400/60'
                 : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🕌</span>
-            <span>Fikih</span>
+            <span>🎒</span>
+            <span>Al-Adawat</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('pkn')}
+            onClick={() => setSubjectFilter('usrah')}
             className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'pkn'
+              subjectFilter === 'usrah'
                 ? 'bg-amber-500/30 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.5)] border border-amber-400/60'
                 : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🦅</span>
-            <span>PKn</span>
+            <span>🏡</span>
+            <span>Al-Usrah</span>
           </button>
         </div>
 

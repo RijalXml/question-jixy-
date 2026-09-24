@@ -439,39 +439,39 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </div>
       </div>
 
-      {/* Subject Completion Badges (IPA, Fikih, PKn) */}
+      {/* Subject Completion Badges (Bahasa Arab Kelas 7) */}
       <div className="mb-8 rounded-3xl glass-panel border border-white/15 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
         <h2 className="text-sm font-bold text-white mb-4 flex items-center gap-2 font-orbitron">
           <Award className="h-4 w-4 text-amber-400" />
-          <span>Status Ketuntasan Mata Pelajaran LKS</span>
+          <span>Status Ketuntasan Paket Bahasa Arab Kelas 7</span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* IPA */}
+          {/* Ta'aruf */}
           <div
             className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('ipa')
+              completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa')
                 ? 'border-cyan-400/50 bg-cyan-950/30'
                 : 'border-white/10 glass-panel'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🔭</span>
+              <span className="text-2xl">🤝</span>
               <div>
                 <span className="block text-xs font-bold text-white font-orbitron">
-                  IPA
+                  At-Ta'aruf
                 </span>
                 <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('ipa') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('ipa') ? (
+            {completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? (
               <CheckCircle2 className="h-5 w-5 text-cyan-300 shadow-[0_0_8px_rgba(6,182,212,0.6)]" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('ipa')}
+                onClick={() => onStartQuiz('taaruf')}
                 className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-[11px] font-orbitron font-bold text-white shadow-xs"
               >
                 Mulai
@@ -479,31 +479,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             )}
           </div>
 
-          {/* Fikih */}
+          {/* Adawat */}
           <div
             className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('fikih')
+              completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih')
                 ? 'border-emerald-400/50 bg-emerald-950/30'
                 : 'border-white/10 glass-panel'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🕌</span>
+              <span className="text-2xl">🎒</span>
               <div>
                 <span className="block text-xs font-bold text-white font-orbitron">
-                  Fikih
+                  Al-Adawat
                 </span>
                 <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('fikih') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('fikih') ? (
+            {completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? (
               <CheckCircle2 className="h-5 w-5 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('fikih')}
+                onClick={() => onStartQuiz('adawat')}
                 className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-1 text-[11px] font-orbitron font-bold text-white shadow-xs"
               >
                 Mulai
@@ -511,31 +511,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             )}
           </div>
 
-          {/* PKn */}
+          {/* Usrah */}
           <div
             className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('pkn')
+              completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn')
                 ? 'border-amber-400/50 bg-amber-950/30'
                 : 'border-white/10 glass-panel'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🦅</span>
+              <span className="text-2xl">🏡</span>
               <div>
                 <span className="block text-xs font-bold text-white font-orbitron">
-                  PKn
+                  Al-Usrah
                 </span>
                 <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('pkn') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('pkn') ? (
+            {completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn') ? (
               <CheckCircle2 className="h-5 w-5 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('pkn')}
+                onClick={() => onStartQuiz('usrah')}
                 className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1 text-[11px] font-orbitron font-bold text-black shadow-xs"
               >
                 Mulai

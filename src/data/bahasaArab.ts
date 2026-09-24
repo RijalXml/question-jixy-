@@ -1,0 +1,717 @@
+import { Question } from '../types';
+
+/**
+ * BANK SOAL BAHASA ARAB KELAS 7 (MTS / SMP)
+ * Sesuai Kurikulum Kemenag (KMA 183) & Kurikulum Merdeka
+ * Dilengkapi harakat lengkap, indikator kompetensi, terjemah, dan pembahasan kaidah (qawa'id).
+ */
+
+// =========================================================================
+// PAKET 1: التَّعَارُفُ وَالْمَرَافِقُ الْمَدْرَسِيَّة (At-Ta'aruf & Fasilitas Madrasah)
+// Bab 1: Perkenalan, Kata Sapaan, Isim Dhomir & Isim Isyarah
+// Bab 2: Fasilitas Sekolah, Kata Tanya, Dhorof Makan & Huruf Jar
+// =========================================================================
+export const questionsTaaruf: Question[] = [
+  {
+    id: 1,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan respon kata sapaan selamat pagi (صَبَاحُ الخَيْرِ)',
+    topic: 'At-Ta\'aruf (Perkenalan)',
+    question: 'فَارُوْق يَقُوْلُ: "صَبَاحَ الخَيْرِ يَا عَمَّارُ!"، جَوَابُ عَمَّار هُوَ...',
+    passage: 'فَارُوْق: صَبَاحَ الخَيْرِ يَا عَمَّارُ!\nعَمَّار: ... يَا أَخِيْ!',
+    options: [
+      'صَبَاحَ النُّوْرِ (Sabahan nuur)',
+      'مَسَاءَ الخَيْرِ (Masa-al khair)',
+      'أَهْلًا بِكَ (Ahlan bika)',
+      'مَعَ السَّلَامَةِ (Ma\'as salaamah)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Ucapan sapaan selamat pagi dalam bahasa Arab adalah "صَبَاحَ الخَيْرِ" (Shobaahal khoir), dan jawaban atau respon yang tepat adalah "صَبَاحَ النُّوْرِ" (Shobaahan nuur).'
+  },
+  {
+    id: 2,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan isim dhomir munfashil yang sesuai dengan subjek perempuan',
+    topic: 'Qawa\'id (Dhomir Munfashil)',
+    question: 'هٰذِهِ عَائِشَةُ، ... طَالِبَةٌ جَدِيْدَةٌ فِي المَدْرَسَةِ.',
+    options: [
+      'هُوَ (Dia laki-laki)',
+      'هِيَ (Dia perempuan)',
+      'أَنْتَ (Kamu laki-laki)',
+      'أَنَا (Saya)'
+    ],
+    correctAnswer: 1,
+    explanation: 'Nama "عَائِشَةُ" (Aisyah) dan kata "طَالِبَةٌ" (siswi) merupakan mu\'annats (perempuan), sehingga kata ganti orang ketiga tunggal perempuan yang tepat adalah "هِيَ" (Hiya).'
+  },
+  {
+    id: 3,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan kata tanya yang tepat untuk menanyakan asal daerah',
+    topic: 'At-Ta\'aruf & Istifham',
+    question: '... أَنْتَ؟ جَوَابُهُ: "أَنَا مِنْ مَدِيْنَةِ سُوْرَابَايَا".',
+    options: [
+      'مَا (Apa)',
+      'مَنْ (Siapa)',
+      'مِنْ أَيْنَ (Dari mana)',
+      'كَيْفَ (Bagaimana)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Jawaban "أَنَا مِنْ مَدِيْنَةِ سُوْرَابَايَا" (Saya dari kota Surabaya) menyatakan asal tempat, sehingga kata tanya yang digunakan adalah "مِنْ أَيْنَ" (Min aina = Dari mana).'
+  },
+  {
+    id: 4,
+    subjectId: 'taaruf',
+    indicator: 'Menerapkan isim isyarah mudzakkar (هٰذَا) sesuai kaidah jenis kata',
+    topic: 'Qawa\'id (Isim Isyarah)',
+    question: 'الْجُمْلَةُ الصَّحِيْحَةُ مِمَّا يَلِي هِيَ...',
+    options: [
+      'هٰذِهِ فَصْلٌ وَاسِعٌ',
+      'هٰذَا فَصْلٌ وَاسِعٌ',
+      'هٰذَا مَدْرَسَةٌ كَبِيْرَةٌ',
+      'هٰذِهِ مَسْجِدٌ نَظِيْفٌ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Kata "فَصْلٌ" (kelas) adalah isim mudzakkar (tidak berakhiran ta\' marbuthah), maka isim isyarah yang tepat adalah "هٰذَا". Pilihan yang benar adalah "هٰذَا فَصْلٌ وَاسِعٌ" (Ini kelas yang luas).'
+  },
+  {
+    id: 5,
+    subjectId: 'taaruf',
+    indicator: 'Mengidentifikasi kosakata fasilitas madrasah (perpustakaan)',
+    topic: 'Al-Marafiq Al-Madrasiyyah',
+    question: 'مَكَانٌ فِي المَدْرَسَةِ فِيْهِ كُتُبٌ كَثِيْرَةٌ لِلْقِرَاءَةِ وَالِاسْتِعَارَةِ هُوَ...',
+    options: [
+      'المَقْصَفُ (Kantin)',
+      'المَلْعَبُ (Lapangan)',
+      'المَكْتَبَةُ (Perpustakaan)',
+      'المُخْتَبَرُ (Laboratorium)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Tempat di sekolah yang menyimpan banyak buku untuk dibaca dan dipinjam adalah perpustakaan, yaitu "المَكْتَبَةُ" (Al-Maktabah).'
+  },
+  {
+    id: 6,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan dhorof makan / huruf jar yang tepat dalam kalimat',
+    topic: 'Tarkib (Dhorof Makan)',
+    question: 'المَيْدَانُ الكَبِيْرُ يَقَعُ ... المَدْرَسَةِ.',
+    passage: 'اُنْظُرْ! هٰذَا مَيْدَانُ المَدْرَسَةِ. المَيْدَانُ وَاسِعٌ أَمَامَ المَبْنَى الرَّئِيْسِيِّ.',
+    options: [
+      'أَمَامَ (Di depan)',
+      'تَحْتَ (Di bawah)',
+      'فَوْقَ (Di atas melayang)',
+      'عَلَى (Menempel di atas)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Berdasarkan konteks dan kelayakan tata ruang sekolah, lapangan upacara/olahraga berada di depan gedung sekolah, yaitu "أَمَامَ" (Amaama = Di depan).'
+  },
+  {
+    id: 7,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan jawaban ungkapan terima kasih (شُكْرًا)',
+    topic: 'At-Ta\'aruf (Ungkapan Sosial)',
+    question: 'إِذَا قَالَ لَكَ صَدِيْقُكَ: "شُكْرًا كَثِيْرًا"، فَمَاذَا تَقُوْلُ لَهُ؟',
+    options: [
+      'إِلَى اللِّقَاءِ (Sampai jumpa)',
+      'عَفْوًا (Sama-sama)',
+      'أَهْلًا وَسَهْلًا (Selamat datang)',
+      'مَعَ السَّلَامَةِ (Semoga selamat)'
+    ],
+    correctAnswer: 1,
+    explanation: 'Jika seseorang mengucapkan "شُكْرًا" (Terima kasih), maka balasan yang tepat dan santun dalam bahasa Arab adalah "عَفْوًا" (\'Afwan = Sama-sama / Kembali).'
+  },
+  {
+    id: 8,
+    subjectId: 'taaruf',
+    indicator: 'Menganalisis penggunaan isim isyarah lil-ba\'id mu\'annats (تِلْكَ)',
+    topic: 'Qawa\'id (Isim Isyarah Jauh)',
+    question: '... إِدَارَةُ المَدْرَسَةِ، وَهِيَ بَعِيْدَةٌ عَنِ البَوَّابَةِ.',
+    options: [
+      'ذٰلِكَ',
+      'هٰذَا',
+      'تِلْكَ',
+      'هُوَ'
+    ],
+    correctAnswer: 2,
+    explanation: 'Kata "إِدَارَةٌ" (kantor) adalah isim mu\'annats (berakhiran ta\' marbuthah ة) dan posisinya jauh (ba\'id), sehingga isim isyarah jauh mu\'annats yang tepat adalah "تِلْكَ" (Itu perempuan).'
+  },
+  {
+    id: 9,
+    subjectId: 'taaruf',
+    indicator: 'Menerjemahkan kalimat perkenalan profesi ke dalam bahasa Arab',
+    topic: 'Mufrodat & At-Ta\'aruf',
+    question: 'Terjemahan bahasa Arab yang benar untuk kalimat: "Dia (laki-laki) seorang guru yang rajin" adalah...',
+    options: [
+      'هِيَ مُدَرِّسَةٌ نَشِيْطَةٌ',
+      'هُوَ مُدَرِّسٌ نَشِيْطٌ',
+      'أَنْتَ طَالِبٌ نَشِيْطٌ',
+      'أَنَا مُدَرِّسٌ كَبِيْرٌ'
+    ],
+    correctAnswer: 1,
+    explanation: '"Dia (laki-laki)" = هُوَ, "seorang guru (laki-laki)" = مُدَرِّسٌ, "rajin" = نَشِيْطٌ. Jadi kalimat yang tepat adalah "هُوَ مُدَرِّسٌ نَشِيْطٌ".'
+  },
+  {
+    id: 10,
+    subjectId: 'taaruf',
+    indicator: 'Memahami teks dialog perkenalan (Hiwar Ta\'aruf)',
+    topic: 'Hiwar At-Ta\'aruf',
+    question: 'حَسَن: "هَلْ أَنْتَ مِنْ جَاكَرْتَا يَا أَحْمَد؟" - أَحْمَد: "لَا، ... مِنْ بَانْدُوْنغ".',
+    options: [
+      'هُوَ',
+      'هِيَ',
+      'أَنَا',
+      'نَحْنُ'
+    ],
+    correctAnswer: 2,
+    explanation: 'Pertanyaan diarahkan kepada Ahmad menggunakan "أَنْتَ" (kamu lk), maka Ahmad menjawab mewakili dirinya sendiri dengan isim dhomir mutakallim tunggal yaitu "أَنَا" (Saya).'
+  },
+  {
+    id: 11,
+    subjectId: 'taaruf',
+    indicator: 'Mengidentifikasi arti mufrodat fasilitas sekolah (مَقْصَفٌ)',
+    topic: 'Al-Marafiq Al-Madrasiyyah',
+    question: 'يَشْتَرِي الطُّلَّابُ المَأْكُوْلَاتِ وَالمَشْرُوْبَاتِ فِي وَقْتِ الرَّاحَةِ فِي...',
+    options: [
+      'المَقْصَفِ (Al-Maqshaf)',
+      'المُصَلَّى (Al-Mushalla)',
+      'الفَصْلِ (Al-Fashl)',
+      'المَكْتَبِ (Al-Maktab)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Siswa membeli makanan ringan dan minuman pada jam istirahat di kantin sekolah, yaitu "المَقْصَفُ" (Al-Maqshaf).'
+  },
+  {
+    id: 12,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan kata tanya yang tepat untuk menanyakan kabar',
+    topic: 'At-Ta\'aruf & Istifham',
+    question: 'عَلِي: "... حَالُكَ يَا حُسَيْن؟" - حُسَيْن: "بِخَيْرٍ وَالحَمْدُ لِلَّهِ".',
+    options: [
+      'مَاذَا',
+      'كَيْفَ',
+      'كَمْ',
+      'أَيْنَ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Kata tanya untuk menanyakan keadaan atau kabar kesehatan seseorang adalah "كَيْفَ" (Kaifa), seperti dalam kalimat "كَيْفَ حَالُكَ؟" (Bagaimana kabarmu?).'
+  },
+  {
+    id: 13,
+    subjectId: 'taaruf',
+    indicator: 'Mengidentifikasi perbedaan mudzakkar dan mu\'annats pada sifat fasilitas',
+    topic: 'Qawa\'id (Na\'at Man\'ut)',
+    question: 'المَسْجِدُ ... ، وَالمَكْتَبَةُ ... . التَّكْمِلَةُ المُنَاسِبَةُ هِيَ...',
+    options: [
+      'نَظِيْفٌ - نَظِيْفَةٌ',
+      'نَظِيْفَةٌ - نَظِيْفٌ',
+      'كَبِيْرَةٌ - كَبِيْرٌ',
+      'صَغِيْرَةٌ - صَغِيْرَةٌ'
+    ],
+    correctAnswer: 0,
+    explanation: '"المَسْجِدُ" adalah mudzakkar maka sifatnya harus mudzakkar ("نَظِيْفٌ"), sedangkan "المَكْتَبَةُ" adalah mu\'annats maka sifatnya harus mu\'annats berakhiran ta\' marbuthah ("نَظِيْفَةٌ").'
+  },
+  {
+    id: 14,
+    subjectId: 'taaruf',
+    indicator: 'Menentukan arti kata perpisahan (مَعَ السَّلَامَةِ)',
+    topic: 'At-Ta\'aruf (Ungkapan Perpisahan)',
+    question: 'مَعْنَى عِبَارَةِ "مَعَ السَّلَامَةِ" فِي اللُّغَةِ الإِنْدُوْنِيْسِيَّةِ هُوَ...',
+    options: [
+      'Selamat datang',
+      'Selamat jalan / Semoga selamat',
+      'Selamat malam',
+      'Permisi'
+    ],
+    correctAnswer: 1,
+    explanation: 'Ungkapan "مَعَ السَّلَامَةِ" (Ma\'as salaamah) diucapkan saat berpisah yang berarti "Selamat jalan / Semoga dalam keselamatan", dan biasanya dijawab dengan "إِلَى اللِّقَاءِ" (Ilal liqaa\').'
+  },
+  {
+    id: 15,
+    subjectId: 'taaruf',
+    indicator: 'Menyusun urutan kata menjadi kalimat acak yang berkaidah',
+    topic: 'Tarkib & Jumlah Mufidah',
+    question: 'رَتِّبْ هٰذِهِ الكَلِمَاتِ لِتَكُوْنَ جُمْلَةً مُفِيْدَةً: [طَالِبٌ - أَنَا - فِي - مَدْرَسَةٍ - جَدِيْدٌ]',
+    options: [
+      'أَنَا طَالِبٌ جَدِيْدٌ فِي المَدْرَسَةِ',
+      'طَالِبٌ أَنَا جَدِيْدٌ فِي المَدْرَسَةِ',
+      'فِي المَدْرَسَةِ جَدِيْدٌ أَنَا طَالِبٌ',
+      'جَدِيْدٌ طَالِبٌ فِي المَدْرَسَةِ أَنَا'
+    ],
+    correctAnswer: 0,
+    explanation: 'Susunan kalimat berstruktur mubtada\' dan khabar yang paling tepat adalah "أَنَا طَالِبٌ جَدِيْدٌ فِي المَدْرَسَةِ" (Saya siswa baru di sekolah).'
+  }
+];
+
+// =========================================================================
+// PAKET 2: الأَدَوَاتُ الْمَدْرَسِيَّةُ وَالأَلْوَانُ وَالعُنْوَان
+// Bab 3: Peralatan Belajar, Tas, Buku, Pensil & Warna-Warna
+// Bab 4: Alamat (العنوان), Nama Jalan, Nomor Rumah/Telepon & Angka 1-100
+// =========================================================================
+export const questionsAdawat: Question[] = [
+  {
+    id: 16,
+    subjectId: 'adawat',
+    indicator: 'Mengidentifikasi kosakata peralatan sekolah (buku tulis)',
+    topic: 'Al-Adawat Al-Madrasiyyah',
+    question: 'أَكْتُبُ الدُّرُوْسَ بِالقَلَمِ عَلَى...',
+    options: [
+      'المِمْحَاةِ (Penghapus)',
+      'الدَّفْتَرِ (Buku tulis)',
+      'المِسْطَرَةِ (Penggaris)',
+      'المِبْرَاةِ (Rautan)'
+    ],
+    correctAnswer: 1,
+    explanation: 'Kita menulis pelajaran menggunakan pena di atas buku tulis, yaitu "الدَّفْتَرُ" (Ad-Daftar). Sedangkan "المِمْحَاةُ" adalah penghapus dan "المِسْطَرَةُ" adalah penggaris.'
+  },
+  {
+    id: 17,
+    subjectId: 'adawat',
+    indicator: 'Menerapkan kata sifat warna mudzakkar untuk benda mudzakkar',
+    topic: 'Al-Alwan (Warna)',
+    question: 'هٰذَا كِتَابٌ ... ، وَهٰذِهِ حَقِيْبَةٌ ... . الأَلْوَانُ الصَّحِيْحَةُ هِيَ...',
+    options: [
+      'أَحْمَرُ - حَمْرَاءُ',
+      'حَمْرَاءُ - أَحْمَرُ',
+      'سَوْدَاءُ - أَسْوَدُ',
+      'بَيْضَاءُ - أَبْيَضُ'
+    ],
+    correctAnswer: 0,
+    explanation: 'Warna untuk benda mudzakkar (كِتَابٌ) menggunakan pola "أَفْعَلُ" (أَحْمَرُ), sedangkan untuk benda mu\'annats (حَقِيْبَةٌ) menggunakan pola "فَعْلَاءُ" (حَمْرَاءُ).'
+  },
+  {
+    id: 18,
+    subjectId: 'adawat',
+    indicator: 'Menentukan kata tanya untuk menanyakan alamat',
+    topic: 'Al-\'Unwan (Alamat)',
+    question: 'إِذَا أَرَدْتَ أَنْ تَسْأَلَ صَدِيْقَكَ عَنْ مَكَانِ بَيْتِهِ، تَقُوْلُ: "... عُنْوَانُكَ؟"',
+    options: [
+      'مَنْ',
+      'مَا',
+      'كَمْ',
+      'كَيْفَ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Untuk menanyakan alamat benda bukan orang (ghoiru \'aqil), kata tanya yang digunakan adalah "مَا" (Maa), menjadi "مَا عُنْوَانُكَ؟" (Apa alamatmu?).'
+  },
+  {
+    id: 19,
+    subjectId: 'adawat',
+    indicator: 'Mengidentifikasi angka bahasa Arab (1 sampai 10)',
+    topic: 'Al-Arqam (Angka 1-10)',
+    question: 'رَقْمُ بَيْتِي ( ٧ ) فِي شَارِعِ أَحْمَد يَانِي. الكَلِمَةُ لِلرَّقْمِ ( ٧ ) هِيَ...',
+    options: [
+      'خَمْسَةٌ (5)',
+      'سِتَّةٌ (6)',
+      'سَبْعَةٌ (7)',
+      'ثَمَانِيَةٌ (8)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Angka Arab ( ٧ ) dalam bahasa Arab adalah "سَبْعَةٌ" (Sab\'ah = tujuh).'
+  },
+  {
+    id: 20,
+    subjectId: 'adawat',
+    indicator: 'Mengidentifikasi kosakata tas sekolah dalam bahasa Arab',
+    topic: 'Al-Adawat Al-Madrasiyyah',
+    question: 'أَضَعُ الكُتُبَ وَالأَقْلَامَ وَالمِسْطَرَةَ فِي...',
+    options: [
+      'الحَقِيْبَةِ (Tas)',
+      'السَّبُّوْرَةِ (Papan tulis)',
+      'المَقْعَدِ (Bangku)',
+      'البَابِ (Pintu)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Buku-buku, pena, dan penggaris diletakkan dan dibawa di dalam tas sekolah, yaitu "الحَقِيْبَةُ" (Al-Haqiibah).'
+  },
+  {
+    id: 21,
+    subjectId: 'adawat',
+    indicator: 'Menerapkan kosakata warna putih dan hitam',
+    topic: 'Al-Alwan (Warna)',
+    question: 'السَّبُّوْرَةُ لَوْنُهَا ... ، وَالحِبْرُ لَوْنُهُ ... .',
+    options: [
+      'أَبْيَضُ - أَسْوَدُ',
+      'أَبْيَضُ - حَمْرَاءُ',
+      'أَسْوَدُ - أَبْيَضُ',
+      'خَضْرَاءُ - أَزْرَقُ'
+    ],
+    correctAnswer: 0,
+    explanation: 'Papan tulis (whiteboard) berwarna putih (أَبْيَضُ), dan tinta spidol hitam (أَسْوَدُ). Kata benda لَوْن (warna) adalah mudzakkar sehingga sifat warnanya adalah mudzakkar.'
+  },
+  {
+    id: 22,
+    subjectId: 'adawat',
+    indicator: 'Memahami teks bacaan kartu identitas pelajar (Bithaqah Syakhshiyyah)',
+    topic: 'Al-\'Unwan & Qira\'ah',
+    question: 'عُنْوَانُ عَزَّام فِي شَارِعِ بَاتُوبَارَا رَقْمُ ٩. رَقْمُ ٩ هُوَ...',
+    passage: 'بِطَاقَةُ شَخْصِيَّة:\nالِاسْمُ: عَزَّام أَحْمَد\nالمِهْنَةُ: طَالِبٌ فِي المَدْرَسَةِ المُتَوَسِّطَةِ الإِسْلَامِيَّةِ ١\nالعُنْوَانُ: شَارِعُ بَاتُوبَارَا رَقْمُ ٩ مَالَانْج',
+    options: [
+      'تِسْعَةٌ',
+      'ثَلَاثَةٌ',
+      'أَرْبَعَةٌ',
+      'عَشَرَةٌ'
+    ],
+    correctAnswer: 0,
+    explanation: 'Angka ٩ adalah angka sembilan, yang dalam bahasa Arab disebut "تِسْعَةٌ" (Tis\'ah).'
+  },
+  {
+    id: 23,
+    subjectId: 'adawat',
+    indicator: 'Menentukan kata tanya untuk menanyakan nomor telepon',
+    topic: 'Al-\'Unwan & Istifham',
+    question: '... رَقْمُ هَاتِفِكَ يَا لُقْمَان؟ - رَقْمُ هَاتِفِي: ٠٨١٢٣٤٥٦٧٨',
+    options: [
+      'مَا',
+      'كَمْ',
+      'مَنْ',
+      'هَلْ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Untuk menanyakan nomor atau jumlah, kata tanya yang lazim dipakai adalah "كَمْ" (Kam), seperti "كَمْ رَقْمُ هَاتِفِكَ؟" (Berapa nomor teleponmu?). Bisa juga menggunakan "مَا". Dari pilihan yang ada, "كَمْ" adalah yang paling tepat.'
+  },
+  {
+    id: 24,
+    subjectId: 'adawat',
+    indicator: 'Mengidentifikasi peralatan menghapus tulisan di papan tulis',
+    topic: 'Al-Adawat Al-Madrasiyyah',
+    question: 'يَمْسَحُ المُعَلِّمُ الكِتَابَةَ عَلَى السَّبُّوْرَةِ بِـ...',
+    options: [
+      'الطَّلَّاسَةِ (Penghapus papan tulis)',
+      'المِسْطَرَةِ (Penggaris)',
+      'المِبْرَاةِ (Rautan)',
+      'القَلَمِ (Pena)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Guru menghapus tulisan di papan tulis menggunakan penghapus papan, yaitu "الطَّلَّاسَةُ" (Ath-Thallaasah) atau "المِمْسَحَةُ".'
+  },
+  {
+    id: 25,
+    subjectId: 'adawat',
+    indicator: 'Mengidentifikasi kosakata warna hijau (daun/tumbuhan)',
+    topic: 'Al-Alwan (Warna)',
+    question: 'أَوْرَاقُ الأَشْجَارِ فِي الحَدِيْقَةِ لَوْنُهَا...',
+    options: [
+      'أَصْفَرُ (Kuning)',
+      'أَزْرَقُ (Biru)',
+      'أَخْضَرُ (Hijau)',
+      'أَحْمَرُ (Merah)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Daun pepohonan di kebun secara umum berwarna hijau, yaitu "أَخْضَرُ" (Akhdhar) untuk mudzakkar atau "خَضْرَاءُ" untuk mu\'annats.'
+  },
+  {
+    id: 26,
+    subjectId: 'adawat',
+    indicator: 'Menerjemahkan kata jalan dalam bahasa Arab',
+    topic: 'Al-\'Unwan (Alamat)',
+    question: 'كَلِمَةُ "شَارِعٌ" فِي اللُّغَةِ الإِنْدُوْنِيْسِيَّةِ تَعْنِي...',
+    options: [
+      'Rumah',
+      'Jalan',
+      'Desa',
+      'Kota'
+    ],
+    correctAnswer: 1,
+    explanation: 'Kata "شَارِعٌ" (Syaari\') artinya adalah "Jalan". Rumah adalah "بَيْتٌ", desa adalah "قَرْيَةٌ", dan kota adalah "مَدِيْنَةٌ".'
+  },
+  {
+    id: 27,
+    subjectId: 'adawat',
+    indicator: 'Menghitung hasil penjumlahan sederhana dalam angka Arab',
+    topic: 'Al-Arqam (Berhitung)',
+    question: 'خَمْسَةٌ ( ٥ ) زَائِد (+) أَرْبَعَةٌ ( ٤ ) يُسَاوِي (=)...',
+    options: [
+      'سَبْعَةٌ ( ٧ )',
+      'ثَمَانِيَةٌ ( ٨ )',
+      'تِسْعَةٌ ( ٩ )',
+      'عَشَرَةٌ ( ١٠ )'
+    ],
+    correctAnswer: 2,
+    explanation: '5 + 4 = 9. Dalam bahasa Arab, 5 adalah "خَمْسَةٌ", 4 adalah "أَرْبَعَةٌ", dan 9 adalah "تِسْعَةٌ" ( ٩ ).'
+  },
+  {
+    id: 28,
+    subjectId: 'adawat',
+    indicator: 'Menentukan arti mufrodat penggaris (مِسْطَرَةٌ)',
+    topic: 'Al-Adawat Al-Madrasiyyah',
+    question: 'أَسْتَعْمِلُ هٰذِهِ الأَدَاةَ لِرَسْمِ الخُطُوْطِ المُسْتَقِيْمَةِ، هِيَ...',
+    options: [
+      'المِسْطَرَةُ (Penggaris)',
+      'المِبْرَاةُ (Rautan)',
+      'المِحْفَظَةُ (Dompet/Tas)',
+      'المِقَصُّ (Gunting)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Alat yang digunakan untuk menarik garis lurus saat belajar adalah penggaris, yaitu "المِسْطَرَةُ" (Al-Mistharah).'
+  },
+  {
+    id: 29,
+    subjectId: 'adawat',
+    indicator: 'Menentukan kata benda yang disifati (Man\'ut) sesuai kaidah jenis kata',
+    topic: 'Qawa\'id (Na\'at Man\'ut)',
+    question: 'هٰذِهِ ... جَدِيْدَةٌ وَجَمِيْلَةٌ.',
+    options: [
+      'قَلَمٌ',
+      'كِتَابٌ',
+      'حَقِيْبَةٌ',
+      'دَفْتَرٌ'
+    ],
+    correctAnswer: 2,
+    explanation: 'Sifat kata menggunakan "جَدِيْدَةٌ" (mu\'annats) dan isim isyarah "هٰذِهِ" (mu\'annats). Dari pilihan yang ada, hanya "حَقِيْبَةٌ" (tas) yang merupakan isim mu\'annats berakhiran ta\' marbuthah.'
+  },
+  {
+    id: 30,
+    subjectId: 'adawat',
+    indicator: 'Menyebutkan angka belasan (١١ - ٢٠) dalam bahasa Arab',
+    topic: 'Al-Arqam (Belasan)',
+    question: 'كَلِمَةُ "خَمْسَةَ عَشَرَ" تَدُلُّ عَلَى العَدَدِ...',
+    options: [
+      '12 (Itsna \'asyar)',
+      '14 (Arba\'ata \'asyar)',
+      '15 (Khamsata \'asyar)',
+      '16 (Sittata \'asyar)'
+    ],
+    correctAnswer: 2,
+    explanation: '"خَمْسَةَ عَشَرَ" (Khamsata \'asyar) adalah bilangan lima belas (15).'
+  }
+];
+
+// =========================================================================
+// PAKET 3: البَيْتُ وَالْأُسْرَةُ وَالْيَوْمِيَّات
+// Bab 5: Anggota Keluarga (Usrah), Ruangan di Rumah (Bait) & Kepemilikan (Dhomir Muttashil)
+// Bab 6: Aktivitas Sehari-hari (Al-A'mal Al-Yaumiyyah) & Fi'il Mudhari' Sederhana
+// =========================================================================
+export const questionsUsrah: Question[] = [
+  {
+    id: 31,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi sebutan anggota keluarga (kakek)',
+    topic: 'Al-Usrah (Keluarga)',
+    question: 'أَبُو أَبِي أَوْ أَبُو أُمِّي يُسَمَّى فِي اللُّغَةِ العَرَبِيَّةِ...',
+    options: [
+      'عَمًّا (Paman)',
+      'جَدًّا (Kakek)',
+      'خَالًا (Paman dari ibu)',
+      'أَخًا (Saudara)'
+    ],
+    correctAnswer: 1,
+    explanation: 'Ayah dari ayah atau ayah dari ibu disebut kakek, yang dalam bahasa Arab adalah "جَدٌّ" (Jaddun).'
+  },
+  {
+    id: 32,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi nama ruangan rumah (ruang tamu)',
+    topic: 'Al-Bait (Rumah)',
+    question: 'نَسْتَقْبِلُ الضُّيُوْفَ فِي بَيْتِنَا فِي...',
+    options: [
+      'غُرْفَةِ النَّوْمِ (Kamar tidur)',
+      'المَطْبَخِ (Dapur)',
+      'غُرْفَةِ الجُلُوْسِ (Ruang tamu)',
+      'الحَمَّامِ (Kamar mandi)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Kita menerima tamu yang berkunjung ke rumah di ruang tamu, yaitu "غُرْفَةُ الجُلُوْسِ" (Ghurfatul juluus) atau "غُرْفَةُ الضُّيُوْفِ".'
+  },
+  {
+    id: 33,
+    subjectId: 'usrah',
+    indicator: 'Menerapkan dhomir muttashil lil-mutakallim (ـِي) kepemilikan',
+    topic: 'Qawa\'id (Dhomir Muttashil)',
+    question: 'أَنَا أَعِيْشُ مَعَ أُسْرَتِي فِي ... الوَاسِعِ.',
+    options: [
+      'بَيْتُكَ (Rumahmu lk)',
+      'بَيْتُهُ (Rumahnya lk)',
+      'بَيْتِي (Rumahku)',
+      'بَيْتُهَا (Rumahnya pr)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Karena subjeknya adalah "أَنَا" (saya), maka kata ganti kepemilikan yang bersambung dengan kata benda adalah "ي" (yaa mutakallim), menjadi "بَيْتِي" (rumahku).'
+  },
+  {
+    id: 34,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi nama ruangan tempat memasak (dapur)',
+    topic: 'Al-Bait (Rumah)',
+    question: 'تَطْبُخُ الأُمُّ الطَّعَامَ اللَّذِيْذَ فِي...',
+    options: [
+      'المَطْبَخِ (Dapur)',
+      'غُرْفَةِ المُذَاكَرَةِ (Ruang belajar)',
+      'غُرْفَةِ الأَكْلِ (Ruang makan)',
+      'الشُّرْفَةِ (Balkon)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Ibu memasak makanan lezat untuk keluarga di dapur, yaitu "المَطْبَخُ" (Al-Mathbakh).'
+  },
+  {
+    id: 35,
+    subjectId: 'usrah',
+    indicator: 'Menyesuaikan fi\'il mudhari\' dengan dhomir orang pertama tunggal (أَنَا)',
+    topic: 'Qawa\'id (Tashrif Fi\'il Mudhari\')',
+    question: 'أَنَا ... القُرْآنَ الكَرِيْمَ بَعْدَ صَلَاةِ الصُّبْحِ.',
+    options: [
+      'يَقْرَأُ (Dia lk membaca)',
+      'تَقْرَأُ (Kamu lk membaca)',
+      'أَقْرَأُ (Saya membaca)',
+      'نَقْرَأُ (Kami membaca)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Fi\'il mudhari\' untuk dhomir "أَنَا" diawali dengan huruf hamzah (أَ), sehingga kata yang tepat adalah "أَقْرَأُ" (Aqra-u = saya membaca).'
+  },
+  {
+    id: 36,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi aktivitas bangun tidur dalam bahasa Arab',
+    topic: 'Al-Yaumiyyat (Aktivitas Sehari-hari)',
+    question: 'عُمَر ... مِنَ النَّوْمِ فِي السَّاعَةِ الرَّابِعَةِ صَبَاحًا.',
+    options: [
+      'يَسْتَيْقِظُ (Bangun)',
+      'يَنَامُ (Tidur)',
+      'يَرْجِعُ (Pulang)',
+      'يَكْتُبُ (Menulis)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Aktivitas pada pukul empat pagi sebelum shalat Subuh adalah bangun dari tidur, yaitu "يَسْتَيْقِظُ" (Yastaiqidzu).'
+  },
+  {
+    id: 37,
+    subjectId: 'usrah',
+    indicator: 'Menerapkan kaidah khabar muqaddam dan mubtada\' mu\'akhkhar',
+    topic: 'Qawa\'id (Tarkib)',
+    question: 'فِي غُرْفَةِ الجُلُوْسِ ... مُرِيْحٌ.',
+    options: [
+      'مَكْتَبٌ',
+      'كُرْسِيٌّ',
+      'سَرِيْرٌ',
+      'طَبَّاخٌ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Di ruang tamu terdapat kursi santai yang nyaman untuk duduk bersama tamu, yaitu "كُرْسِيٌّ" (Kursiyyun).'
+  },
+  {
+    id: 38,
+    subjectId: 'usrah',
+    indicator: 'Menyesuaikan fi\'il mudhari\' dengan subjek perempuan (هِيَ / الأُمّ)',
+    topic: 'Qawa\'id (Fi\'il Mudhari\' Mu\'annats)',
+    question: 'فَاطِمَةُ ... أُمَّهَا فِي إِعْدَادِ الفُطُوْرِ.',
+    options: [
+      'يُسَاعِدُ',
+      'تُسَاعِدُ',
+      'أُسَاعِدُ',
+      'نُسَاعِدُ'
+    ],
+    correctAnswer: 1,
+    explanation: 'Subjek "فَاطِمَةُ" adalah mu\'annats ghaibah (kata ganti هِيَ), maka fi\'il mudhari\' diawali dengan huruf ta\' (تُـ), menjadi "تُسَاعِدُ" (Tusaa\'idu = membantu).'
+  },
+  {
+    id: 39,
+    subjectId: 'usrah',
+    indicator: 'Memahami teks aktivitas sehari-hari keluarga',
+    topic: 'Fahmul Maqru\' (Pemahaman Teks)',
+    question: 'مَتَى يَذْهَبُ إِبْرَاهِيْمُ إِلَى المَدْرَسَةِ؟',
+    passage: 'اِسْمِي إِبْرَاهِيْمُ. أَسْتَيْقِظُ فِي السَّاعَةِ الرَّابِعَةِ، ثُمَّ أَتَوَضَّأُ وَأُصَلِّي الصُّبْحَ جَمَاعَةً. أَتَنَاوَلُ الفُطُوْرَ مَعَ أُسْرَتِي فِي السَّاعَةِ السَّادِسَةِ، ثُمَّ أَذْهَبُ إِلَى المَدْرَسَةِ فِي السَّاعَةِ السَّادِسَةِ وَالنِّصْفِ مَاشِيًا عَلَى الأَقْدَامِ.',
+    options: [
+      'فِي السَّاعَةِ الرَّابِعَةِ (Pukul 04.00)',
+      'فِي السَّاعَةِ السَّادِسَةِ (Pukul 06.00)',
+      'فِي السَّاعَةِ السَّادِسَةِ وَالنِّصْفِ (Pukul 06.30)',
+      'فِي السَّاعَةِ السَّابِعَةِ (Pukul 07.00)'
+    ],
+    correctAnswer: 2,
+    explanation: 'Berdasarkan teks: "ثُمَّ أَذْهَبُ إِلَى المَدْرَسَةِ فِي السَّاعَةِ السَّادِسَةِ وَالنِّصْفِ" (Kemudian saya berangkat ke sekolah pada pukul 06.30).'
+  },
+  {
+    id: 40,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi arti mufrodat saudara perempuan (أُخْتٌ)',
+    topic: 'Al-Usrah (Keluarga)',
+    question: 'كَلِمَةُ "أُخْتٌ كَبِيْرَةٌ" تَعْنِي فِي اللُّغَةِ الإِنْدُوْنِيْسِيَّةِ...',
+    options: [
+      'Adik laki-laki',
+      'Kakak perempuan',
+      'Bibi',
+      'Nenek'
+    ],
+    correctAnswer: 1,
+    explanation: '"أُخْتٌ" artinya saudara perempuan, dan "كَبِيْرَةٌ" artinya besar/tua (kakak). Jadi "أُخْتٌ كَبِيْرَةٌ" bermakna "Kakak perempuan".'
+  },
+  {
+    id: 41,
+    subjectId: 'usrah',
+    indicator: 'Menentukan fi\'il mudhari\' untuk aktivitas sarapan pagi',
+    topic: 'Al-Yaumiyyat (Sarapan)',
+    question: 'نَحْنُ ... الفُطُوْرَ فِي غُرْفَةِ الأَكْلِ كُلَّ صَبَاحٍ.',
+    options: [
+      'أَتَنَاوَلُ',
+      'يَتَنَاوَلُ',
+      'نَتَنَاوَلُ',
+      'تَتَنَاوَلُ'
+    ],
+    correctAnswer: 2,
+    explanation: 'Dhomir "نَحْنُ" (kami/kita) memerlukan fi\'il mudhari\' yang diawali huruf nun (نَـ), yaitu "نَتَنَاوَلُ" (Natanawalu al-futhuur = kami menyantap sarapan pagi).'
+  },
+  {
+    id: 42,
+    subjectId: 'usrah',
+    indicator: 'Mengidentifikasi benda yang berada di kamar tidur (ranjang/tempat tidur)',
+    topic: 'Al-Bait (Rumah)',
+    question: 'فِي غُرْفَةِ النَّوْمِ نَجِدُ ... لِلِاسْتِرَاحَةِ.',
+    options: [
+      'السَّرِيْرَ (Tempat tidur)',
+      'الفُرْنَ (Kompor/Oven)',
+      'السَّيَّارَةَ (Mobil)',
+      'المَقْصَفَ (Kantin)'
+    ],
+    correctAnswer: 0,
+    explanation: 'Di dalam kamar tidur (غُرْفَةُ النَّوْمِ) terdapat tempat tidur untuk beristirahat, yaitu "السَّرِيْرُ" (As-Sariir).'
+  },
+  {
+    id: 43,
+    subjectId: 'usrah',
+    indicator: 'Menerapkan dhomir muttashil lil-mukhatab (ـكَ) pada kata benda',
+    topic: 'Qawa\'id (Dhomir Kepemilikan)',
+    question: 'يَا خَالِد! هَلْ هٰذَا وَالِدُ...؟ - نَعَمْ، هٰذَا وَالِدِي.',
+    options: [
+      'كَ',
+      'كِ',
+      'هُ',
+      'هَا'
+    ],
+    correctAnswer: 0,
+    explanation: 'Khalid adalah laki-laki yang diajak bicara (mukhatab mudzakkar tunggal), maka dhomir muttashil yang digunakan adalah dhomir fathah "كَ" (ka), menjadi "وَالِدُكَ" (ayahmu).'
+  },
+  {
+    id: 44,
+    subjectId: 'usrah',
+    indicator: 'Menentukan arti aktivitas mengulang pelajaran (المُذَاكَرَة)',
+    topic: 'Al-Yaumiyyat',
+    question: 'يَجْلِسُ الطَّالِبُ فِي غُرْفَةِ المُذَاكَرَةِ لِـ...',
+    options: [
+      'يَنَامَ (Tidur)',
+      'يُذَاكِرَ الدُّرُوْسَ (Mengulang pelajaran)',
+      'يَأْكُلَ الرُّزَّ (Makan nasi)',
+      'يَسْتَحِمَّ (Mandi)'
+    ],
+    correctAnswer: 1,
+    explanation: 'Siswa duduk di ruang belajar (غُرْفَةُ المُذَاكَرَةِ) untuk mengulang dan mendalami pelajaran, yaitu "يُذَاكِرُ الدُّرُوْسَ" (Yudzakiru ad-duruus).'
+  },
+  {
+    id: 45,
+    subjectId: 'usrah',
+    indicator: 'Menyusun kalimat aktivitas harian dengan benar',
+    topic: 'Tarkib & Insya\' Muwajjah',
+    question: 'رَتِّبْ الكَلِمَاتِ التَّالِيَةَ: [إِلَى - يَرْجِعُ - فِي - البَيْتِ - أَحْمَد - المَسَاءِ]',
+    options: [
+      'يَرْجِعُ أَحْمَد إِلَى البَيْتِ فِي المَسَاءِ',
+      'فِي المَسَاءِ البَيْتِ يَرْجِعُ إِلَى أَحْمَد',
+      'أَحْمَد فِي المَسَاءِ إِلَى يَرْجِعُ البَيْتِ',
+      'إِلَى البَيْتِ يَرْجِعُ المَسَاءِ فِي أَحْمَد'
+    ],
+    correctAnswer: 0,
+    explanation: 'Susunan kalimat jumlah fi\'liyyah yang paling benar dan fasih adalah: "يَرْجِعُ أَحْمَد إِلَى البَيْتِ فِي المَسَاءِ" (Ahmad pulang ke rumah pada sore hari).'
+  }
+];
+
+// Gabungan semua bank soal Bahasa Arab Kelas 7
+export const allQuestionsBahasaArab: Question[] = [
+  ...questionsTaaruf,
+  ...questionsAdawat,
+  ...questionsUsrah
+];

@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 
 // Types
-export type SubjectId = 'ipa' | 'fikih' | 'pkn';
+export type SubjectId = 'taaruf' | 'adawat' | 'usrah' | 'ipa' | 'fikih' | 'pkn';
 
 export interface Question {
   id: number;
@@ -94,11 +94,11 @@ async function initStore() {
       const parsed = JSON.parse(raw);
       if (parsed.appConfig) appConfig = parsed.appConfig;
       if (parsed.questionsList && Array.isArray(parsed.questionsList) && parsed.questionsList.length > 0) {
-        // Check if it already contains the new subjects: ipa, fikih, pkn
-        const hasNewSubjects = parsed.questionsList.some(
-          (q: any) => q.subjectId === 'ipa' || q.subjectId === 'fikih' || q.subjectId === 'pkn'
+        // Check if it already contains the Bahasa Arab subjects: taaruf, adawat, usrah
+        const hasBahasaArab = parsed.questionsList.some(
+          (q: any) => q.subjectId === 'taaruf' || q.subjectId === 'adawat' || q.subjectId === 'usrah'
         );
-        if (hasNewSubjects) {
+        if (hasBahasaArab) {
           questionsList = parsed.questionsList;
         } else {
           needsSeed = true;
@@ -135,33 +135,19 @@ async function initStore() {
     needsSeed = true;
   }
 
-  // If questionsList needs seed or is empty, import from TS data files
+  // If questionsList needs seed or is empty, import from Bahasa Arab data file
   if (needsSeed || questionsList.length === 0) {
     try {
-      const { questionsIpa } = await import('./src/data/ipa.ts');
-      const { questionsFikih } = await import('./src/data/fikih.ts');
-      const { questionsPkn } = await import('./src/data/pkn.ts');
-
-      questionsList = [
-        ...questionsIpa,
-        ...questionsFikih,
-        ...questionsPkn,
-      ];
+      const { allQuestionsBahasaArab } = await import('./src/data/bahasaArab.ts');
+      questionsList = [...allQuestionsBahasaArab];
       saveStore();
     } catch {
       try {
-        const { questionsIpa } = await import('./src/data/ipa.js');
-        const { questionsFikih } = await import('./src/data/fikih.js');
-        const { questionsPkn } = await import('./src/data/pkn.js');
-
-        questionsList = [
-          ...questionsIpa,
-          ...questionsFikih,
-          ...questionsPkn,
-        ];
+        const { allQuestionsBahasaArab } = await import('./src/data/bahasaArab.js');
+        questionsList = [...allQuestionsBahasaArab];
         saveStore();
       } catch (err2) {
-        console.error('Failed to load initial questions:', err2);
+        console.error('Failed to load initial Bahasa Arab questions:', err2);
       }
     }
   }
@@ -421,6 +407,9 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
         )
       : 85;
 
+  const taarufCount = questionsList.filter((q) => q.subjectId === 'taaruf').length;
+  const adawatCount = questionsList.filter((q) => q.subjectId === 'adawat').length;
+  const usrahCount = questionsList.filter((q) => q.subjectId === 'usrah').length;
   const ipaCount = questionsList.filter((q) => q.subjectId === 'ipa').length;
   const fikihCount = questionsList.filter((q) => q.subjectId === 'fikih').length;
   const pknCount = questionsList.filter((q) => q.subjectId === 'pkn').length;
@@ -430,6 +419,9 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
     totalQuestions: questionsList.length,
     totalQuizzesTaken: totalQuizzes || 23,
     averageScore,
+    taarufCount,
+    adawatCount,
+    usrahCount,
     ipaCount,
     fikihCount,
     pknCount,

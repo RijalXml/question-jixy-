@@ -30,6 +30,10 @@ interface QuizScreenProps {
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
+const hasArabic = (text?: string): boolean => {
+  return !!text && /[\u0600-\u06FF]/.test(text);
+};
+
 export const QuizScreen: React.FC<QuizScreenProps> = ({
   studentName,
   subjectId,
@@ -253,14 +257,22 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
             <div className="mb-1 text-[10px] font-orbitron uppercase tracking-wider text-cyan-300 font-semibold">
               Kutipan Teks / Bacaan:
             </div>
-            <p className="whitespace-pre-line text-xs sm:text-sm leading-relaxed text-violet-100 font-space">
+            <p className={`whitespace-pre-line text-violet-100 ${
+              hasArabic(currentQuestion.passage)
+                ? 'font-arabic text-sm sm:text-base leading-loose'
+                : 'text-xs sm:text-sm leading-relaxed font-space'
+            }`}>
               {currentQuestion.passage}
             </p>
           </div>
         )}
 
         {/* Question Text */}
-        <div className="text-base sm:text-lg font-semibold leading-relaxed text-white font-space">
+        <div className={`font-semibold text-white ${
+          hasArabic(currentQuestion.question)
+            ? 'font-arabic text-lg sm:text-2xl leading-loose'
+            : 'text-base sm:text-lg leading-relaxed font-space'
+        }`}>
           {currentQuestion.question}
         </div>
 
@@ -273,6 +285,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
               feedbackState &&
               feedbackState.questionId === currentQuestion.id &&
               feedbackState.optionIndex === optIdx;
+            const containsArabic = hasArabic(optionText);
 
             return (
               <button
@@ -298,7 +311,11 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
                 </div>
 
                 {/* Option Text */}
-                <span className="flex-1 text-xs sm:text-sm leading-relaxed font-space font-normal">
+                <span className={`flex-1 font-normal ${
+                  containsArabic
+                    ? 'font-arabic text-sm sm:text-base leading-loose text-white'
+                    : 'text-xs sm:text-sm leading-relaxed font-space text-violet-100'
+                }`}>
                   {optionText}
                 </span>
 

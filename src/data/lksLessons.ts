@@ -1,735 +1,492 @@
-import { LKSSubjectInfo, SubjectId } from '../types';
+import { LKSSubjectInfo, SubjectId, LKSSubchapter } from '../types';
 
 export const LKS_SUBJECTS_DATA: LKSSubjectInfo[] = [
   {
-    id: 'ipa',
-    name: 'IPA',
-    codeName: 'Ilmu Pengetahuan Alam',
-    curriculum: 'Kurikulum Merdeka / SMP-MTs',
-    icon: '🔭',
-    tagline: 'Eksplorasi Kosmik Tata Surya, Materi & Energi Masa Depan',
+    id: 'taaruf',
+    name: 'B. Arab: Ta\'aruf',
+    codeName: 'Bahasa Arab Kelas 7 - Unit 1',
+    curriculum: 'Kurikulum Merdeka / Kemenag KMA 183',
+    icon: '🤝',
+    tagline: 'التَّعَارُفُ وَالْمَرَافِقُ الْمَدْرَسِيَّة — Perkenalan & Lingkungan Madrasah',
     description:
-      'Menjelajahi keajaiban tata surya, dinamika orbit planet dan gerhana, sifat partikel zat, pencegahan pemanasan global, hingga revolusi energi terbarukan.',
-    progressPercent: 65,
-    totalMaterials: 11,
+      'Mempelajari tata cara sapaan santun (Tahiyyat), ungkapan perkenalan identitas diri, kata ganti dhomir munfashil, isim isyarah, serta kosakata fasilitas madrasah lengkap dengan dhorof makan.',
+    progressPercent: 75,
+    totalMaterials: 6,
     chapters: [
       {
-        id: 'ipa-bab-1',
+        id: 'taaruf-bab-1',
         chapterNumber: 'BAB I',
-        title: 'Tata Surya & Fenomena Astronomi',
-        description: 'Mempelajari susunan planet tata surya, rotasi dan revolusi bumi, fase bulan, serta mekanisme gerhana matahari dan bulan.',
+        title: 'التَّعَارُفُ (Perkenalan Diri & Kata Sapaan)',
+        description: 'Mengenal salam pembuka perjumpaan, cara memperkenalkan diri, profesi, serta penggunaan kata ganti dhomir dan kata tunjuk.',
         subchapters: [
           {
-            id: 'ipa-sub-1a',
+            id: 'taaruf-sub-1a',
             code: 'A',
-            title: 'Susunan Planet dalam Tata Surya',
+            title: 'التحيات والتعارف (Ungkapan Sapaan & Salam Perkenalan)',
             page: 'Halaman 4',
-            readTime: '6 menit',
+            readTime: '5 menit',
             summary:
-              'Tata surya kita terdiri dari Matahari sebagai pusat orbit serta delapan planet utama yang terbagi menjadi Planet Terestrial/Dalam (Merkurius, Venus, Bumi, Mars) dan Planet Jovian/Luar (Jupiter, Saturnus, Uranus, Neptunus) yang dipisahkan oleh Sabuk Asteroid.',
+              'Dalam percakapan bahasa Arab, terdapat tata krama sapaan resmi dan santun yang memiliki pasangan jawaban khusus, seperti sapaan pagi, sore, ucapan selamat datang, terima kasih, dan perpisahan.',
             keyPoints: [
-              'Planet Dalam (Terestrial): Berbatu dan padat, berukuran relatif lebih kecil, terletak dekat matahari (Merkurius, Venus, Bumi, Mars).',
-              'Planet Luar (Jovian/Gas Raksasa): Tersusun dominan atas gas hidrogen dan helium berukuran raksasa, memiliki banyak cincin dan satelit (Jupiter, Saturnus, Uranus, Neptunus).',
-              'Sabuk Asteroid: Kumpulan jutaan batuan antariksa yang mengorbit matahari di antara jalur Mars dan Jupiter.',
-              'Karakteristik Khas: Venus dijuluki Bintang Fajar/Kejora dengan atmosfer tebal efek rumah kaca ekstrem; Jupiter adalah planet terbesar dengan bintik merah raksasa; Saturnus memiliki cincin spektakuler dari partikel es.'
+              'Selamat Pagi: صَبَاحَ الخَيْرِ (Shabaahal khoir) dijawab dengan صَبَاحَ النُّوْرِ (Shabaahan nuur).',
+              'Selamat Sore/Malam: مَسَاءَ الخَيْرِ (Masaa-al khoir) dijawab dengan مَسَاءَ النُّوْرِ (Masaa-an nuur).',
+              'Selamat Datang: أَهْلًا وَسَهْلًا (Ahlan wa sahlan) dijawab أَهْلًا بِكَ (untuk laki-laki) atau أَهْلًا بِكِ (untuk perempuan).',
+              'Menanyakan Kabar: كَيْفَ حَالُكَ؟ (Kaifa haaluka?) dijawab بِخَيْرٍ وَالحَمْدُ لِلَّهِ (Bikhoirin walhamdulillaah).',
+              'Terima Kasih & Respon: شُكْرًا (Syukran) dijawab عَفْوًا (\'Afwan). Perpisahan: مَعَ السَّلَامَةِ (Ma\'as salaamah) dijawab إِلَى اللِّقَاءِ (Ilal liqaa\').'
             ],
             vocabulary: [
-              { term: 'Jovian', meaning: 'Planet raksasa gas yang menyerupai karakter planet Jupiter.' },
-              { term: 'Terestrial', meaning: 'Planet yang berstruktur batuan padat mirip komposisi mineral Bumi.' },
-              { term: 'Sabuk Kuiper', meaning: 'Wilayah di luar orbit Neptunus yang dipenuhi objek es dan planet kerdil seperti Pluto.' }
+              { term: 'صَبَاحُ الخَيْرِ', meaning: 'Selamat pagi' },
+              { term: 'كَيْفَ حَالُكَ؟', meaning: 'Bagaimana kabarmu?' },
+              { term: 'شُكْرًا كَثِيْرًا', meaning: 'Terima kasih banyak' },
+              { term: 'إِلَى اللِّقَاءِ', meaning: 'Sampai jumpa lagi' }
             ],
-            practicalTips: 'Hafalkan urutan planet dengan jembatan keledai: Me-Ve-Bu-Ma-Ju-Sa-U-Ne (Merkurius, Venus, Bumi, Mars, Jupiter, Saturnus, Uranus, Neptunus).'
+            practicalTips: 'Selalu bedakan harakat akhir untuk laki-laki (fathah/ka) dan perempuan (kasrah/ki), contoh: كَيْفَ حَالُكَ؟ vs كَيْفَ حَالُكِ؟'
           },
           {
-            id: 'ipa-sub-1b',
+            id: 'taaruf-sub-1b',
             code: 'B',
-            title: 'Rotasi dan Revolusi Bumi',
-            page: 'Halaman 9',
-            readTime: '7 menit',
-            summary:
-              'Bumi bergerak dalam dua pola utama: berputar pada porosnya (rotasi) selama 23 jam 56 menit, serta beredar mengelilingi Matahari (revolusi) selama 365,25 hari dengan kemiringan sumbu rotasi 23,5 derajat.',
-            keyPoints: [
-              'Akibat Rotasi Bumi: Terjadinya pergantian siang dan malam, gerak semu harian benda langit dari timur ke barat, perbedaan zona waktu di muka bumi, serta pembelokan arah angin siklon (Gaya Coriolis).',
-              'Akibat Revolusi Bumi: Pergantian empat musim di wilayah subtropis, perbedaan lamanya waktu siang dan malam sepanjang tahun, gerak semu tahunan matahari, dan perubahan penampakan rasi bintang.',
-              'Kemiringan 23,5 Derajat: Faktor penentu mengapa intensitas sinar matahari yang diterima belahan bumi utara dan selatan berfluktuasi secara periodik.'
-            ],
-            vocabulary: [
-              { term: 'Gaya Coriolis', meaning: 'Gaya semu pembelokan arah gerak fluida/angin akibat perputaran rotasi Bumi.' },
-              { term: 'Ekliptika', meaning: 'Bidang edar semu matahari jika dilihat dari pengamatan di permukaan Bumi.' }
-            ],
-            practicalTips: 'Jika soal menanyakan peristiwa harian (siang-malam, gerak timur-barat), jawabannya Rotasi. Jika tahunan atau musiman, jawabannya Revolusi.'
-          },
-          {
-            id: 'ipa-sub-1c',
-            code: 'C',
-            title: 'Fase-Fase Bulan dan Orbitnya',
-            page: 'Halaman 14',
+            title: 'الضمائر المنفصلة (Kata Ganti Orang / Isim Dhomir)',
+            page: 'Halaman 8',
             readTime: '6 menit',
             summary:
-              'Bulan adalah satelit alami Bumi yang mengelilingi Bumi sambil berputar pada porosnya dengan kala rotasi dan revolusi yang sama (sinkron), sehingga permukaan bulan yang menghadap bumi selalu sisi yang sama.',
+              'Dhomir Munfashil adalah kata ganti orang yang berdiri sendiri untuk subjek dalam kalimat nominal (jumlah ismiyyah).',
             keyPoints: [
-              'Rotasi Sinkron: Periode rotasi bulan sama dengan revolusinya mengelilingi bumi (sekitar 27,3 hari), menyebabkan sisi jauh bulan tidak pernah terlihat langsung dari bumi.',
-              'Fase Bulan: Perubahan penampakan bentuk bulan yang disinari matahari dilihat dari bumi: Fase Bulan Baru (New Moon) -> Bulan Sabit Awal -> Kuartir Pertama -> Bulan Cembung -> Bulan Purnama (Full Moon) -> Kuartir Akhir -> Sabit Akhir.',
-              'Pengaruh Gravitasi: Gaya gravitasi Bulan adalah pemicu utama pasang naik dan pasang surut air laut di samudera Bumi.'
+              'أَنَا (Ana = Saya): Digunakan untuk mutakallim tunggal (bisa laki-laki maupun perempuan).',
+              'أَنْتَ (Anta = Kamu laki-laki): Mukhatab mudzakkar tunggal.',
+              'أَنْتِ (Anti = Kamu perempuan): Mukhatab mu\'annats tunggal.',
+              'هُوَ (Huwa = Dia laki-laki): Gha\'ib mudzakkar tunggal.',
+              'هِيَ (Hiya = Dia perempuan): Gha\'ibah mu\'annats tunggal.',
+              'نَحْنُ (Nahnu = Kami / Kita): Mutakallim jamak.'
             ],
             vocabulary: [
-              { term: 'Pasang Purnama', meaning: 'Pasang laut tertinggi saat posisi Matahari, Bulan, dan Bumi berada dalam satu garis lurus.' },
-              { term: 'Pasang Perbani', meaning: 'Pasang laut terendah saat posisi Bulan dan Matahari membentuk sudut siku-siku 90 derajat terhadap Bumi.' }
+              { term: 'طَالِبٌ / طَالِبَةٌ', meaning: 'Siswa / Siswi' },
+              { term: 'مُدَرِّسٌ / مُدَرِّسَةٌ', meaning: 'Guru laki-laki / Guru perempuan' },
+              { term: 'صَدِيْقِيْ / صَدِيْقَتِيْ', meaning: 'Temanku laki-laki / Temanku perempuan' }
             ],
-            practicalTips: 'Bulan tidak memancarkan cahaya sendiri, melainkan hanya memantulkan pantulan cahaya dari Matahari.'
+            practicalTips: 'Jika kata benda berakhiran ta\' marbuthah (ة), gunakan dhomir perempuan seperti هِيَ atau أَنْتِ.'
           },
           {
-            id: 'ipa-sub-1d',
-            code: 'D',
-            title: 'Mekanisme Gerhana Matahari & Gerhana Bulan',
-            page: 'Halaman 18',
-            readTime: '7 menit',
+            id: 'taaruf-sub-1c',
+            code: 'C',
+            title: 'أسماء الإشارة (Kata Tunjuk Dekat & Jauh)',
+            page: 'Halaman 12',
+            readTime: '6 menit',
             summary:
-              'Gerhana terjadi ketika bayangan satu benda langit menutupi benda langit lain saat berada dalam satu garis sejajar (syzygy). Bayangan terbagi menjadi umbra (bayangan gelap inti) dan penumbra (bayangan kabur).',
+              'Isim Isyarah digunakan untuk menunjuk suatu objek atau benda, terbagi berdasarkan jarak (dekat/jauh) dan jenis kelamin kata (mudzakkar/mu\'annats).',
             keyPoints: [
-              'Gerhana Matahari: Terjadi saat siang hari pada fase Bulan Baru (Matahari - Bulan - Bumi). Bulan menghalangi cahaya matahari menuju bumi.',
-              'Jenis Gerhana Matahari: Total (daerah umbra bulan), Sebagian (daerah penumbra), dan Cincin (saat bulan berada di titik terjauh/apogee sehingga piringan bulan tampak lebih kecil dari matahari).',
-              'Gerhana Bulan: Terjadi pada malam hari saat fase Bulan Purnama (Matahari - Bumi - Bulan). Bumi menghalangi cahaya matahari sehingga bulan tertutup bayangan umbra bumi, membiaskan spektrum kemerahan (Blood Moon).'
+              'هٰذَا (Haadza = Ini lk): Untuk menunjuk objek dekat jenis mudzakkar (contoh: هٰذَا كِتَابٌ).',
+              'هٰذِهِ (Haadzihi = Ini pr): Untuk menunjuk objek dekat jenis mu\'annats (contoh: هٰذِهِ مَدْرَسَةٌ).',
+              'ذٰلِكَ (Dzaalika = Itu lk): Untuk menunjuk objek jauh jenis mudzakkar (contoh: ذٰلِكَ مَسْجِدٌ).',
+              'تِلْكَ (Tilka = Itu pr): Untuk menunjuk objek jauh jenis mu\'annats (contoh: تِلْكَ سَبُّوْرَةٌ).'
             ],
             vocabulary: [
-              { term: 'Umbra', meaning: 'Daerah bayangan inti yang gelap pekat tempat cahaya terhalang total.' },
-              { term: 'Penumbra', meaning: 'Daerah bayangan kabur atau sebagian tempat sinar matahari terhalang sebagian.' }
+              { term: 'هٰذَا / هٰذِهِ', meaning: 'Ini (laki-laki / perempuan)' },
+              { term: 'ذٰلِكَ / تِلْكَ', meaning: 'Itu (laki-laki / perempuan)' },
+              { term: 'مَنْ هٰذَا؟', meaning: 'Siapakah ini?' },
+              { term: 'مَا هٰذِهِ؟', meaning: 'Apakah ini?' }
             ],
-            practicalTips: 'Ingat posisi kuncinya: Gerhana Matahari = Bulan di tengah. Gerhana Bulan = Bumi di tengah.'
+            practicalTips: 'Gunakan kata tanya "مَنْ" untuk manusia/orang, dan gunakan "مَا" untuk benda mati atau hewan.'
           }
         ]
       },
       {
-        id: 'ipa-bab-2',
+        id: 'taaruf-bab-2',
         chapterNumber: 'BAB II',
-        title: 'Zat, Karakteristik & Krisis Iklim',
-        description: 'Mempelajari wujud zat, sifat partikel materi, perubahan fisika-kimia, fenomena efek rumah kaca, dan mitigasi pemanasan global.',
+        title: 'المَرَافِقُ الْمَدْرَسِيَّةُ (Fasilitas & Lingkungan Madrasah)',
+        description: 'Mempelajari ruang-ruang dan sarana di madrasah, kata depan lokasi (dhorof makan), serta mendeskripsikan keadaan sekolah.',
         subchapters: [
           {
-            id: 'ipa-sub-2a',
+            id: 'taaruf-sub-2a',
             code: 'A',
-            title: 'Wujud Zat dan Sifat Partikelnya',
+            title: 'مفردات المرافق (Kosakata Fasilitas Sekolah)',
+            page: 'Halaman 16',
+            readTime: '6 menit',
+            summary:
+              'Mengenal nama-nama ruangan dan sarana utama di lingkungan sekolah/madrasah dalam bahasa Arab beserta artinya.',
+            keyPoints: [
+              'مَدْرَسَةٌ (Madrasah = Sekolah), فَصْلٌ (Fashl = Ruang kelas).',
+              'مَكْتَبَةٌ (Maktabah = Perpustakaan tempat membaca dan meminjam buku).',
+              'إِدَارَةٌ (Idaarah = Kantor kepala madrasah/guru/tata usaha).',
+              'مَقْصَفٌ (Maqshaf = Kantin sekolah tempat jajan dan makan minum).',
+              'مَسْجِدٌ / مُصَلَّى (Masjid / Mushalla tempat shalat berjamaah).',
+              'مَيْدَانٌ / مَلْعَبٌ (Maidaan / Mal\'ab = Lapangan olahraga dan upacara).'
+            ],
+            vocabulary: [
+              { term: 'مُخْتَبَرٌ', meaning: 'Laboratorium (IPA / Bahasa / Komputer)' },
+              { term: 'حَمَّامٌ / دَوْرَةُ مِيَاهٍ', meaning: 'Kamar mandi / Toilet' },
+              { term: 'سَاحَةُ المَدْرَسَةِ', meaning: 'Halaman sekolah' }
+            ],
+            practicalTips: 'Hafalkan pasangan ruangan: Fashl (kelas) berpasangan dengan Maktabah (perpustakaan) dan Maqshaf (kantin).'
+          },
+          {
+            id: 'taaruf-sub-2b',
+            code: 'B',
+            title: 'ظروف المكان وحروف الجر (Keterangan Tempat & Posisi)',
+            page: 'Halaman 20',
+            readTime: '7 menit',
+            summary:
+              'Dhorof makan dan huruf jar digunakan untuk menunjukkan posisi atau letak fasilitas sekolah secara presisi.',
+            keyPoints: [
+              'فِي (Fii = Di dalam): contoh الفَصْلُ فِي الطَّابَقِ الثَّانِي (Kelas di lantai dua).',
+              'عَلَى (\'Alaa = Di atas menempel): contoh الكِتَابُ عَلَى المَكْتَبِ (Buku di atas meja).',
+              'أَمَامَ (Amaama = Di depan): contoh المَيْدَانُ أَمَامَ المَدْرَسَةِ (Lapangan di depan sekolah).',
+              'وَرَاءَ (Waraa-a = Di belakang): contoh المَقْصَفُ وَرَاءَ الفُصُوْلِ (Kantin di belakang deretan kelas).',
+              'بِجَانِبِ / جَانِبَ (Bijaanibi = Di samping/sebelah): contoh المَكْتَبَةُ بِجَانِبِ المُخْتَبَرِ.'
+            ],
+            vocabulary: [
+              { term: 'فَوْقَ', meaning: 'Di atas (melayang tidak menempel)' },
+              { term: 'تَحْتَ', meaning: 'Di bawah' },
+              { term: 'بَيْنَ', meaning: 'Di antara dua tempat' }
+            ],
+            practicalTips: 'Kata benda yang terletak setelah huruf jar (فِي، عَلَى، إِلَى، مِنْ) selalu berharakat akhir kasrah (majrur).'
+          },
+          {
+            id: 'taaruf-sub-2c',
+            code: 'C',
+            title: 'النعت والمنعوت في وصف المرافق (Mendeskripsikan Fasilitas)',
             page: 'Halaman 24',
             readTime: '6 menit',
             summary:
-              'Materi di alam berwujud padat, cair, dan gas. Perbedaan sifat fisik ketiganya ditentukan oleh kerapatan susunan partikel dan kekuatan gaya tarik-menarik antarmolekulnya.',
+              'Kaidah Na\'at (kata sifat) dan Man\'ut (kata yang disifati) harus selalu sejalan dalam jenis gender (mudzakkar/mu\'annats) dan kejelasan kata.',
             keyPoints: [
-              'Zat Padat: Bentuk dan volume tetap, susunan partikel sangat teratur dan rapat, gaya tarik antarpartikel sangat kuat, hanya bergetar di tempatnya.',
-              'Zat Cair: Volume tetap namun bentuk menyesuaikan wadah, partikel agak renggang dan dapat meluncur saling melewati.',
-              'Zat Gas: Bentuk dan volume berubah memenuhi seluruh ruangan, susunan partikel sangat berjauhan, gaya tarik sangat lemah, bergerak bebas dan acak dengan kecepatan tinggi.'
+              'Kesesuaian Mudzakkar: مَسْجِدٌ كَبِيْرٌ (Masjid besar) -> keduanya mudzakkar tanpa ta\' marbuthah.',
+              'Kesesuaian Mu\'annats: مَدْرَسَةٌ كَبِيْرَةٌ (Sekolah besar) -> keduanya mu\'annats berakhiran ta\' marbuthah.',
+              'Kesesuaian Alif Lam (Al-): إِذَا كَانَ المَنْعُوْتُ فِيهِ (الـ) فَإِنَّ النَّعْتَ فِيهِ (الـ)، contoh: المَكْتَبَةُ النَّظِيْفَةُ.',
+              'Kata Sifat Umum: نَظِيْفٌ (bersih), وَاسِعٌ (luas), جَمِيْلٌ (indah), جَدِيْدٌ (baru).'
             ],
             vocabulary: [
-              { term: 'Kohesi', meaning: 'Gaya tarik-menarik antara partikel-partikel zat yang sejenis.' },
-              { term: 'Adhesi', meaning: 'Gaya tarik-menarik antara partikel-partikel zat yang tidak sejenis.' }
+              { term: 'وَاسِعٌ / وَاسِعَةٌ', meaning: 'Luas' },
+              { term: 'نَظِيْفٌ / نَظِيْفَةٌ', meaning: 'Bersih' },
+              { term: 'مُنَظَّمٌ / مُنَظَّمَةٌ', meaning: 'Rapi dan teratur' }
             ],
-            practicalTips: 'Massa jenis zat cair dan padat umumnya jauh lebih tinggi daripada gas karena kerapatan susunan molekulnya.'
-          },
-          {
-            id: 'ipa-sub-2b',
-            code: 'B',
-            title: 'Perubahan Fisika vs Perubahan Kimia',
-            page: 'Halaman 28',
-            readTime: '7 menit',
-            summary:
-              'Zat dapat mengalami perubahan fisika (hanya perubahan wujud/ukuran tanpa menghasilkan zat baru) atau perubahan kimia (reaksi yang menghasilkan zat baru dengan sifat kimia berbeda).',
-            keyPoints: [
-              'Perubahan Fisika: Mencair (es menjadi air), membeku, menguap, mengembun, menyublim (kapur barus), dan deposisi/mengkristal (jelaga cerobong, dry ice). Tidak timbul zat baru dan dapat kembali.',
-              'Perubahan Kimia: Pembakaran kayu menjadi abu, perkaratan besi oleh oksigen dan kelembaban, fermentasi singkong menjadi tape, serta pembusukan buah. Terbentuk zat baru dan bersifat tetap (irreversibel).',
-              'Tanda Reaksi Kimia: Terjadinya perubahan warna, perubahan suhu/panas, timbulnya endapan, atau terbentuknya gas.'
-            ],
-            vocabulary: [
-              { term: 'Deposisi', meaning: 'Perubahan wujud zat dari fasa gas langsung menjadi zat padat tanpa melalui fasa cair.' },
-              { term: 'Oksidasi', meaning: 'Reaksi pengikatan oksigen yang memicu perubahan kimia seperti perkaratan besi.' }
-            ],
-            practicalTips: 'Jika suatu peristiwa menghasilkan bau/endapan/karat baru yang tidak bisa dikembalikan seperti semula, itu adalah perubahan kimia.'
-          },
-          {
-            id: 'ipa-sub-2c',
-            code: 'C',
-            title: 'Pemanasan Global & Gas Rumah Kaca',
-            page: 'Halaman 34',
-            readTime: '8 menit',
-            summary:
-              'Efek rumah kaca alami menjaga bumi pada suhu layak huni. Namun, aktivitas industri yang membakar bahan bakar fosil berlebih memicu efek rumah kaca berlebih yang menyebabkan pemanasan global.',
-            keyPoints: [
-              'Gas Rumah Kaca Utama: Karbon dioksida (CO2) dari cerobong pabrik dan knalpot, Metana (CH4) dari limbah ternak dan pembusukan sampah organik, Dinitrogen oksida (N2O), dan CFC/Freon dari pendingin.',
-              'Mekanisme Pemanasan Global: Sinar matahari masuk ke bumi diserap lalu dipantulkan kembali sebagai radiasi inframerah. Gas rumah kaca yang terlalu tebal memerangkap radiasi panas ini di atmosfer sehingga suhu rata-rata global terus merangkak naik.',
-              'Dampak Nyata: Mencairnya gletser es kutub, naiknya permukaan air laut, gelombang panas ekstrem, kekeringan berkepanjangan, serta pemutihan terumbu karang (coral bleaching).'
-            ],
-            vocabulary: [
-              { term: 'Coral Bleaching', meaning: 'Kematian alga simbiotik karang akibat naiknya suhu laut yang membuat terumbu karang memutih dan mati.' },
-              { term: 'Carbon Footprint', meaning: 'Jejak karbon total emisi gas rumah kaca yang dihasilkan oleh individu, produk, atau kegiatan.' }
-            ],
-            practicalTips: 'Pemanasan global bukan disebabkan oleh hilangnya oksigen, melainkan terperangkapnya radiasi panas inframerah oleh akumulasi gas rumah kaca.'
-          },
-          {
-            id: 'ipa-sub-2d',
-            code: 'D',
-            title: 'Mitigasi & Adaptasi Perubahan Iklim',
-            page: 'Halaman 39',
-            readTime: '6 menit',
-            summary:
-              'Upaya penyelamatan bumi menuntut tindakan nyata mitigasi emisi karbon melalui reboisasi, penghematan energi listrik, dan penerapan prinsip 3R (Reduce, Reuse, Recycle).',
-            keyPoints: [
-              'Reboisasi Hutan & Ruang Terbuka Hijau: Tumbuhan berperan sebagai penyerap karbon (carbon sink) alami melalui proses fotosintesis yang menyerap CO2 dan melepaskan O2.',
-              'Efisiensi Energi: Mengganti lampu pijar boros panas dengan lampu LED hemat energi, mencabut colokan listrik saat tidak digunakan, dan beralih ke transportasi publik ramah lingkungan.',
-              'Ekonomi Sirkular: Pengurangan sampah plastik sekali pakai untuk mencegah penumpukan gas metana di tempat pembuangan akhir.'
-            ],
-            vocabulary: [
-              { term: 'Carbon Sink', meaning: 'Penyerap dan penyimpan alami karbon dioksida dari atmosfer, seperti hutan dan terumbu karang.' },
-              { term: 'Mitigasi', meaning: 'Upaya aktif mengurangi penyebab emisi gas rumah kaca untuk memperlambat perubahan iklim.' }
-            ],
-            practicalTips: 'Lampu LED dapat menghemat energi hingga 80% lebih efisien daripada lampu pijar konvensional karena membuang sangat sedikit kalor panas.'
-          }
-        ]
-      },
-      {
-        id: 'ipa-bab-3',
-        chapterNumber: 'BAB III',
-        title: 'Energi, Transformasi & Energi Alternatif',
-        description: 'Mempelajari hukum kekekalan energi, ragam sumber energi terbarukan, prinsip konversi listrik, dan teknologi ramah lingkungan.',
-        subchapters: [
-          {
-            id: 'ipa-sub-3a',
-            code: 'A',
-            title: 'Klasifikasi Sumber Energi',
-            page: 'Halaman 45',
-            readTime: '7 menit',
-            summary:
-              'Energi dikelompokkan menjadi tak terbarukan (memerlukan jutaan tahun terbentuk dan akan habis) serta terbarukan (melimpah lestari di alam dan tidak habis dieksploitasi).',
-            keyPoints: [
-              'Energi Tak Terbarukan: Minyak bumi, gas alam, dan batu bara (bahan bakar fosil dari endapan jasad renik jutaan tahun lalu), serta uranium/nuklir fisi.',
-              'Energi Terbarukan: Cahaya matahari (surya), embusan angin, aliran air deras (hidro), panas bumi (geotermal), pasang surut laut (tidal), dan biomassa/biogas.',
-              'Dilema Energi Fosil: Pembakarannya menghasilkan sulfur dioksida (SO2) pemicu hujan asam dan emisi gas karbon tinggi yang merusak biosfer.'
-            ],
-            vocabulary: [
-              { term: 'Geotermal', meaning: 'Energi panas alami yang tersimpan di dalam perut bumi akibat aktivitas magma dan hidrotermal.' },
-              { term: 'Hujan Asam', meaning: 'Hujan dengan tingkat keasaman tinggi (pH < 5,6) akibat polusi sulfur dioksida dan nitrogen oksida.' }
-            ],
-            practicalTips: 'Indonesia memiliki cadangan panas bumi (geotermal) terbesar di dunia karena berada di lintasan Cincin Api Pasifik (Ring of Fire).'
-          },
-          {
-            id: 'ipa-sub-3b',
-            code: 'B',
-            title: 'Hukum Kekekalan Energi & Konversi',
-            page: 'Halaman 50',
-            readTime: '7 menit',
-            summary:
-              'Hukum Kekekalan Energi menyatakan bahwa energi tidak dapat diciptakan maupun dimusnahkan oleh manusia, melainkan hanya dapat diubah dari satu bentuk ke bentuk energi lainnya.',
-            keyPoints: [
-              'Energi Mekanik: Gabungan antara energi potensial (energi akibat kedudukan/ketinggian: Ep = m.g.h) dan energi kinetik (energi akibat gerakan kelajuan: Ek = 0.5.m.v kuadrat).',
-              'Konversi Energi PLTA: Ketinggian air waduk (potensial) -> aliran air memutar sudu turbin (kinetik) -> putaran poros memutar kumparan generator magnetik -> menghasilkan energi listrik.',
-              'Efek Fotovoltaik: Panel surya mengubah energi foton cahaya matahari langsung menjadi energi listrik arus searah (DC) tanpa melalui proses mekanik turbin.'
-            ],
-            vocabulary: [
-              { term: 'Fotovoltaik', meaning: 'Fenomena semikonduktor silikon yang menghasilkan tegangan listrik saat terpapar foton cahaya matahari.' },
-              { term: 'Generator', meaning: 'Alat pengubah energi kinetik putaran menjadi energi listrik berdasarkan induksi elektromagnetik.' }
-            ],
-            practicalTips: 'Jika kelajuan suatu mobil diperbesar 2 kali lipat, energi kinetiknya akan berlipat menjadi 4 kali lipat karena kecepatan dikuadratkan.'
-          },
-          {
-            id: 'ipa-sub-3c',
-            code: 'C',
-            title: 'Energi Alternatif Masa Depan',
-            page: 'Halaman 55',
-            readTime: '6 menit',
-            summary:
-              'Transisi energi global mengarah ke kemandirian energi hijau: biogas dari pengolahan limbah organik ternak, turbin angin lepas pantai, dan baterai ramah lingkungan.',
-            keyPoints: [
-              'Biogas Ramah Lingkungan: Fermentasi kotoran sapi atau limbah organik oleh bakteri anaerob menghasilkan gas metana bersih untuk memasak dan listrik skala pedesaan.',
-              'Energi Pasang Surut (Tidal): Memanfaatkan perbedaan ketinggian muka air laut saat pasang dan surut akibat gaya tarik gravitasi Bulan untuk memutar generator bawah laut.',
-              'Mobil Listrik & Hidrogen: Menggantikan mesin pembakaran internal fosil untuk mengurangi emisi knalpot perkotaan secara signifikan.'
-            ],
-            vocabulary: [
-              { term: 'Anaerobik', meaning: 'Proses biologis dekomposisi organik yang berlangsung tanpa memerlukan gas oksigen bebas.' },
-              { term: 'Biomassa', meaning: 'Bahan organik nabati dan hewani yang dapat dikonversi menjadi bahan bakar nabati (bioetanol, biodiesel).' }
-            ],
-            practicalTips: 'Biogas bukan hanya memproduksi energi bersih tetapi juga menghasilkan sisa pupuk organik cair yang sangat subur bagi pertanian.'
+            practicalTips: 'Ingat rumus: Benda laki-laki + Sifat laki-laki. Benda perempuan (ada ta marbuthah) + Sifat perempuan.'
           }
         ]
       }
     ]
   },
   {
-    id: 'fikih',
-    name: 'Fikih',
-    codeName: 'Fikih Ibadah Praktis',
-    curriculum: 'Kurikulum Kemenag / MTs-SMP',
-    icon: '🕌',
-    tagline: 'Panduan Praktis Bersuci, Hakikat Salat, Zakat & Berpuasa',
+    id: 'adawat',
+    name: 'B. Arab: Adawat',
+    codeName: 'Bahasa Arab Kelas 7 - Unit 2',
+    curriculum: 'Kurikulum Merdeka / Kemenag KMA 183',
+    icon: '🎒',
+    tagline: 'الأَدَوَاتُ الْمَدْرَسِيَّةُ وَالأَلْوَانُ وَالعُنْوَان — Perlengkapan, Warna & Alamat',
     description:
-      'Mendalami tata cara bersuci (wudhu, tayamum, mandi), rukun dan kekhusyukan salat, kewajiban zakat, serta keutamaan ibadah puasa sesuai sunnah.',
+      'Menguasai kosakata perlengkapan sekolah (alat tulis, buku, tas), rumus warna mudzakkar-mu\'annats, cara menanyakan alamat tempat tinggal, serta pelafalan angka 1 sampai 100.',
     progressPercent: 70,
-    totalMaterials: 12,
+    totalMaterials: 6,
     chapters: [
       {
-        id: 'fikih-bab-1',
-        chapterNumber: 'BAB I',
-        title: 'Thaharah (Ketentuan Bersuci)',
-        description: 'Memahami konsep kesucian lahir batin, macam-macam najis dan hadats, rukun wudhu, tayamum sebagai rukhsah, dan pembatal thaharah.',
-        subchapters: [
-          {
-            id: 'fikih-sub-1a',
-            code: 'A',
-            title: 'Konsep Thaharah, Macam Najis & Hadats',
-            page: 'Halaman 5',
-            readTime: '6 menit',
-            summary:
-              'Thaharah secara bahasa berarti bersih atau suci. Menurut syariat, thaharah adalah perbuatan menyucikan diri dari hadats dan najis sebagai prasyarat wajib sebelum melaksanakan ibadah seperti salat dan thawaf.',
-            keyPoints: [
-              'Najis Mukhaffafah (Ringan): Air kencing bayi laki-laki yang belum memakan apapun selain ASI. Disucikan cukup dengan memercikkan air bersih secara merata.',
-              'Najis Mutawassithah (Sedang): Darah, nanah, bangkai hewan (kecuali ikan dan belalang), tinja, kotoran hewan, dan minuman keras. Disucikan dengan membasuhnya sampai hilang bau, warna, dan rasanya.',
-              'Najis Mughalladhah (Berat): Jilatan atau kotoran anjing dan babi. Wajib dibasuh sebanyak 7 kali dengan air bersih dan salah satu basuhannya dicampur tanah/debu suci.',
-              'Hadats Kecil vs Hadats Besar: Hadats kecil dihilangkan dengan wudhu atau tayamum; hadats besar (janabat, haid, nifas) disucikan dengan mandi wajib.'
-            ],
-            vocabulary: [
-              { term: 'Air Mutlak', meaning: 'Air murni yang suci zatnya dan menyucikan yang lain (air hujan, sumur, laut, sungai, mata air).' },
-              { term: 'Rukhsah', meaning: 'Keringanan hukum syariat yang diberikan kepada mukallaf karena kondisi uzur tertentu.' }
-            ],
-            practicalTips: 'Bangkai ikan dan belalang dalam syariat Islam dihukumi suci dan halal dimakan tanpa perlu disucikan.'
-          },
-          {
-            id: 'fikih-sub-1b',
-            code: 'B',
-            title: 'Tata Cara & Rukun Wudhu',
-            page: 'Halaman 10',
-            readTime: '7 menit',
-            summary:
-              'Wudhu memiliki 6 rukun yang wajib dikerjakan secara berurutan (tertib). Jika salah satu rukun terlewat, wudhu tidak sah dan salat tidak diterima.',
-            keyPoints: [
-              'Enam Rukun Wudhu: (1) Niat saat pertama kali membasuh muka, (2) Membasuh seluruh wajah, (3) Membasuh kedua tangan sampai siku, (4) Mengusap sebagian kepala, (5) Membasuh kedua kaki sampai mata kaki, dan (6) Tertib berurutan.',
-              'Sunnah-Sunnah Wudhu: Membaca basmalah, mencuci kedua telapak tangan di awal, bersiwak/menggosok gigi, berkumur-kumur, istinsyaq (menghirup air ke hidung), membasuh masing-masing 3 kali, mengusap kedua telinga, dan berdoa setelah wudhu.',
-              'Adab Wudhu: Menghadap kiblat, tidak boros air meskipun berwudhu di sungai mengalir, dan tidak berbicara hal sia-sia saat berwudhu.'
-            ],
-            vocabulary: [
-              { term: 'Istinsyaq', meaning: 'Sunnah menghirup air ke dalam lubang hidung lalu menyemburkannya (istintsar) untuk membersihkan saluran pernapasan.' },
-              { term: 'Tertib', meaning: 'Menjalankan rukun ibadah secara berurutan sesuai syariat tanpa membalik urutannya.' }
-            ],
-            practicalTips: 'Niat wudhu wajib dihadirkan di dalam hati tepat saat air pertama kali menyentuh kulit wajah.'
-          },
-          {
-            id: 'fikih-sub-1c',
-            code: 'C',
-            title: 'Tayamum sebagai Keringanan (Rukhsah)',
-            page: 'Halaman 15',
-            readTime: '6 menit',
-            summary:
-              'Tayamum adalah pengganti wudhu dan mandi wajib ketika ada halangan syar\'i berupa tidak ditemukannya air setelah berikhtiar mencari, atau karena sakit yang membahayakan jiwa bila terkena air.',
-            keyPoints: [
-              'Sebab Diperbolehkannya Tayamum: Tidak ada air sama sekali, jumlah air sangat sedikit hanya cukup untuk minum mempertahankan nyawa, atau sakit parah berdasarkan rekomendasi dokter.',
-              'Media Tayamum: Harus menggunakan debu atau tanah yang suci, kering, dan belum pernah dipakai (bukan pasir kotor berlumut).',
-              'Rukun Tayamum: (1) Niat untuk diperbolehkan salat, (2) Mengusap seluruh permukaan wajah dengan debu, (3) Mengusap kedua tangan sampai siku, dan (4) Tertib.',
-              'Ketentuan: Satu kali tayamum hanya berlaku untuk satu kali salat fardhu menurut jumhur ulama.'
-            ],
-            vocabulary: [
-              { term: 'Sha\'idan Thayyiba', meaning: 'Debu tanah yang bersih dan suci di permukaan bumi yang disyariatkan untuk bertayamum.' },
-              { term: 'Mubihus Shalah', meaning: 'Niat bertayamum bukan untuk menghilangkan hadats tetapi untuk memperbolehkan diri mendirikan salat.' }
-            ],
-            practicalTips: 'Tayamum tidak mengusap kepala atau kaki; anggota tayamum hanyalah wajah dan kedua tangan.'
-          },
-          {
-            id: 'fikih-sub-1d',
-            code: 'D',
-            title: 'Hal-Hal yang Membatalkan Thaharah',
-            page: 'Halaman 19',
-            readTime: '6 menit',
-            summary:
-              'Mengetahui hal-hal yang membatalkan wudhu penting untuk menjaga keabsahan salat yang didirikan.',
-            keyPoints: [
-              'Keluarnya Sesuatu dari Dua Jalan: Segala yang keluar dari qubul maupun dubur (air seni, kotoran, buang angin/kentut, madzi, wadi).',
-              'Hilangnya Kesadaran/Akal: Tidur nyenyak berbaring, mabuk, pingsan, gila, atau terbius total.',
-              'Pengecualian Tidur: Tidur dalam posisi duduk yang kokoh pantatnya menempel mantap di atas lantai tidak membatalkan wudhu.',
-              'Menyentuh Kemaluan: Menyentuh kemaluan manusia (qubul atau dubur) secara langsung dengan telapak tangan bagian dalam tanpa pembatas kain.'
-            ],
-            vocabulary: [
-              { term: 'Madzi', meaning: 'Cairan bening lengket yang keluar saat syahwat bergejolak, hukumnya najis dan membatalkan wudhu.' },
-              { term: 'Wadi', meaning: 'Cairan putih keruh kental yang keluar setelah buang air kecil atau kelelahan mengangkat beban berat, hukumnya najis.' }
-            ],
-            practicalTips: 'Jika ragu apakah sudah buang angin atau belum di tengah salat, jangan batalkan salat hingga mendengar suara atau mencium baunya.'
-          }
-        ]
-      },
-      {
-        id: 'fikih-bab-2',
-        chapterNumber: 'BAB II',
-        title: 'Salat Fardhu, Sunnah & Disiplin Ibadah',
-        description: 'Mendalami syarat sah dan syarat wajib salat, 13 rukun salat, thuma\'ninah, salat berjamaah, serta ketentuan musafir jamak-qashar.',
-        subchapters: [
-          {
-            id: 'fikih-sub-2a',
-            code: 'A',
-            title: 'Syarat Wajib & Syarat Sah Salat',
-            page: 'Halaman 25',
-            readTime: '6 menit',
-            summary:
-              'Syarat wajib adalah kriteria seseorang diwajibkan salat, sedangkan syarat sah adalah kondisi yang wajib dipenuhi sebelum salat dikerjakan agar bernilai sah di sisi Allah.',
-            keyPoints: [
-              'Syarat Wajib Salat: Beragama Islam, telah mencapai usia baligh, berakal sehat, dan telah sampai dakwah Islam kepadanya.',
-              'Syarat Sah Salat: Suci dari hadats kecil dan besar, suci badan/pakaian/tempat dari najis, menutup aurat secara sempurna, telah masuk waktu salat, dan menghadap kiblat (Ka\'bah).',
-              'Aurat Laki-Laki & Perempuan: Laki-laki antara pusar dan lutut; perempuan seluruh tubuh kecuali wajah dan kedua telapak tangan.'
-            ],
-            vocabulary: [
-              { term: 'Baligh', meaning: 'Tercapainya kedewasaan biologis (mimpi basah bagi laki-laki atau haid bagi wanita) yang menandai berlakunya taklif hukum.' },
-              { term: 'Kiblat', meaning: 'Arah menghadap Ka\'bah di Masjidil Haram, Mekah al-Mukarramah saat mendirikan salat.' }
-            ],
-            practicalTips: 'Syarat sah harus ada sebelum memulai salat dan harus tetap terjaga hingga salam kedua selesai.'
-          },
-          {
-            id: 'fikih-sub-2b',
-            code: 'B',
-            title: 'Rukun Salat dan Thuma\'ninah',
-            page: 'Halaman 30',
-            readTime: '8 menit',
-            summary:
-              'Rukun salat berjumlah 13 (atau 17 dalam sebagian hitungan madzhab Syafi\'i) yang terbagi menjadi rukun qalbi (hati), qauli (ucapan), dan fi\'li (gerakan tubuh).',
-            keyPoints: [
-              'Rukun Qalbi & Qauli: Niat di hati saat takbiratul ihram; Takbiratul ihram; Membaca Surat Al-Fatihah dengan benar tajwid dan tasydidnya; Duduk tasyahud akhir; Membaca bacaan tasyahud akhir; Membaca shalawat atas Nabi saw.; Salam pertama.',
-              'Rukun Fi\'li: Berdiri bagi yang mampu; Ruku\' dengan thuma\'ninah; I\'tidal dengan thuma\'ninah; Sujud dua kali dengan thuma\'ninah; Duduk di antara dua sujud dengan thuma\'ninah; Duduk tasyahud akhir; Tertib.',
-              'Hakikat Thuma\'ninah: Diam dan tenangnya seluruh sendi tubuh pada posisinya minimal selama membaca satu kali "Subhanallah". Tidak ada salat bagi yang tidak thuma\'ninah.'
-            ],
-            vocabulary: [
-              { term: 'Thuma\'ninah', meaning: 'Ketenangan fisik sejenak saat ruku, iktidal, sujud, dan duduk agar salat tidak tergesa-gesa.' },
-              { term: 'Takbiratul Ihram', meaning: 'Ucapan takbir pembuka salat yang mengharamkan perbuatan lain yang boleh dilakukan di luar salat.' }
-            ],
-            practicalTips: 'Rukun qauli seperti takbir, Al-Fatihah, dan salam harus dilafalkan oleh lisan minimal terdengar oleh telinga sendiri, tidak sah jika hanya dibatin.'
-          },
-          {
-            id: 'fikih-sub-2c',
-            code: 'C',
-            title: 'Salat Berjamaah & Makmum Masbuq',
-            page: 'Halaman 36',
-            readTime: '7 menit',
-            summary:
-              'Salat berjamaah memiliki pahala 27 derajat dibanding salat sendirian. Makmum wajib mengikuti imam dan menjaga kerapian shaf.',
-            keyPoints: [
-              'Keutamaan Berjamaah: Melipatgandakan pahala menjadi 27 derajat, mempererat ukhuwah islamiyah, dan melatih kedisiplinan sosial umat.',
-              'Ketentuan Makmum Masbuq: Makmum yang tertinggal bacaan Al-Fatihah atau rakaat imam. Dihitung mendapatkan rakaat sempurna jika sempat ikut ruku\' bersama imam dengan thuma\'ninah.',
-              'Kerapian Shaf: Meluruskan dan merapatkan shaf bahu dengan bahu, tumit dengan tumit adalah kesempurnaan salat berjamaah.'
-            ],
-            vocabulary: [
-              { term: 'Masbuq', meaning: 'Makmum yang datang terlambat saat imam sudah memulai salat fardhu.' },
-              { term: 'Muwafiq', meaning: 'Makmum yang mendapati imam dari awal dan memiliki cukup waktu membaca Al-Fatihah secara sempurna.' }
-            ],
-            practicalTips: 'Jangan bergerak mendahului imam, bergeraklah sesaat setelah imam selesai berpindah posisi takbir.'
-          },
-          {
-            id: 'fikih-sub-2d',
-            code: 'D',
-            title: 'Keringanan Musafir: Jamak & Qashar Salat',
-            page: 'Halaman 41',
-            readTime: '7 menit',
-            summary:
-              'Islam memberikan keringanan bagi musafir yang menempuh perjalanan jauh (minimal 80–84 km untuk tujuan baik/mubah) untuk menjamak dan mengqashar salatnya.',
-            keyPoints: [
-              'Jamak Taqdim: Mengumpulkan dua salat dalam satu waktu di waktu salat yang pertama (misal Dzuhur dan Ashar dikerjakan di waktu Dzuhur; Maghrib dan Isya dikerjakan di waktu Maghrib).',
-              'Jamak Ta\'khir: Mengumpulkan dua salat di waktu salat yang kedua (misal Dzuhur dan Ashar dikerjakan di waktu Ashar).',
-              'Qashar Salat: Meringkas salat yang berjumlah 4 rakaat (Dzuhur, Ashar, Isya) menjadi masing-masing 2 rakaat saja. Salat Subuh (2 rakaat) dan Maghrib (3 rakaat) tidak dapat diqashar.',
-              'Sujud Sahwi: Dua kali sujud sebelum salam untuk menambal kelupaan jumlah rakaat atau tertinggalnya tasyahud awal.'
-            ],
-            vocabulary: [
-              { term: 'Qashar', meaning: 'Keringanan memendekkan salat fardhu empat rakaat menjadi dua rakaat bagi musafir.' },
-              { term: 'Sujud Sahwi', meaning: 'Dua sujud yang dilakukan karena kelupaan atau keraguan rakaat dalam salat.' }
-            ],
-            practicalTips: 'Salat yang boleh dijamak hanyalah pasangan Dzuhur-Ashar dan Maghrib-Isya. Salat Subuh tidak boleh dijamak dengan salat apapun.'
-          }
-        ]
-      },
-      {
-        id: 'fikih-bab-3',
+        id: 'adawat-bab-1',
         chapterNumber: 'BAB III',
-        title: 'Zakat, Sedekah & Ibadah Puasa',
-        description: 'Memahami hakikat zakat mal dan fitrah, delapan asnaf mustahiq, rukun puasa Ramadhan, rukhsah fidyah, dan sanksi kafarat.',
+        title: 'الأَدَوَاتُ الْمَدْرَسِيَّةُ وَالأَلْوَانُ (Peralatan Belajar & Ragam Warna)',
+        description: 'Mengenal perkakas belajar harian, isi tas sekolah, serta aturan gramatika penggunaan warna dalam bahasa Arab.',
         subchapters: [
           {
-            id: 'fikih-sub-3a',
+            id: 'adawat-sub-1a',
             code: 'A',
-            title: 'Zakat Fitrah & Zakat Mal',
-            page: 'Halaman 48',
-            readTime: '7 menit',
-            summary:
-              'Zakat merupakan rukun Islam ketiga yang membersihkan harta dan jiwa. Terbagi menjadi zakat jiwa (fitrah) dan zakat harta kekayaan (mal).',
-            keyPoints: [
-              'Zat Fitrah: Kewajiban setiap jiwa muslim di bulan Ramadhan berupa makanan pokok seberat 1 sha\' (setara 2,5 kg atau 3,5 liter beras) sebelum salat Idul Fitri.',
-              'Waktu Zakat Fitrah: Waktu mubah (awal Ramadhan), waktu wajib (terbenam matahari akhir Ramadhan), waktu afdhal (pagi hari raya sebelum salat Idul Fitri).',
-              'Syarat Zakat Mal: Kepemilikan penuh, harta berkembang, mencapai batas minimal (Nisab setara 85 gram emas), dan telah genap dimiliki selama satu tahun hijriyah (Haul). Kadar zakat emas/perak/perdagangan adalah 2,5%.'
-            ],
-            vocabulary: [
-              { term: 'Nisab', meaning: 'Batas minimal jumlah harta kekayaan yang terkena kewajiban zakat mal.' },
-              { term: 'Haul', meaning: 'Masa kepemilikan harta kekayaan selama genap satu tahun hijriyah (354 hari).' }
-            ],
-            practicalTips: 'Hasil pertanian tanaman pangan tidak menunggu haul satu tahun, melainkan wajib dizakati setiap kali panen (kadar 5% bila dengan irigasi berbayar, 10% bila tadah hujan).'
-          },
-          {
-            id: 'fikih-sub-3b',
-            code: 'B',
-            title: 'Delapan Asnaf Mustahiq Zakat',
-            page: 'Halaman 54',
+            title: 'الأدوات المدرسية في الحقيبة (Perlengkapan Belajar Siswa)',
+            page: 'Halaman 28',
             readTime: '6 menit',
             summary:
-              'Al-Qur\'an Surat At-Taubah ayat 60 secara tegas menetapkan 8 golongan yang berhak menerima penyaluran dana zakat (mustahiq).',
+              'Mufrodat alat tulis dan peralatan belajar yang selalu dibawa di dalam tas siswa sehari-hari.',
             keyPoints: [
-              '1. Fakir: Orang yang tidak memiliki harta atau mata pencaharian dan kebutuhan hidupnya tidak tercukupi sama sekali.',
-              '2. Miskin: Orang yang memiliki pekerjaan/harta tetapi penghasilannya belum mencukupi kebutuhan pokok sehari-hari.',
-              '3. Amil: Petugas resmi yang bertugas mengumpulkan, mencatat, dan mendistribusikan zakat.',
-              '4. Muallaf: Orang yang baru memeluk Islam atau dilembutkan hatinya untuk memperkuat keimanan.',
-              '5. Riqab (memerdekakan budak), 6. Gharimin (orang berhutang untuk kebaikan), 7. Fisabilillah (pejuang jalan Allah), 8. Ibnu Sabil (musafir kehabisan bekal halal).'
+              'كِتَابٌ (Buku paket / buku cetak pelajara), دَفْتَرٌ (Buku tulis catatan).',
+              'قَلَمٌ (Pena / pulpen), قَلَمُ الرَّصَاصِ (Pensil hitam untuk menggambar/menulis).',
+              'مِمْحَاةٌ (Penghapus karet pensil), طَلَّاسَةٌ (Penghapus whiteboard/blackboard).',
+              'مِسْطَرَةٌ (Penggaris lurus), مِبْرَاةٌ (Rautan peruncing pensil).',
+              'حَقِيْبَةٌ / مِحْفَظَةٌ (Tas ransel sekolah), سَبُّوْرَةٌ (Papan tulis di kelas).'
             ],
             vocabulary: [
-              { term: 'Mustahiq', meaning: 'Golongan orang yang berhak menerima penyaluran dana zakat sesuai ketentuan Al-Qur\'an.' },
-              { term: 'Muzakki', meaning: 'Orang yang berkewajiban mengeluarkan zakat dari harta kekayaannya yang telah mencapai nisab.' }
+              { term: 'قَلَمُ حِبْرٍ', meaning: 'Spidol / tinta' },
+              { term: 'مِقَصٌّ', meaning: 'Gunting kertas' },
+              { term: 'مِقْلَمَةٌ', meaning: 'Tempat pensil / tepak' }
             ],
-            practicalTips: 'Zakat tidak boleh diberikan kepada orang kaya, orang yang mampu bekerja keras, serta orang tua atau anak kandung yang menjadi tanggungan nafkah langsung.'
+            practicalTips: 'Bedakan "مِمْحَاةٌ" (penghapus kertas kecil di kotak pensil) dengan "طَلَّاسَةٌ" (penghapus besar papan tulis).'
           },
           {
-            id: 'fikih-sub-3c',
+            id: 'adawat-sub-1b',
+            code: 'B',
+            title: 'الألوان للمذكر والمؤنث (Pola Warna Mudzakkar & Mu\'annats)',
+            page: 'Halaman 32',
+            readTime: '7 menit',
+            summary:
+              'Warna dalam bahasa Arab memiliki dua bentuk gramatika: pola أَفْعَلُ untuk mudzakkar dan pola فَعْلَاءُ untuk mu\'annats.',
+            keyPoints: [
+              'Merah: أَحْمَرُ (mudzakkar) -> حَمْرَاءُ (mu\'annats). Contoh: قَلَمٌ أَحْمَرُ vs حَقِيْبَةٌ حَمْرَاءُ.',
+              'Putih: أَبْيَضُ (mudzakkar) -> بَيْضَاءُ (mu\'annats). Contoh: ثَوْبٌ أَبْيَضُ vs سَبُّوْرَةٌ بَيْضَاءُ.',
+              'Hitam: أَسْوَدُ (mudzakkar) -> سَوْدَاءُ (mu\'annats). Contoh: شَعْرٌ أَسْوَدُ vs مِمْحَاةٌ سَوْدَاءُ.',
+              'Biru: أَزْرَقُ (mudzakkar) -> زَرْقَاءُ (mu\'annats).',
+              'Hijau: أَخْضَرُ (mudzakkar) -> خَضْرَاءُ (mu\'annats).',
+              'Kuning: أَصْفَرُ (mudzakkar) -> صَفْرَاءُ (mu\'annats).'
+            ],
+            vocabulary: [
+              { term: 'لَوْنٌ / أَلْوَانٌ', meaning: 'Warna / Macam-macam warna' },
+              { term: 'مَا لَوْنُ هٰذَا؟', meaning: 'Apakah warna benda ini?' },
+              { term: 'لَوْنُهُ جَمِيْلٌ', meaning: 'Warnanya indah' }
+            ],
+            practicalTips: 'Kata "لَوْن" adalah mudzakkar, jadi jika bertanya warna: "مَا لَوْنُ السَّبُّوْرَةِ؟" jawabannya: "لَوْنُهَا أَبْيَضُ".'
+          },
+          {
+            id: 'adawat-sub-1c',
             code: 'C',
-            title: 'Rukun & Syarat Sah Puasa Ramadhan',
-            page: 'Halaman 59',
-            readTime: '7 menit',
+            title: 'تركيب الجملة مع الألوان والأدوات (Menyusun Kalimat Warna)',
+            page: 'Halaman 36',
+            readTime: '6 menit',
             summary:
-              'Puasa (Shiyam) adalah menahan diri dari segala pembatal puasa mulai dari terbit fajar shadiq hingga terbenam matahari dengan niat ibadah kepada Allah SWT.',
+              'Mempraktikkan penggabungan kata tunjuk, nama perkakas belajar, dan warna yang berkesesuaian.',
             keyPoints: [
-              'Dua Rukun Puasa: (1) Niat pada malam hari sebelum fajar shadiq (tabyit an-niyyah) untuk puasa fardhu, dan (2) Menahan diri (imsak) dari makan, minum, syahwat, dan hal yang membatalkan puasa.',
-              'Syarat Wajib Puasa: Islam, baligh, berakal, suci dari haid dan nifas, serta mampu menjalankannya (tidak sakit berat / jompo).',
-              'Sunnah Puasa: Mengakhirkan makan sahur, menyegerakan berbuka saat tiba adzan maghrib, berbuka dengan ruthab/kurma basah atau air putih, membaca doa buka, dan memperbanyak sedekah serta tadarus.'
+              'Pola Mudzakkar: هٰذَا + [Isim Mudzakkar] + [Warna Mudzakkar], contoh: هٰذَا دَفْتَرٌ أَزْرَقُ.',
+              'Pola Mu\'annats: هٰذِهِ + [Isim Mu\'annats] + [Warna Mu\'annats], contoh: هٰذِهِ مِسْطَرَةٌ صَفْرَاءُ.',
+              'Kepemilikan Warna: لِي قَلَمٌ أَحْمَرُ (Saya mempunyai sebuah pena merah).',
+              'Di dalam tas ada perlengkapan: فِي الحَقِيْبَةِ كُتُبٌ وَأَقْلَامٌ مُتَنَوِّعَةٌ.'
             ],
             vocabulary: [
-              { term: 'Fajar Shadiq', meaning: 'Cahaya fajar putih melintang di ufuk timur penanda masuknya waktu Subuh dan dimulainya waktu imsak puasa.' },
-              { term: 'Imsak', meaning: 'Menahan diri secara total dari segala hal yang membatalkan puasa demi mengharap ridha Allah SWT.' }
+              { term: 'مُتَنَوِّعٌ', meaning: 'Bermacam-macam / beraneka ragam' },
+              { term: 'جَدِيْدٌ', meaning: 'Baru' },
+              { term: 'قَدِيْمٌ', meaning: 'Lama / usang' }
             ],
-            practicalTips: 'Niat puasa Ramadhan wajib diperbarui setiap malam sebelum adzan Subuh berkumandang.'
+            practicalTips: 'Warna mengikuti kata bendanya: jika bendanya mu\'annats (ada ta\' marbuthah), warnanya wajib berakhiran hamzah mamdudah (حمراء).'
+          }
+        ]
+      },
+      {
+        id: 'adawat-bab-2',
+        chapterNumber: 'BAB IV',
+        title: 'العُنْوَانُ وَالأَرْقَامُ ١ - ١٠٠ (Alamat Tempat Tinggal & Angka)',
+        description: 'Menanyakan dan menerangkan alamat domisili, nama jalan, nomor rumah, nomor telepon, serta penguasaan berhitung angka Arab.',
+        subchapters: [
+          {
+            id: 'adawat-sub-2a',
+            code: 'A',
+            title: 'مفردات العنوان (Kosakata Terkait Alamat)',
+            page: 'Halaman 40',
+            readTime: '6 menit',
+            summary:
+              'Mufrodat baku yang digunakan untuk mendeskripsikan alamat tempat tinggal dan lokasi madrasah.',
+            keyPoints: [
+              'عُنْوَانٌ (\'Unwaan = Alamat). Pertanyaan: مَا عُنْوَانُكَ؟ (Apa alamatmu?).',
+              'شَارِعٌ (Syaari\' = Jalan raya / nama jalan). Contoh: فِي شَارِعِ سُوْدِيْرْمَان.',
+              'رَقْمٌ (Raqm = Nomor). Contoh: رَقْمُ ٧ (Nomor 7).',
+              'بَيْتٌ / مَنْزِلٌ (Bait / Manzil = Rumah tempat tinggal).',
+              'مَدِيْنَةٌ (Madiinah = Kota) vs قَرْيَةٌ (Qoryah = Desa).',
+              'هَاتِفٌ / جَوَّالٌ (Haatif / Jawwaal = Telepon rumah / Handphone).'
+            ],
+            vocabulary: [
+              { term: 'بِطَاقَةُ شَخْصِيَّة', meaning: 'Kartu tanda identitas / Kartu pelajar' },
+              { term: 'قَرِيْبٌ مِنْ', meaning: 'Dekat dari...' },
+              { term: 'بَعِيْدٌ عَنْ', meaning: 'Jauh dari...' }
+            ],
+            practicalTips: 'Rumus kalimat alamat: عُنْوَانِي فِي شَارِعِ [Nama Jalan] رَقْمُ [Angka] [Nama Kota].'
           },
           {
-            id: 'fikih-sub-3d',
-            code: 'D',
-            title: 'Hal Pembatal Puasa, Fidyah & Kafarat',
-            page: 'Halaman 64',
+            id: 'adawat-sub-2b',
+            code: 'B',
+            title: 'الأرقام من ١ إلى ٢٠ (Angka Satuan & Belasan)',
+            page: 'Halaman 44',
             readTime: '7 menit',
             summary:
-              'Menjaga kesucian puasa dari pembatalan dan memahami ketentuan ganti rugi syariat bila puasa terpaksa ditinggalkan.',
+              'Menghafal bentuk lambang angka Arab dan pelafalannya dari 1 sampai 20 sebagai dasar menyebutkan nomor rumah dan telepon.',
             keyPoints: [
-              'Pembatal Puasa: Memasukkan benda dengan sengaja ke dalam lubang tubuh yang terbuka (mulut, hidung, telinga), muntah dengan sengaja, berhubungan suami istri di siang hari, keluar darah haid/nifas, gila mendadak, atau murtad.',
-              'Bukan Pembatal: Menelan ludah suci yang tidak bercampur benda lain, mimpi basah di siang hari tanpa sengaja, obat tetes mata, mandi mendinginkan badan, atau makan/minum karena lupa.',
-              'Keringanan & Fidyah: Orang tua renta/jompo dan orang sakit menahun yang tak kunjung sembuh boleh tidak puasa dan wajib membayar fidyah (memberi makan 1 orang miskin tiap hari 1 mud/beras).',
-              'Kafarat Uzma: Pelanggaran berat bersetubuh di siang Ramadhan dikenai kafarat berurutan: memerdekakan budak; puasa 2 bulan berturut-turut; atau memberi makan 60 fakir miskin.'
+              '١ (وَاحِدٌ = 1), ٢ (اِثْنَانِ = 2), ٣ (ثَلَاثَةٌ = 3), ٤ (أَرْبَعَةٌ = 4), ٥ (خَمْسَةٌ = 5).',
+              '٦ (سِتَّةٌ = 6), ٧ (سَبْعَةٌ = 7), ٨ (ثَمَانِيَةٌ = 8), ٩ (تِسْعَةٌ = 9), ١٠ (عَشَرَةٌ = 10).',
+              'Angka Belasan: ١١ (أَحَدَ عَشَرَ), ١٢ (اِثْنَا عَشَرَ), ١٣ (ثَلَاثَةَ عَشَرَ), ١٥ (خَمْسَةَ عَشَرَ).',
+              'Nomor Telepon: Diucapkan per digit angka atau kelipatan puluhan.'
             ],
             vocabulary: [
-              { term: 'Fidyah', meaning: 'Denda tebusan makanan pokok bagi mereka yang tidak sanggup puasa karena uzur permanen.' },
-              { term: 'Kafarat', meaning: 'Denda berat sebagai penebus dosa pelanggaran syariat tertentu yang disengaja.' }
+              { term: 'صِفْرٌ ( ٠ )', meaning: 'Nol (0)' },
+              { term: 'عِشْرُوْنَ ( ٢٠ )', meaning: 'Dua puluh (20)' },
+              { term: 'مِائَةٌ ( ١٠٠ )', meaning: 'Seratus (100)' }
             ],
-            practicalTips: 'Hari diharamkan berpuasa adalah 1 Syawal (Idul Fitri), 10 Dzulhijjah (Idul Adha), dan 11, 12, 13 Dzulhijjah (Hari Tasyrik).'
+            practicalTips: 'Perhatikan tulisan angka Arab: angka ٥ mirip lingkaran/huruf O (artinya 5), sedangkan angka ٠ titik kecil (artinya 0).'
+          },
+          {
+            id: 'adawat-sub-2c',
+            code: 'C',
+            title: 'حوار في بطاقة الهوية (Percakapan Identitas Siswa)',
+            page: 'Halaman 48',
+            readTime: '6 menit',
+            summary:
+              'Simulasi tanya jawab identitas kartu pelajar: nama, asal sekolah, alamat lengkap, dan nomor kontak yang bisa dihubungi.',
+            keyPoints: [
+              'Tanya Nama: مَا اسْمُكَ؟ -> اسْمِي فَارُوْق.',
+              'Tanya Asal: مِنْ أَيْنَ أَنْتَ؟ -> أَنَا مِنْ سُوْرَابَايَا.',
+              'Tanya Alamat: أَيْنَ بَيْتُكَ؟ -> بَيْتِي فِي شَارِعِ إِمَام بُوْنْجُوْل رَقْمُ ٥.',
+              'Tanya Nomor HP: كَمْ رَقْمُ هَاتِفِكَ؟ -> رَقْمُ هَاتِفِي: ٠٨١٢٣٤٥٦٧٨.'
+            ],
+            vocabulary: [
+              { term: 'المِهْنَةُ', meaning: 'Profesi / Pekerjaan (طالب = pelajar)' },
+              { term: 'المَوْلِدُ', meaning: 'Tempat dan tanggal lahir' },
+              { term: 'التَّوْقِيْعُ', meaning: 'Tanda tangan' }
+            ],
+            practicalTips: 'Saat menyebutkan nomor telepon dalam bahasa Arab, sebutkan digit demi digit dari kiri ke kanan: shifr, tsamaniyah, wahid, itsnan...'
           }
         ]
       }
     ]
   },
   {
-    id: 'pkn',
-    name: 'PKn',
-    codeName: 'Pendidikan Pancasila & Kewarganegaraan',
-    curriculum: 'Kurikulum Merdeka / PPKn',
-    icon: '🏛️',
-    tagline: 'Kedaulatan Hukum, Api Sejarah Pemuda & Kesatuan Bhinneka',
+    id: 'usrah',
+    name: 'B. Arab: Usrah',
+    codeName: 'Bahasa Arab Kelas 7 - Unit 3',
+    curriculum: 'Kurikulum Merdeka / Kemenag KMA 183',
+    icon: '🏡',
+    tagline: 'البَيْتُ وَالْأُسْرَةُ وَالْيَوْمِيَّات — Rumah, Keluarga & Keseharian',
     description:
-      'Memahami tata hierarki hukum Indonesia, sejarah heroisme Sumpah Pemuda 1928, serta memperkokoh kerukunan Bhinneka Tunggal Ika.',
-    progressPercent: 60,
-    totalMaterials: 9,
+      'Mengenal silsilah anggota keluarga (usrah), tata ruang rumah (bait), dhomir muttashil kepemilikan, susunan khabar muqaddam-mubtada mu\'akhkhar, serta tashrif fi\'il mudhari\' aktivitas harian.',
+    progressPercent: 80,
+    totalMaterials: 6,
     chapters: [
       {
-        id: 'pkn-bab-1',
-        chapterNumber: 'BAB I',
-        title: 'Hierarki Peraturan Perundang-undangan',
-        description: 'Mempelajari tata urutan peraturan hukum nasional menurut UU No. 12 Tahun 2011, asas hukum lex superior, proses legislasi, dan budaya taat hukum.',
+        id: 'usrah-bab-1',
+        chapterNumber: 'BAB V',
+        title: 'البَيْتُ وَالْأُسْرَةُ (Rumah & Susunan Anggota Keluarga)',
+        description: 'Mempelajari sebutan kerabat keluarga, ruangan dan perabotan di rumah, serta kepemilikan benda dengan dhomir muttashil.',
         subchapters: [
           {
-            id: 'pkn-sub-1a',
+            id: 'usrah-sub-1a',
             code: 'A',
-            title: 'Tata Urutan Peraturan Perundang-undangan',
-            page: 'Halaman 6',
-            readTime: '7 menit',
-            summary:
-              'Indonesia adalah negara hukum (Pasal 1 ayat 3 UUD 1945). Tata urutan peraturan perundang-undangan diatur secara baku dalam Pasal 7 UU No. 12 Tahun 2011.',
-            keyPoints: [
-              'Hierarki Resmi Peraturan: (1) UUD Negara Republik Indonesia Tahun 1945, (2) Ketetapan Majelis Permusyawaratan Rakyat (Tap MPR), (3) Undang-Undang / Peraturan Pemerintah Pengganti Undang-Undang (Perppu), (4) Peraturan Pemerintah (PP), (5) Peraturan Presiden (Perpres), (6) Peraturan Daerah Provinsi (Perda Prov), dan (7) Peraturan Daerah Kabupaten/Kota (Perda Kab/Kota).',
-              'UUD 1945 sebagai Hukum Tertinggi: Menjadi landasan filosofis dan sumber hukum konstitusional tertinggi; tidak boleh ada norma hukum yang bertentangan dengan UUD 1945.',
-              'Asas Lex Superior Derogat Legi Inferiori: Norma hukum yang lebih tinggi derajatnya mengesampingkan atau membatalkan norma hukum yang lebih rendah bila terjadi pertentangan substansi.'
-            ],
-            vocabulary: [
-              { term: 'Hierarki', meaning: 'Susunan berjenjang atau tata urutan tingkat kekuatan hukum peraturan dari puncak hingga dasar.' },
-              { term: 'Lex Superior', meaning: 'Asas hukum bahwa aturan yang lebih tinggi mengesampingkan aturan yang lebih rendah derajatnya.' }
-            ],
-            practicalTips: 'UUD 1945 selalu menempati urutan pertama teratas, disusul Ketetapan MPR, lalu UU/Perppu.'
-          },
-          {
-            id: 'pkn-sub-1b',
-            code: 'B',
-            title: 'Pembentukan Undang-Undang & Uji Materiil',
-            page: 'Halaman 12',
-            readTime: '7 menit',
-            summary:
-              'Undang-Undang dirancang dan disahkan melalui mekanisme demokratis checks and balances antara lembaga legislatif dan eksekutif serta diawasi oleh lembaga peradilan yudikatif.',
-            keyPoints: [
-              'Pembuat Undang-Undang: DPR memegang kekuasaan membentuk UU yang dibahas bersama Presiden untuk mendapat persetujuan bersama (Pasal 20 UUD 1945).',
-              'Perppu (Kegentingan Memaksa): Dikeluarkan oleh Presiden saat negara menghadapi keadaan darurat atau mendesak tanpa sempat menunggu masa sidang panjang DPR.',
-              'Judicial Review Mahkamah Konstitusi: MK berwenang menguji undang-undang terhadap UUD 1945. Jika suatu pasal UU melanggar konstitusi, MK dapat mencabut pasal tersebut.',
-              'Kewenangan Mahkamah Agung: MA berwenang menguji peraturan di bawah undang-undang (seperti PP, Perpres, Perda) terhadap undang-undang.'
-            ],
-            vocabulary: [
-              { term: 'Judicial Review', meaning: 'Hak uji materiil oleh lembaga peradilan untuk menilai keabsahan suatu regulasi hukum terhadap hukum yang lebih tinggi.' },
-              { term: 'Lembaran Negara', meaning: 'Penerbitan resmi dokumen negara tempat diundangkannya undang-undang agar memiliki daya ikat publik sah.' }
-            ],
-            practicalTips: 'Ingat pemisahan wewenang uji materiil: Menguji UU terhadap UUD 1945 adalah tugas MK. Menguji peraturan di bawah UU terhadap UU adalah tugas MA.'
-          },
-          {
-            id: 'pkn-sub-1c',
-            code: 'C',
-            title: 'Fungsi Hukum dan Budaya Taat Hukum',
-            page: 'Halaman 17',
-            readTime: '6 menit',
-            summary:
-              'Hukum dibuat untuk melindungi hak asasi manusia, menegakkan keadilan, dan menjamin ketertiban sosial dalam masyarakat majemuk.',
-            keyPoints: [
-              'Karakteristik Norma Hukum: Bersifat memaksa (imperatif) dengan sanksi tegas, mengikat seluruh warga negara tanpa pandang bulu, dan ditegakkan oleh aparatur berwenang.',
-              'Fungsi Regulasi: Menjaga stabilitas, sarana rekayasa sosial ke arah kemajuan (social engineering), dan menyelesaikan konflik secara berkeadilan tanpa main hakim sendiri.',
-              'Sikap Sadar Hukum Pelajar: Memiliki SIM dan menggunakan helm SNI saat berkendara, mematuhi tata tertib jam belajar sekolah, tidak melakukan perundungan (bullying), serta menghormati hak milik orang lain.'
-            ],
-            vocabulary: [
-              { term: 'Imperatif', meaning: 'Sifat hukum yang mewajibkan dan memaksa untuk ditaati dengan konsekuensi sanksi hukum nyata.' },
-              { term: 'Supremasi Hukum', meaning: 'Prinsip menempatkan hukum pada posisi tertinggi dalam penyelenggaraan tata kelola kenegaraan.' }
-            ],
-            practicalTips: 'Kepatuhan terhadap hukum bukan karena takut terhadap polisi, melainkan kesadaran moral demi keselamatan dan ketertiban bersama.'
-          }
-        ]
-      },
-      {
-        id: 'pkn-bab-2',
-        chapterNumber: 'BAB II',
-        title: 'Sumpah Pemuda & Kebangkitan Nasional',
-        description: 'Mempelajari lahirnya kesadaran kebangsaan 1908, Kongres Pemuda II 1928, ikrar persatuan bangsa, serta keteladanan para pahlawan pergerakan.',
-        subchapters: [
-          {
-            id: 'pkn-sub-2a',
-            code: 'A',
-            title: 'Latar Belakang Kebangkitan Nasional 1908',
-            page: 'Halaman 23',
-            readTime: '7 menit',
-            summary:
-              'Sebelum abad ke-20, perjuangan bangsa Indonesia bersifat sporadis kedaerahan, persenjataan sederhana, dan mudah dipatahkan politik adu domba Belanda (Devide et Impera). Kebangkitan Nasional menandai babak baru perlawanan dengan organisasi modern.',
-            keyPoints: [
-              'Politik Etis Belanda: Kebijakan balas budi (Edukasi, Irigasi, Transmigrasi) yang melahirkan generasi terpelajar baru di sekolah kedokteran STOVIA.',
-              'Kelahiran Budi Utomo: Didirikan pada 20 Mei 1908 oleh dr. Soetomo dkk. atas gagasan dr. Wahidin Soedirohoesodo; menjadi organisasi pergerakan nasional modern pertama dan diperingati sebagai Hari Kebangkitan Nasional.',
-              'Transformasi Pola Perjuangan: Beralih dari pertempuran fisik bersenjata yang kedaerahan menjadi diplomasi, intelektual, penerbitan pers, dan konsolidasi persatuan nasional.'
-            ],
-            vocabulary: [
-              { term: 'STOVIA', meaning: 'Sekolah pendidikan dokter pribumi di Batavia masa kolonial yang melahirkan banyak tokoh pelopor pergerakan.' },
-              { term: 'Devide et Impera', meaning: 'Strategi politik adu domba memecah-belah kerajaan atau suku lokal yang diterapkan penjajah kolonial.' }
-            ],
-            practicalTips: 'Hari Kebangkitan Nasional diperingati setiap 20 Mei, mengacu pada hari lahirnya organisasi Budi Utomo tahun 1908.'
-          },
-          {
-            id: 'pkn-sub-2b',
-            code: 'B',
-            title: 'Kongres Pemuda II & Ikrar 28 Oktober 1928',
-            page: 'Halaman 28',
-            readTime: '8 menit',
-            summary:
-              'Puncak persatuan pemuda tercetus dalam Kongres Pemuda II di Batavia pada tanggal 27-28 Oktober 1928 yang menyatukan organisasi kedaerahan (Jong Java, Jong Sumatranen Bond, Jong Ambon, Jong Batak, Jong Celebes) dalam satu ikrar agung.',
-            keyPoints: [
-              'Tokoh Kunci: Sugondo Djojopuspito (Ketua Kongres dari PPPI), R.M. Djoko Marsaid (Wakil Ketua), Mohammad Yamin (Sekretaris perumus ikrar), dan Amir Sjarifoeddin (Bendahara).',
-              'Tiga Butir Ikrar Sumpah Pemuda: (1) Mengaku bertumpah darah yang satu, tanah air Indonesia; (2) Mengaku berbangsa yang satu, bangsa Indonesia; (3) Menjunjung bahasa persatuan, bahasa Indonesia.',
-              'Lagu Indonesia Raya: Dikumandangkan pertama kali secara instrumental biola oleh sang komponis Wage Rudolf Soepratman di depan para utusan kongres.',
-              'Pengibaran Sang Merah Putih: Bendera kebangsaan Merah Putih pertama kali dikibarkan di forum publik sebagai lambang kehormatan bangsa.'
-            ],
-            vocabulary: [
-              { term: 'PPPI', meaning: 'Perhimpunan Pelajar-Pelajar Indonesia yang memprakarsai penyelenggaraan Kongres Pemuda II.' },
-              { term: 'Ikrar', meaning: 'Janji suci dan komitmen tekad yang diucapkan bersama dengan kesungguhan hati nurani.' }
-            ],
-            practicalTips: 'Perhatikan bunyi ikrar ketiga: menjunjung "bahasa persatuan, bahasa Indonesia", bukan mengaku "berbahasa satu".'
-          },
-          {
-            id: 'pkn-sub-2c',
-            code: 'C',
-            title: 'Nilai Kejuangan & Keteladanan Masa Kini',
-            page: 'Halaman 34',
-            readTime: '6 menit',
-            summary:
-              'Sumpah Pemuda adalah manifestasi pelepasan sekat primordial kesukuan demi kepentingan bersama bangsa yang lebih besar dan bermartabat.',
-            keyPoints: [
-              'Nilai Patriotisme & Cinta Tanah Air: Kesediaan mendahulukan kepentingan bangsa dan negara di atas kepentingan pribadi atau kelompok kedaerahan.',
-              'Nilai Menghargai Perbedaan: Kemampuan duduk bersama saling menghormati di tengah perbedaan latar belakang etnis, budaya, dan kepercayaan.',
-              'Aplikasi Generasi Muda Era Digital: Menjaga persatuan di media sosial dengan tidak menyebarkan fitnah/hoaks adu domba bernuansa SARA, bangga berbahasa Indonesia yang santun, serta berprestasi di kancah global.'
-            ],
-            vocabulary: [
-              { term: 'Primordialisme', meaning: 'Ikatan emosional kedaerahan atau kesukuan yang dibawa sejak lahir yang jika berlebihan dapat memecah persatuan.' },
-              { term: 'SARA', meaning: 'Isu sensitif mengenai Suku, Agama, Ras, dan Antargolongan yang rentan dipolitisasi untuk memecah-belah bangsa.' }
-            ],
-            practicalTips: 'Semangat Sumpah Pemuda bukan sekadar menghafal teks ikrar, melainkan menjaga kerukunan nyata antarsesama teman di lingkungan kita.'
-          }
-        ]
-      },
-      {
-        id: 'pkn-bab-3',
-        chapterNumber: 'BAB III',
-        title: 'Bhinneka Tunggal Ika & Semangat Kebangsaan',
-        description: 'Mendalami filosofi semboyan Bhinneka Tunggal Ika dari Kakawin Sutasoma, integrasi nasional, sikap toleransi, serta budaya gotong royong.',
-        subchapters: [
-          {
-            id: 'pkn-sub-3a',
-            code: 'A',
-            title: 'Asal Usul & Makna Bhinneka Tunggal Ika',
-            page: 'Halaman 40',
-            readTime: '7 menit',
-            summary:
-              'Semboyan Bhinneka Tunggal Ika dipetik dari kitab sastra klasik Kakawin Sutasoma pupuh 139 bait 5 gubahan Empu Tantular pada masa kejayaan Kerajaan Majapahit abad ke-14.',
-            keyPoints: [
-              'Makna Harfiah: Berasal dari bahasa Jawa Kuno: "Bhinneka" (beraneka ragam/berbeda), "Tunggal" (satu), "Ika" (itu). Kalimat lengkapnya berbunyi: "Bhinneka Tunggal Ika, Tan Hana Dharma Mangrwa" (Berbeda-beda tetapi tetap satu jua, tiada kebenaran yang mendua).',
-              'Lambang Garuda Pancasila: Semboyan dicengkeram kokoh oleh kedua cakar burung Garuda Pancasila, dirancang oleh Sultan Hamid II dan disempurnakan Presiden Soekarno.',
-              'Fondasi Integrasi: Mengakui eksistensi lebih dari 1.300 suku bangsa, ratusan bahasa daerah, dan beragam agama di Indonesia sebagai anugerah kekayaan peradaban yang dipersatukan oleh cita-cita kemerdekaan.'
-            ],
-            vocabulary: [
-              { term: 'Kakawin Sutasoma', meaning: 'Karya sastra puisi epik bahasa Jawa Kuno abad ke-14 yang mengajarkan toleransi antara pemeluk Hindu dan Buddha.' },
-              { term: 'Empu Tantular', meaning: 'Pujangga besar Majapahit pada era Raja Hayam Wuruk yang merumuskan kalimat Bhinneka Tunggal Ika.' }
-            ],
-            practicalTips: 'Semboyan Bhinneka Tunggal Ika bukan berarti menyeragamkan perbedaan, melainkan merajut harmoni di dalam keberagaman.'
-          },
-          {
-            id: 'pkn-sub-3b',
-            code: 'B',
-            title: 'Harmoni Keberagaman & Bahaya Etnosentrisme',
-            page: 'Halaman 46',
-            readTime: '7 menit',
-            summary:
-              'Mempertahankan persatuan bangsa menuntut kedewasaan sikap dalam mengikis pandangan sempit yang berpotensi meretakkan sendi-sendi kebangsaan.',
-            keyPoints: [
-              'Bahaya Etnosentrisme: Sikap menganggap suku dan budayanya sendiri paling unggul secara mutlak sambil merendahkan tradisi suku bangsa lain.',
-              'Bahaya Chauvinisme: Rasa cinta tanah air yang fanatik dan berlebihan hingga memandang bangsa lain dengan kebencian dan rasa rendah.',
-              'Prinsip Toleransi (Tasamuh): Menghargai kebebasan memeluk keyakinan beragama, memberikan ketenangan saat pihak lain beribadah, dan tidak memaksakan kehendak.',
-              'Landasan Sila Ke-3: "Persatuan Indonesia" dengan lambang Pohon Beringin yang rindang menaungi seluruh ragam rakyat tanpa diskriminasi.'
-            ],
-            vocabulary: [
-              { term: 'Etnosentrisme', meaning: 'Kecenderungan menilai budaya kelompok lain berdasarkan standar ukuran norma kebudayaannya sendiri.' },
-              { term: 'Chauvinisme', meaning: 'Nasionalisme sempit yang mengagungkan bangsanya secara buta dan memusuhi bangsa lain.' }
-            ],
-            practicalTips: 'Toleransi tidak berarti mencampuradukkan akidah ritual keagamaan, melainkan menghormati hak beribadah orang lain dalam ruang sosial.'
-          },
-          {
-            id: 'pkn-sub-3c',
-            code: 'C',
-            title: 'Gotong Royong sebagai Jiwa Bangsa',
+            title: 'أفراد الأسرة (Silsilah Anggota Keluarga)',
             page: 'Halaman 52',
             readTime: '6 menit',
             summary:
-              'Presiden Soekarno menegaskan dalam sidang BPUPKI 1 Juni 1945 bahwa jika kelima sila Pancasila diperas menjadi satu kata inti, intinya adalah "Gotong Royong".',
+              'Sebutan kekerabatan keluarga inti dan keluarga besar dalam bahasa Arab.',
             keyPoints: [
-              'Makna Hakiki Gotong Royong: Bekerja bersama-sama bahu-membahu secara sukarela tanpa memikirkan imbalan uang untuk kemaslahatan masyarakat umum.',
-              'Kearifan Lokal Gotong Royong Nusantara: "Rereongan" di Sunda, "Gugur Gunung" di Jawa, "Subak" di Bali, "Sikaduduk" di Minangkabau, "Masohi" di Maluku, dan "Bari" di Ternate.',
-              'Wujud Konkret Pelajar: Kerja bakti membersihkan lingkungan sekolah, membantu teman yang tertimpa musibah duka, belajar kelompok saling melengkapi, dan aktif berkolaborasi dalam karya positif.'
+              'أَبٌ / وَالِدٌ (Ayah / bapak), أُمٌّ / وَالِدَةٌ (Ibu / bunda).',
+              'أَخٌ كَبِيْرٌ (Kakak laki-laki), أَخٌ صَغِيْرٌ (Adik laki-laki).',
+              'أُخْتٌ كَبِيْرَةٌ (Kakak perempuan), أُخْتٌ صَغِيْرَةٌ (Adik perempuan).',
+              'جَدٌّ (Kakek tercinta), جَدَّةٌ (Nenek penyayang).',
+              'عَمٌّ (Paman dari jalur ayah), عَمَّةٌ (Bibi dari jalur ayah).',
+              'خَالٌ (Paman dari jalur ibu), خَالَةٌ (Bibi dari jalur ibu).'
             ],
             vocabulary: [
-              { term: 'Gugur Gunung', meaning: 'Istilah kearifan lokal gotong royong masyarakat Jawa dalam menyelesaikan pekerjaan umum secara sukarela.' },
-              { term: 'Subak', meaning: 'Sistem tata kelola irigasi pertanian komunal di Bali yang berlandaskan filosofi kebersamaan Tri Hita Karana.' }
+              { term: 'أُسْرَةٌ سَعِيْدَةٌ', meaning: 'Keluarga yang bahagia' },
+              { term: 'وَالِدَانِ', meaning: 'Kedua orang tua' },
+              { term: 'ابْنٌ / بِنْتٌ', meaning: 'Anak laki-laki / Anak perempuan' }
             ],
-            practicalTips: 'Gotong royong adalah vaksin terbaik melawan egoisme dan individualisme yang merusak tatanan kemasyarakatan.'
+            practicalTips: 'Hafalkan perbedaan: \'Ammun (paman saudara ayah) vs Khaalun (paman saudara ibu).'
+          },
+          {
+            id: 'usrah-sub-1b',
+            code: 'B',
+            title: 'غرف البيت وأثاثه (Ruangan Rumah & Perabotannya)',
+            page: 'Halaman 56',
+            readTime: '7 menit',
+            summary:
+              'Mufrodat nama ruangan di dalam rumah dan perabotan yang lazim berada di dalamnya.',
+            keyPoints: [
+              'غُرْفَةُ الجُلُوْسِ (Ruang tamu / ruang duduk keluarga untuk menyambut tamu).',
+              'غُرْفَةُ النَّوْمِ (Kamar tidur), di dalamnya terdapat سَرِيْرٌ (ranjang/tempat tidur) dan وِسَادَةٌ (bantal).',
+              'غُرْفَةُ المُذَاكَرَةِ (Ruang belajar untuk mengulang pelajaran dan mengerjakan PR).',
+              'غُرْفَةُ الأَكْلِ (Ruang makan keluarga).',
+              'المَطْبَخُ (Dapur tempat ibu memasak makanan), ada فُرْنٌ (kompor/oven).',
+              'الحَمَّامُ (Kamar mandi tempat bersuci dan membersihkan badan).'
+            ],
+            vocabulary: [
+              { term: 'حَدِيْقَةُ البَيْتِ', meaning: 'Taman / kebun halaman rumah' },
+              { term: 'مِرْآةٌ', meaning: 'Cermin kaca' },
+              { term: 'خِزَانَةٌ', meaning: 'Lemari pakaian / perabotan' }
+            ],
+            practicalTips: 'Kata "غُرْفَة" berarti ruangan. Gabungkan dengan kata kerja atau kata benda untuk membentuk nama ruangan spesifik.'
+          },
+          {
+            id: 'usrah-sub-1c',
+            code: 'C',
+            title: 'الضمائر المتصلة بالاسم (Kata Ganti Kepemilikan)',
+            page: 'Halaman 60',
+            readTime: '6 menit',
+            summary:
+              'Dhomir muttashil disambungkan langsung di akhir kata benda untuk menyatakan kepemilikan (milikku, milikmu, miliknya).',
+            keyPoints: [
+              'Milikku (ـِي): بَيْتِي (Rumahku), كِتَابِي (Bukuku), أَبِي (Ayahku).',
+              'Milikmu lk (ـكَ): بَيْتُكَ (Rumahmu laki-laki).',
+              'Milikmu pr (ـكِ): بَيْتُكِ (Rumahmu perempuan).',
+              'Miliknya lk (ـهُ): بَيْتُهُ (Rumahnya laki-laki).',
+              'Miliknya pr (ـهَا): بَيْتُهَا (Rumahnya perempuan).',
+              'Milik kami (ـنَا): بَيْتُنَا (Rumah kami).'
+            ],
+            vocabulary: [
+              { term: 'أُسْرَتِي', meaning: 'Keluargaku' },
+              { term: 'غُرْفَتُكَ', meaning: 'Kamarmu' },
+              { term: 'أُمُّهُ', meaning: 'Ibunya' }
+            ],
+            practicalTips: 'Rumus: Kata Benda + Akhiran Dhomir. Contoh: Qalam (pena) + ii = Qalamii (penaku).'
+          }
+        ]
+      },
+      {
+        id: 'usrah-bab-2',
+        chapterNumber: 'BAB VI',
+        title: 'الأَنْشِطَةُ وَاليَوْمِيَّاتُ (Aktivitas Sehari-hari & Fi\'il Mudhari\')',
+        description: 'Mendeskripsikan rutinitas harian mulai bangun tidur, ibadah, belajar di sekolah hingga tidur malam menggunakan fi\'il mudhari\'.',
+        subchapters: [
+          {
+            id: 'usrah-sub-2a',
+            code: 'A',
+            title: 'الأنشطة الصباحية (Rutinitas Pagi Hari)',
+            page: 'Halaman 64',
+            readTime: '6 menit',
+            summary:
+              'Urutan aktivitas pagi hari seorang muslim dari bangun tidur hingga tiba di madrasah.',
+            keyPoints: [
+              'يَسْتَيْقِظُ مِنَ النَّوْمِ: Bangun dari tidur pada waktu subuh (الساعة الرابعة).',
+              'يَتَوَضَّأُ وَيُصَلِّي الصُّبْحَ: Berwudhu dan mendirikan shalat Subuh berjamaah.',
+              'يَقْرَأُ القُرْآنَ الكَرِيْمَ: Membaca ayat-ayat suci Al-Qur\'an.',
+              'يَسْتَحِمُّ فِي الحَمَّامِ: Mandi membersihkan badan dan bersiap mengenakan seragam.',
+              'يَتَنَاوَلُ الفُطُوْرَ: Menyantap sarapan pagi bersama keluarga di ruang makan.',
+              'يَذْهَبُ إِلَى المَدْرَسَةِ: Berangkat ke madrasah dengan penuh semangat.'
+            ],
+            vocabulary: [
+              { term: 'الفُطُوْرُ', meaning: 'Sarapan pagi' },
+              { term: 'الغَدَاءُ', meaning: 'Makan siang' },
+              { term: 'العَشَاءُ', meaning: 'Makan malam' }
+            ],
+            practicalTips: 'Hafalkan urutan waktu makan: Al-Futhuur (sarapan), Al-Ghadaa\' (makan siang), Al-\'Asyaa\' (makan malam).'
+          },
+          {
+            id: 'usrah-sub-2b',
+            code: 'B',
+            title: 'الفعل المضارع وتصريفه (Kaidah Fi\'il Mudhari\' Sederhana)',
+            page: 'Halaman 68',
+            readTime: '7 menit',
+            summary:
+              'Fi\'il mudhari\' menunjukkan pekerjaan yang sedang atau akan dilakukan, dengan perubahan huruf awalan (huruf mudhara\'ah: أ - ن - ي - ت).',
+            keyPoints: [
+              'أَنَا (Saya): diawali Hamzah (أَ-), contoh: أَنَا أَذْهَبُ إِلَى المَدْرَسَةِ.',
+              'نَحْنُ (Kami): diawali Nun (نَ-), contoh: نَحْنُ نَذْهَبُ إِلَى المَدْرَسَةِ.',
+              'أَنْتَ (Kamu lk): diawali Ta\' (تَ-), contoh: أَنْتَ تَذْهَبُ.',
+              'أَنْتِ (Kamu pr): diawali Ta\' dan diakhiri Ya-Nun (تَـ ... ـِيْنَ), contoh: أَنْتِ تَذْهَبِيْنَ.',
+              'هُوَ (Dia lk): diawali Ya\' (يَ-), contoh: هُوَ يَذْهَبُ.',
+              'هِيَ (Dia pr): diawali Ta\' (تَ-), contoh: هِيَ تَذْهَبُ.'
+            ],
+            vocabulary: [
+              { term: 'يَقْرَأُ / تَقْرَأُ', meaning: 'Dia laki-laki / perempuan sedang membaca' },
+              { term: 'يَكْتُبُ / تَكْتُبُ', meaning: 'Dia sedang menulis' },
+              { term: 'يَرْجِعُ / تَرْجِعُ', meaning: 'Dia sedang pulang' }
+            ],
+            practicalTips: 'Ingat jembatan keledai huruf mudhara\'ah: "أَنَيْتُ" (Hamzah, Nun, Ya, Ta).'
+          },
+          {
+            id: 'usrah-sub-2c',
+            code: 'C',
+            title: 'نص قرائي: يوميات تلميذ (Teks Bacaan: Keseharian Siswa)',
+            page: 'Halaman 72',
+            readTime: '7 menit',
+            summary:
+              'Latihan membaca dan memahami teks narasi pendek bahasa Arab tentang rutinitas murid berprestasi.',
+            keyPoints: [
+              'Teks: اِسْمِي إِبْرَاهِيْم. أَنَا تِلْمِيْذٌ فِي الصَّفِّ السَّابِعِ (Kelas 7).',
+              'Di Sekolah: أَدْرُسُ فِي الفَصْلِ بِجِدٍّ، وَأَقْرَأُ الكُتُبَ فِي المَكْتَبَةِ وَقْتَ الرَّاحَةِ.',
+              'Sore Hari: أَرْجِعُ إِلَى البَيْتِ فِي السَّاعَةِ الثَّانِيَةِ نَهَارًا، ثُمَّ أُصَلِّي الظُّهْرَ.',
+              'Malam Hari: أُذَاكِرُ الدُّرُوْسَ وَأَعْمَلُ الوَاجِبَ المَنْزِلِيَّ (PR), ثُمَّ أَنَامُ فِي السَّاعَةِ التَّاسِعَةِ لَيْلًا.'
+            ],
+            vocabulary: [
+              { term: 'الصَّفُّ السَّابِعُ', meaning: 'Kelas 7 (Tujuh)' },
+              { term: 'الوَاجِبُ المَنْزِلِيُّ (PR)', meaning: 'Pekerjaan rumah / tugas sekolah' },
+              { term: 'بِجِدٍّ وَاجْتِهَادٍ', meaning: 'Dengan sungguh-sungguh dan rajin' }
+            ],
+            practicalTips: 'Membaca teks cerita berulang kali membantu melatih intonasi waqaf dan kelancaran membaca tulisan Arab berharakat.'
           }
         ]
       }
@@ -737,63 +494,22 @@ export const LKS_SUBJECTS_DATA: LKSSubjectInfo[] = [
   }
 ];
 
-export interface LKSSubject {
-  id: SubjectId;
-  name: string;
-  codeName: string;
-  title: string;
-  curriculum: string;
-  icon: string;
-  tagline: string;
-  description: string;
-  progressPercent: number;
-  totalMaterials: number;
-  chapters: Array<{
-    id: string;
-    chapterNumber: string;
-    title: string;
-    description: string;
-    subchapters: Array<{
-      id: string;
-      code: string;
-      title: string;
-      page?: string;
-      readTime: string;
-      summary: string;
-      keyPoints: string[];
-      vocabulary?: Array<{ term: string; meaning: string }>;
-      practicalTips?: string;
-    }>;
-  }>;
-}
-
-export const LKS_SUBJECTS: Record<SubjectId, LKSSubject> = {
-  ipa: {
-    ...LKS_SUBJECTS_DATA[0],
-    title: 'Ilmu Pengetahuan Alam (IPA)',
-  },
-  fikih: {
-    ...LKS_SUBJECTS_DATA[1],
-    title: 'Fikih Ibadah',
-  },
-  pkn: {
-    ...LKS_SUBJECTS_DATA[2],
-    title: 'Pendidikan Pancasila & Kewarganegaraan (PKn)',
-  },
+// Helper maps for quick lookup in components
+export const LKS_SUBJECTS: Record<SubjectId, LKSSubjectInfo> = {
+  taaruf: LKS_SUBJECTS_DATA[0],
+  adawat: LKS_SUBJECTS_DATA[1],
+  usrah: LKS_SUBJECTS_DATA[2],
+  // Fallbacks for any legacy cached localStorage subject keys
+  ipa: LKS_SUBJECTS_DATA[0],
+  fikih: LKS_SUBJECTS_DATA[1],
+  pkn: LKS_SUBJECTS_DATA[2],
 };
 
-export const LKS_CHAPTERS_DETAIL: Record<string, any> = {};
-
+export const LKS_CHAPTERS_DETAIL: Record<string, LKSSubchapter> = {};
 LKS_SUBJECTS_DATA.forEach((subj) => {
   subj.chapters.forEach((chap) => {
     chap.subchapters.forEach((sub) => {
-      LKS_CHAPTERS_DETAIL[sub.id] = {
-        ...sub,
-        subjectId: subj.id,
-        chapterTitle: chap.title,
-        estimatedReadTime: sub.readTime,
-        vocabOrTerms: sub.vocabulary?.map((v) => `${v.term}: ${v.meaning}`) || [],
-      };
+      LKS_CHAPTERS_DETAIL[sub.id] = sub;
     });
   });
 });

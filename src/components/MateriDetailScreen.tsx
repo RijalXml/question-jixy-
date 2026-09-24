@@ -27,8 +27,8 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
   onSelectSubchapter,
   onOpenScratchpad,
 }) => {
-  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['ipa-sub-1a'];
-  const subjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['ipa'];
+  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['taaruf-sub-1a'];
+  const subjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['taaruf'];
 
   // Find all subchapters in current subject for Next/Previous navigation
   const allSubchapters = subjectInfo.chapters.flatMap((c) => c.subchapters);
@@ -51,7 +51,7 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
 
         <div className="flex items-center gap-2">
           <span className="text-xs font-space text-violet-300">
-            {subjectInfo.title}
+            {subjectInfo.name}
           </span>
           <span className="text-white/20">•</span>
           <span className="text-xs font-orbitron font-bold text-cyan-300 glass-panel px-2 py-0.5 rounded-lg border border-cyan-400/40">
@@ -72,7 +72,7 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
             </span>
             <span className="flex items-center gap-1 text-violet-300/80 font-mono">
               <Clock className="w-3.5 h-3.5 text-cyan-400" />
-              {materi.estimatedReadTime}
+              {materi.readTime || materi.page || '5 menit'}
             </span>
           </div>
 
@@ -80,7 +80,7 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
             {materi.title}
           </h2>
           <p className="text-xs sm:text-sm text-violet-200/80 leading-relaxed font-space">
-            Ringkasan kurikulum Lembar Kerja Siswa (LKS) Semester Genap 2026.
+            Ringkasan kurikulum Lembar Kerja Siswa (LKS) Bahasa Arab Kelas 7 SMP/MTs.
           </p>
         </div>
 
@@ -121,25 +121,37 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
         </section>
 
         {/* 5. KOSAKATA / ISTILAH KUNCI */}
-        {materi.vocabOrTerms && materi.vocabOrTerms.length > 0 && (
+        {materi.vocabulary && materi.vocabulary.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-amber-400" />
               <h3 className="text-xs font-orbitron font-bold text-amber-300 uppercase tracking-wider">
-                Istilah & Kosa Kata Kunci
+                Mufrodat & Istilah Kunci
               </h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-space">
-              {materi.vocabOrTerms.map((term: string, idx: number) => (
+              {materi.vocabulary.map((v, idx: number) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-2xl glass-panel border border-amber-400/30 bg-amber-950/20 text-xs text-amber-200 font-medium"
+                  className="p-3.5 rounded-2xl glass-panel border border-amber-400/30 bg-amber-950/20 flex items-center justify-between gap-3 text-xs"
                 >
-                  {term}
+                  <span className="font-arabic text-base text-amber-200 font-bold">{v.term}</span>
+                  <span className="text-violet-200/90 text-right">{v.meaning}</span>
                 </div>
               ))}
             </div>
           </section>
+        )}
+
+        {/* Tips Praktis */}
+        {materi.practicalTips && (
+          <div className="p-4 rounded-2xl glass-panel border border-cyan-400/30 bg-cyan-950/20 flex items-start gap-3 text-xs font-space">
+            <span className="text-cyan-400 text-base">💡</span>
+            <div>
+              <span className="font-orbitron font-bold text-cyan-300 block mb-0.5">TIPS UJIAN & HAFALAN:</span>
+              <p className="text-cyan-100/90 leading-relaxed">{materi.practicalTips}</p>
+            </div>
+          </div>
         )}
 
         {/* 6. ACTION ROW */}

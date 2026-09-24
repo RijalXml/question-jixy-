@@ -39,12 +39,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onResumeExam,
   onOpenScratchpad,
 }) => {
-  const [activeTier, setActiveTier] = useState<SubjectId>('ipa');
+  const [activeTier, setActiveTier] = useState<SubjectId>('taaruf');
 
   // Quick continue subchapter
-  const lastSubchapterId = userProfile.lastStudiedMateriId || 'ipa-sub-1a';
+  const lastSubchapterId = userProfile.lastStudiedMateriId || 'taaruf-sub-1a';
   const lastSubchapter =
-    LKS_CHAPTERS_DETAIL[lastSubchapterId] || LKS_CHAPTERS_DETAIL['ipa-sub-1a'];
+    LKS_CHAPTERS_DETAIL[lastSubchapterId] || LKS_CHAPTERS_DETAIL['taaruf-sub-1a'];
 
   return (
     <div className="relative space-y-16 pb-24 select-none font-sans">
@@ -195,7 +195,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
             {/* Indonesian context line */}
             <p className="mt-2 text-xs sm:text-sm text-zinc-400 font-space max-w-lg leading-relaxed">
-              Platform Simulasi Ujian & Ringkasan Materi Terpadu IPA (Sains), Fikih Ibadah, dan PKn Berbasis Antariksa
+              Platform Simulasi Ujian & Ringkasan Materi Terpadu Bahasa Arab Kelas 7 (MTs / SMP) Berbasis LKS Kosmik
             </p>
 
             {/* Primary Action Button: [ Build My Growth Engine ↗ ] */}
@@ -205,7 +205,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 onClick={() => onNavigate('subject')}
                 className="relative group overflow-hidden rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 px-7 py-3 text-xs sm:text-sm font-space font-bold text-white shadow-[0_0_35px_rgba(139,92,246,0.7)] hover:shadow-[0_0_45px_rgba(139,92,246,0.95)] hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-2 border border-violet-400/40"
               >
-                <span>Mulai Simulasi Ujian</span>
+                <span>Mulai Simulasi Bahasa Arab</span>
                 <span className="text-base group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
                   ↗
                 </span>
@@ -245,71 +245,71 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <div className="space-y-6">
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold font-orbitron text-white tracking-wide">
-            PILIHAN MATA PELAJARAN LKS
+            PAKET KUIS BAHASA ARAB KELAS 7
           </h2>
           <p className="text-xs sm:text-sm text-zinc-400 font-space mt-1">
-            Format Ujian Standar: 30 Soal Terdistribusi Proporsional (A, B, C, D)
+            Kurikulum Merdeka & Kemenag KMA 183 • Terdiri dari Mufrodat, Qawa'id & Pemahaman Bacaan
           </p>
         </div>
 
         {/* 3 Tier Cards matching Image 2 top layout (SATELLITE, PLANET, STAR) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* 1. SATELLITE (IPA) */}
+          {/* 1. SATELLITE (TA'ARUF & MARAFIQ) */}
           <div
             className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
-              activeTier === 'ipa'
+              activeTier === 'taaruf'
                 ? 'border-cyan-400/70 shadow-[0_0_35px_rgba(6,182,212,0.35)]'
                 : 'border-white/15 hover:border-white/30'
             }`}
           >
             <div>
               <div className="text-xs font-bold tracking-widest text-cyan-300 uppercase font-orbitron">
-                SATELLITE
+                SATELLITE • PAKET 1
               </div>
-              <div className="mt-2 text-3xl font-extrabold text-white font-orbitron">
-                IPA
+              <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-white font-orbitron">
+                AT-TA'ARUF
               </div>
               <p className="text-xs text-cyan-200/80 font-space mt-0.5">
-                30 Butir Soal Terverifikasi
+                التَّعَارُفُ وَالْمَرَافِقُ الْمَدْرَسِيَّة (Bab 1 & 2)
               </p>
 
               <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-cyan-400">✦</span>
-                  <span>Sistem Tata Surya & Planet</span>
+                  <span>Ungkapan Sapaan (صَبَاحُ الخَيْرِ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-cyan-400">✦</span>
-                  <span>Karakteristik Benda Langit</span>
+                  <span>Isim Dhomir (أَنَا، أَنْتَ، أَنْتِ، هُوَ، هِيَ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-cyan-400">✦</span>
-                  <span>Rotasi & Revolusi Bumi</span>
+                  <span>Isim Isyarah (هٰذَا / هٰذِهِ / ذٰلِكَ / تِلْكَ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-cyan-400">✦</span>
-                  <span>Satelit Alami & Gravitasi</span>
+                  <span>Fasilitas Madrasah (فَصْلٌ، مَكْتَبَةٌ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-cyan-400">✦</span>
-                  <span>Pembahasan Kunci Jawaban</span>
+                  <span>Keterangan Tempat (أَمَامَ، وَرَاءَ، فِي)</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 space-y-2">
               <button
-                id="btn-quiz-tier-ipa"
+                id="btn-quiz-tier-taaruf"
                 onClick={() => {
-                  onSelectSubject('ipa');
+                  onSelectSubject('taaruf');
                   onNavigate('quiz');
                 }}
                 className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(6,182,212,0.4)] active:scale-95 transition-all text-center"
               >
-                Mulai Quiz IPA ↗
+                Mulai Quiz Ta'aruf ↗
               </button>
               <button
-                onClick={() => onSelectSubject('ipa')}
+                onClick={() => onSelectSubject('taaruf')}
                 className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-cyan-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
@@ -317,62 +317,62 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
 
-          {/* 2. PLANET (FIKIH) */}
+          {/* 2. PLANET (ADAWAT & UNWAN) */}
           <div
             className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
-              activeTier === 'fikih'
+              activeTier === 'adawat'
                 ? 'border-emerald-400/70 shadow-[0_0_35px_rgba(16,185,129,0.35)]'
                 : 'border-white/15 hover:border-white/30'
             }`}
           >
             <div>
               <div className="text-xs font-bold tracking-widest text-emerald-300 uppercase font-orbitron">
-                PLANET
+                PLANET • PAKET 2
               </div>
-              <div className="mt-2 text-3xl font-extrabold text-white font-orbitron">
-                FIKIH
+              <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-white font-orbitron">
+                AL-ADAWAT
               </div>
               <p className="text-xs text-emerald-200/80 font-space mt-0.5">
-                30 Butir Soal Terverifikasi
+                الأَدَوَاتُ وَالأَلْوَانُ وَالعُنْوَان (Bab 3 & 4)
               </p>
 
               <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-emerald-400">✦</span>
-                  <span>Thaharah & Konsep Bersuci</span>
+                  <span>Perlengkapan Belajar (كِتَابٌ، قَلَمٌ، دَفْتَرٌ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-emerald-400">✦</span>
-                  <span>Wudhu & Tayammum Praktis</span>
+                  <span>Warna Mudzakkar & Mu'annats (أَحْمَرُ/حَمْرَاءُ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-emerald-400">✦</span>
-                  <span>Shalat Jamaah & Jamak Qashar</span>
+                  <span>Kaidah Na'at Man'ut Sifat Benda</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-emerald-400">✦</span>
-                  <span>Puasa Wajib & Puasa Sunnah</span>
+                  <span>Alamat Rumah & Jalan (مَا عُنْوَانُكَ؟)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-emerald-400">✦</span>
-                  <span>Zakat Fitrah & Zakat Mal</span>
+                  <span>Angka Arab 1 - 100 (الأَرْقَامُ ١ - ١٠٠)</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 space-y-2">
               <button
-                id="btn-quiz-tier-fikih"
+                id="btn-quiz-tier-adawat"
                 onClick={() => {
-                  onSelectSubject('fikih');
+                  onSelectSubject('adawat');
                   onNavigate('quiz');
                 }}
                 className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] active:scale-95 transition-all text-center"
               >
-                Mulai Quiz Fikih ↗
+                Mulai Quiz Adawat ↗
               </button>
               <button
-                onClick={() => onSelectSubject('fikih')}
+                onClick={() => onSelectSubject('adawat')}
                 className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
@@ -380,62 +380,62 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
 
-          {/* 3. STAR (PKN) */}
+          {/* 3. STAR (USRAH & YAUMIYYAT) */}
           <div
             className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
-              activeTier === 'pkn'
+              activeTier === 'usrah'
                 ? 'border-amber-400/70 shadow-[0_0_35px_rgba(245,158,11,0.35)]'
                 : 'border-white/15 hover:border-white/30'
             }`}
           >
             <div>
               <div className="text-xs font-bold tracking-widest text-amber-300 uppercase font-orbitron">
-                STAR
+                STAR • PAKET 3
               </div>
-              <div className="mt-2 text-3xl font-extrabold text-white font-orbitron">
-                PKN
+              <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-white font-orbitron">
+                AL-USRAH
               </div>
               <p className="text-xs text-amber-200/80 font-space mt-0.5">
-                30 Butir Soal Terverifikasi
+                البَيْتُ وَالْأُسْرَةُ وَالْيَوْمِيَّات (Bab 5 & 6)
               </p>
 
               <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-amber-400">✦</span>
-                  <span>5 Nilai Sila Pancasila</span>
+                  <span>Anggota Keluarga (أَبٌ، أُمٌّ، جَدٌّ، أَخٌ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-amber-400">✦</span>
-                  <span>Norma Agama, Hukum & Adat</span>
+                  <span>Ruangan Rumah (غُرْفَةُ الجُلُوْسِ، المَطْبَخُ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-amber-400">✦</span>
-                  <span>Hak & Kewajiban Warga Negara</span>
+                  <span>Dhomir Kepemilikan (بَيْتِي، بَيْتُكَ، بَيْتُهُ)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-amber-400">✦</span>
-                  <span>Bhinneka Tunggal Ika</span>
+                  <span>Rutinitas Harian (يَسْتَيْقِظُ، يُصَلِّي)</span>
                 </div>
                 <div className="flex items-center gap-2 border-t border-white/5 pt-2">
                   <span className="text-amber-400">✦</span>
-                  <span>Toleransi & Gotong Royong</span>
+                  <span>Fi'il Mudhari' Sederhana (أَنَا أَذْهَبُ)</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 space-y-2">
               <button
-                id="btn-quiz-tier-pkn"
+                id="btn-quiz-tier-usrah"
                 onClick={() => {
-                  onSelectSubject('pkn');
+                  onSelectSubject('usrah');
                   onNavigate('quiz');
                 }}
                 className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)] active:scale-95 transition-all text-center"
               >
-                Mulai Quiz PKn ↗
+                Mulai Quiz Usrah ↗
               </button>
               <button
-                onClick={() => onSelectSubject('pkn')}
+                onClick={() => onSelectSubject('usrah')}
                 className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-amber-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
@@ -477,10 +477,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           About Media Content & Kurikulum LKS
         </h3>
         <p className="text-xs sm:text-sm text-zinc-300 font-space leading-relaxed">
-          Platform Quiz Edukasi Antariksa memadukan materi Lembar Kerja Siswa (LKS) semester genap dengan visualisasi interaktif modern. Setiap modul dan paket kuis dirancang dengan bobot indikator yang proporsional, kunci jawaban acak tanpa bias, serta pembahasan komprehensif untuk membantu siswa memahami konsep sains, nilai-nilai spiritualitas fikih, dan wawasan kebangsaan Pancasila.
+          Platform Quiz Edukasi Antariksa memadukan materi Lembar Kerja Siswa (LKS) Bahasa Arab Kelas 7 SMP/MTs (Kurikulum Merdeka & Kemenag KMA 183). Setiap modul dan paket kuis dirancang dengan bobot indikator yang proporsional, teks berharakat jelas, terjemahan kosakata mufrodat, rumus qawa'id (isim dhomir, isim isyarah, dhorof makan, na'at man'ut, dan fi'il mudhari'), serta pembahasan komprehensif.
         </p>
         <div className="pt-2 flex items-center justify-between border-t border-white/10 text-xs font-mono text-zinc-400">
-          <span>© 2026 Quiz Edukasi · Platform Pembelajaran Antariksa</span>
+          <span>© 2026 Quiz Edukasi · Pembelajaran Bahasa Arab Kelas 7</span>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="hover:text-white transition-colors"

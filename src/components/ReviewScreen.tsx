@@ -23,6 +23,10 @@ interface ReviewScreenProps {
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
+const hasArabic = (text?: string): boolean => {
+  return !!text && /[\u0600-\u06FF]/.test(text);
+};
+
 export const ReviewScreen: React.FC<ReviewScreenProps> = ({
   questions,
   userAnswers,
@@ -204,14 +208,22 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
                       <div className="mb-1 text-[10px] font-orbitron uppercase tracking-wider text-cyan-300 font-semibold">
                         Kutipan Teks:
                       </div>
-                      <p className="whitespace-pre-line text-xs sm:text-sm text-violet-100 font-space">
+                      <p className={`whitespace-pre-line text-violet-100 ${
+                        hasArabic(q.passage)
+                          ? 'font-arabic text-sm sm:text-base leading-loose'
+                          : 'text-xs sm:text-sm leading-relaxed font-space'
+                      }`}>
                         {q.passage}
                       </p>
                     </div>
                   )}
 
                   {/* Question Text */}
-                  <div className="text-sm sm:text-base font-medium text-white leading-relaxed font-space">
+                  <div className={`font-medium text-white ${
+                    hasArabic(q.question)
+                      ? 'font-arabic text-base sm:text-xl leading-loose'
+                      : 'text-sm sm:text-base leading-relaxed font-space'
+                  }`}>
                     {q.question}
                   </div>
 
@@ -221,6 +233,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
                       const letter = OPTION_LABELS[optIdx];
                       const isCorrect = optIdx === q.correctAnswer;
                       const isUserPick = optIdx === q.userAnswer;
+                      const containsArabic = hasArabic(opt);
 
                       let rowClass = 'border-white/10 bg-white/[0.03] text-violet-200';
                       let badgeClass = 'border-white/15 bg-white/10 text-violet-300';
@@ -242,7 +255,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
                             <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-xl font-orbitron text-xs ${badgeClass}`}>
                               {letter}
                             </span>
-                            <span className="leading-relaxed font-space">{opt}</span>
+                            <span className={containsArabic ? 'font-arabic text-sm sm:text-base leading-loose' : 'leading-relaxed font-space'}>
+                              {opt}
+                            </span>
                           </div>
 
                           <div className="shrink-0 font-orbitron text-[11px] font-bold">
