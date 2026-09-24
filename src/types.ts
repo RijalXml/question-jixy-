@@ -7,6 +7,7 @@ export type UserRole = 'USER' | 'ADMIN';
 export type ScreenState =
   | 'name'
   | 'home'
+  | 'belajar'
   | 'subject'
   | 'materi'
   | 'quiz'

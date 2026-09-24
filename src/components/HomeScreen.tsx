@@ -81,32 +81,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           className="absolute -bottom-10 right-8 z-20 opacity-80 hidden lg:block"
         />
 
-        {/* The Central Quantum Frosted Glass Window */}
-        <div className="relative mx-auto max-w-5xl rounded-[32px] sm:rounded-[40px] border border-white/20 bg-[#070514]/85 backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85),0_0_90px_rgba(139,92,246,0.35)] overflow-hidden transition-all">
-          {/* Inner Glowing Planetary Atmosphere Horizon (Image 1 Signature) */}
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[140%] h-[320px] pointer-events-none opacity-85">
+        {/* The Central Quantum Frosted Window - Sleek Blur, Less Gloss */}
+        <div className="relative mx-auto max-w-5xl rounded-[32px] sm:rounded-[40px] border border-white/10 bg-[#09071b]/92 backdrop-blur-3xl shadow-[0_25px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(139,92,246,0.18)] overflow-hidden transition-all">
+          {/* Inner Glowing Planetary Atmosphere Horizon - Softened & Atmospheric */}
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[140%] h-[320px] pointer-events-none opacity-50">
             <div
-              className="w-full h-full rounded-[50%] border-b-[3px] border-violet-300/80 filter blur-[0.5px]"
+              className="w-full h-full rounded-[50%] border-b-[2px] border-violet-400/40 filter blur-[1px]"
               style={{
                 boxShadow:
-                  '0 25px 80px rgba(168, 85, 247, 0.9), inset 0 -20px 50px rgba(216, 180, 254, 0.5)',
+                  '0 20px 60px rgba(168, 85, 247, 0.4), inset 0 -10px 30px rgba(216, 180, 254, 0.25)',
                 background:
-                  'radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.45) 0%, rgba(91, 33, 182, 0.15) 50%, transparent 80%)',
+                  'radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.25) 0%, rgba(91, 33, 182, 0.08) 50%, transparent 80%)',
               }}
             />
           </div>
 
-          {/* Sinuous Energy Light Trails (Image 1 Signature) */}
+          {/* Sinuous Energy Light Trails */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen"
+            className="absolute inset-0 pointer-events-none opacity-15 mix-blend-screen"
             style={{
               background:
-                'radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.5) 0%, transparent 60%), radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.4) 0%, transparent 50%)',
+                'radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.35) 0%, transparent 60%), radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.25) 0%, transparent 50%)',
             }}
           />
 
-          {/* 1. Inner Navigation Bar (Matching Image 1 Top Header) */}
-          <div className="relative z-20 border-b border-white/10 px-5 sm:px-8 py-3.5 flex items-center justify-between backdrop-blur-md bg-white/[0.02]">
+          {/* 1. Inner Navigation Bar */}
+          <div className="relative z-20 border-b border-white/[0.07] px-5 sm:px-8 py-3.5 flex items-center justify-between backdrop-blur-xl bg-black/30">
             {/* Left Nav Links */}
             <div className="flex items-center gap-4 text-xs font-space text-zinc-400">
               <div className="flex items-center gap-1.5 text-white font-medium">
@@ -252,14 +252,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </p>
         </div>
 
-        {/* 3 Tier Cards matching Image 2 top layout (SATELLITE, PLANET, STAR) */}
+        {/* 3 Tier Cards matching modern blurred cards (SATELLITE, PLANET, STAR) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* 1. SATELLITE (TA'ARUF & MARAFIQ) */}
           <div
-            className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
+            className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between bg-[#0e0c22]/90 backdrop-blur-2xl shadow-xl ${
               activeTier === 'taaruf'
-                ? 'border-cyan-400/70 shadow-[0_0_35px_rgba(6,182,212,0.35)]'
-                : 'border-white/15 hover:border-white/30'
+                ? 'border-cyan-400/50 shadow-[0_12px_36px_rgba(6,182,212,0.2)]'
+                : 'border-white/10 hover:border-white/20'
             }`}
           >
             <div>
@@ -273,7 +273,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 التَّعَارُفُ وَالْمَرَافِقُ الْمَدْرَسِيَّة (Bab 1 & 2)
               </p>
 
-              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
+              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/[0.08] pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-cyan-400">✦</span>
                   <span>Ungkapan Sapaan (صَبَاحُ الخَيْرِ)</span>
@@ -304,13 +304,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onSelectSubject('taaruf');
                   onNavigate('quiz');
                 }}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(6,182,212,0.4)] active:scale-95 transition-all text-center"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(6,182,212,0.3)] active:scale-95 transition-all text-center"
               >
                 Mulai Quiz Ta'aruf ↗
               </button>
               <button
                 onClick={() => onSelectSubject('taaruf')}
-                className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-cyan-200 font-space text-xs border border-white/10 transition-all text-center"
+                className="w-full py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-cyan-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
               </button>
@@ -319,10 +319,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           {/* 2. PLANET (ADAWAT & UNWAN) */}
           <div
-            className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
+            className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between bg-[#0e0c22]/90 backdrop-blur-2xl shadow-xl ${
               activeTier === 'adawat'
-                ? 'border-emerald-400/70 shadow-[0_0_35px_rgba(16,185,129,0.35)]'
-                : 'border-white/15 hover:border-white/30'
+                ? 'border-emerald-400/50 shadow-[0_12px_36px_rgba(16,185,129,0.2)]'
+                : 'border-white/10 hover:border-white/20'
             }`}
           >
             <div>
@@ -336,7 +336,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 الأَدَوَاتُ وَالأَلْوَانُ وَالعُنْوَان (Bab 3 & 4)
               </p>
 
-              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
+              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/[0.08] pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-emerald-400">✦</span>
                   <span>Perlengkapan Belajar (كِتَابٌ، قَلَمٌ، دَفْتَرٌ)</span>
@@ -367,13 +367,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onSelectSubject('adawat');
                   onNavigate('quiz');
                 }}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] active:scale-95 transition-all text-center"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(16,185,129,0.3)] active:scale-95 transition-all text-center"
               >
                 Mulai Quiz Adawat ↗
               </button>
               <button
                 onClick={() => onSelectSubject('adawat')}
-                className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-200 font-space text-xs border border-white/10 transition-all text-center"
+                className="w-full py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-emerald-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
               </button>
@@ -382,10 +382,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           {/* 3. STAR (USRAH & YAUMIYYAT) */}
           <div
-            className={`relative rounded-3xl glass-panel border transition-all duration-300 p-6 flex flex-col justify-between bg-black/65 backdrop-blur-xl shadow-2xl ${
+            className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between bg-[#0e0c22]/90 backdrop-blur-2xl shadow-xl ${
               activeTier === 'usrah'
-                ? 'border-amber-400/70 shadow-[0_0_35px_rgba(245,158,11,0.35)]'
-                : 'border-white/15 hover:border-white/30'
+                ? 'border-amber-400/50 shadow-[0_12px_36px_rgba(245,158,11,0.2)]'
+                : 'border-white/10 hover:border-white/20'
             }`}
           >
             <div>
@@ -399,7 +399,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 البَيْتُ وَالْأُسْرَةُ وَالْيَوْمِيَّات (Bab 5 & 6)
               </p>
 
-              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/10 pt-4">
+              <div className="mt-6 space-y-2.5 text-xs text-zinc-300 font-space border-t border-white/[0.08] pt-4">
                 <div className="flex items-center gap-2">
                   <span className="text-amber-400">✦</span>
                   <span>Anggota Keluarga (أَبٌ، أُمٌّ، جَدٌّ، أَخٌ)</span>
@@ -430,13 +430,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onSelectSubject('usrah');
                   onNavigate('quiz');
                 }}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)] active:scale-95 transition-all text-center"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-orbitron text-xs font-bold shadow-[0_0_15px_rgba(245,158,11,0.3)] active:scale-95 transition-all text-center"
               >
                 Mulai Quiz Usrah ↗
               </button>
               <button
                 onClick={() => onSelectSubject('usrah')}
-                className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-amber-200 font-space text-xs border border-white/10 transition-all text-center"
+                className="w-full py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-amber-200 font-space text-xs border border-white/10 transition-all text-center"
               >
                 Baca Ringkasan Bab
               </button>
@@ -472,14 +472,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       {/* =========================================================================
           SECTION 5: IMAGE 2 ABOUT MEDIA CONTENT SECTION
       ========================================================================= */}
-      <div className="rounded-3xl glass-panel border border-white/15 bg-black/60 backdrop-blur-xl p-6 sm:p-8 space-y-4 shadow-xl">
+      <div className="rounded-3xl border border-white/10 bg-[#0c0a20]/90 backdrop-blur-2xl p-6 sm:p-8 space-y-4 shadow-xl">
         <h3 className="text-lg sm:text-xl font-bold font-orbitron text-white">
           About Media Content & Kurikulum LKS
         </h3>
         <p className="text-xs sm:text-sm text-zinc-300 font-space leading-relaxed">
           Platform Quiz Edukasi Antariksa memadukan materi Lembar Kerja Siswa (LKS) Bahasa Arab Kelas 7 SMP/MTs (Kurikulum Merdeka & Kemenag KMA 183). Setiap modul dan paket kuis dirancang dengan bobot indikator yang proporsional, teks berharakat jelas, terjemahan kosakata mufrodat, rumus qawa'id (isim dhomir, isim isyarah, dhorof makan, na'at man'ut, dan fi'il mudhari'), serta pembahasan komprehensif.
         </p>
-        <div className="pt-2 flex items-center justify-between border-t border-white/10 text-xs font-mono text-zinc-400">
+        <div className="pt-2 flex items-center justify-between border-t border-white/[0.08] text-xs font-mono text-zinc-400">
           <span>© 2026 Quiz Edukasi · Pembelajaran Bahasa Arab Kelas 7</span>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

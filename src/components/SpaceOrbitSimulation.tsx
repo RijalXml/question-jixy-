@@ -145,20 +145,20 @@ export const SpaceOrbitSimulation: React.FC = () => {
       </div>
 
       {/* Frame Container */}
-      <div className="relative overflow-hidden rounded-2xl glass-panel border border-white/20 bg-black/85 shadow-2xl">
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#09071a]/95 backdrop-blur-3xl shadow-xl">
         <div className="w-full h-[340px] relative">
           <canvas ref={canvasRef} className="w-full h-full block" />
 
           {/* Watermark badge */}
           <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2">
-            <span className="text-xs font-mono px-2.5 py-1 rounded bg-black/70 border border-white/15 text-zinc-300">
+            <span className="text-xs font-mono px-2.5 py-1 rounded bg-black/60 border border-white/10 text-zinc-300 backdrop-blur-md">
               🔭 Bagan Orbit Keplerian · Ringan & Presisi
             </span>
           </div>
         </div>
 
         {/* Minimalist Info Bar */}
-        <div className="px-5 py-3 bg-black/90 border-t border-white/10 flex items-center justify-between font-mono text-xs text-zinc-400">
+        <div className="px-5 py-3 bg-black/70 border-t border-white/[0.08] flex items-center justify-between font-mono text-xs text-zinc-400">
           <span className="text-zinc-300">
             Skala Orbit: Merkurius · Venus · Bumi · Mars · Jupiter · Saturnus
           </span>

@@ -224,7 +224,7 @@ export const SpaceAudioPlayer: React.FC = () => {
           return (
             <div
               key={track.id}
-              className="relative overflow-hidden rounded-2xl glass-panel border border-white/15 bg-black/60 backdrop-blur-xl p-5 shadow-xl transition-all hover:border-white/30"
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d0b21]/90 backdrop-blur-2xl p-5 shadow-xl transition-all hover:border-white/20"
             >
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm sm:text-base font-bold text-white font-space">

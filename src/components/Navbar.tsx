@@ -58,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full px-3 pt-2.5 pb-1 pointer-events-none">
-      <div className="pointer-events-auto mx-auto max-w-6xl rounded-2xl glass-panel px-3.5 sm:px-5 py-2.5 flex items-center justify-between border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <div className="pointer-events-auto mx-auto max-w-6xl rounded-2xl px-3.5 sm:px-5 py-2.5 flex items-center justify-between border border-white/10 bg-[#09071b]/90 shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
         {/* Brand Logo & Name */}
         <div className="flex items-center gap-5 sm:gap-7">
           <button
