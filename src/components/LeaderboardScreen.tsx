@@ -57,17 +57,16 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
   const getSubjectBadge = (subId: SubjectId | 'all') => {
     switch (subId) {
+      case 'ips':
       case 'taaruf':
       case 'ipa':
-        return { label: 'At-Ta\'aruf & Fasilitas', icon: '🤝' };
+        return { label: 'IPS (Ilmu Pengetahuan Sosial)', icon: '🌏' };
+      case 'pjok':
       case 'adawat':
       case 'fikih':
-        return { label: 'Al-Adawat & Al-\'Unwan', icon: '🎒' };
-      case 'usrah':
-      case 'pkn':
-        return { label: 'Al-Bait & Al-Usrah', icon: '🏡' };
+        return { label: 'PJOK (Penjasorkes)', icon: '⚽' };
       default:
-        return { label: 'Semua Paket B. Arab', icon: '🌟' };
+        return { label: 'Semua Mapel (IPS & PJOK)', icon: '🌟' };
     }
   };
 
@@ -75,7 +74,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
     if (subjectFilter !== 'all') {
       onStartQuiz(subjectFilter);
     } else {
-      onStartQuiz('taaruf');
+      onStartQuiz('ips');
     }
   };
 
@@ -154,41 +153,28 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('taaruf')}
-            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'taaruf'
+            onClick={() => setSubjectFilter('ips')}
+            className={`flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-xs font-orbitron font-bold transition-all ${
+              subjectFilter === 'ips'
                 ? 'bg-cyan-500/30 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.5)] border border-cyan-400/60'
                 : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🤝</span>
-            <span>At-Ta'aruf</span>
+            <span>🌏</span>
+            <span>IPS</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setSubjectFilter('adawat')}
-            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'adawat'
+            onClick={() => setSubjectFilter('pjok')}
+            className={`flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-xs font-orbitron font-bold transition-all ${
+              subjectFilter === 'pjok'
                 ? 'bg-emerald-500/30 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.5)] border border-emerald-400/60'
                 : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🎒</span>
-            <span>Al-Adawat</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSubjectFilter('usrah')}
-            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-orbitron font-bold transition-all ${
-              subjectFilter === 'usrah'
-                ? 'bg-amber-500/30 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.5)] border border-amber-400/60'
-                : 'glass-panel border border-white/10 text-violet-300 hover:text-white hover:bg-white/5'
-            }`}
-          >
-            <span>🏡</span>
-            <span>Al-Usrah</span>
+            <span>⚽</span>
+            <span>PJOK</span>
           </button>
         </div>
 

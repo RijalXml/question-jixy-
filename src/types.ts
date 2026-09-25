@@ -1,4 +1,4 @@
-export type SubjectId = 'taaruf' | 'adawat' | 'usrah' | 'ipa' | 'fikih' | 'pkn';
+export type SubjectId = 'ips' | 'pjok' | 'taaruf' | 'adawat' | 'usrah' | 'ipa' | 'fikih' | 'pkn';
 
 export type SpaceThemeMode = 'planet' | 'blackhole';
 
@@ -93,9 +93,11 @@ export interface AdminStats {
   totalQuestions: number;
   totalQuizzesTaken: number;
   averageScore: number;
-  taarufCount: number;
-  adawatCount: number;
-  usrahCount: number;
+  ipsCount: number;
+  pjokCount: number;
+  taarufCount?: number;
+  adawatCount?: number;
+  usrahCount?: number;
   ipaCount?: number;
   fikihCount?: number;
   pknCount?: number;

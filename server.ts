@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 
 // Types
-export type SubjectId = 'taaruf' | 'adawat' | 'usrah' | 'ipa' | 'fikih' | 'pkn';
+export type SubjectId = 'ips' | 'pjok' | 'taaruf' | 'adawat' | 'usrah' | 'ipa' | 'fikih' | 'pkn';
 
 export interface Question {
   id: number;
@@ -57,7 +57,7 @@ const activeAdminTokens = new Set<string>();
 // Default Config
 let appConfig: AppConfig = {
   appName: 'EDUKASI LKS KOSMIK',
-  appDescription: 'Platform Pembelajaran Modern Berbasis LKS Tema Luar Angkasa — IPA, Fikih, dan PKn.',
+  appDescription: 'Platform Pembelajaran Modern Berbasis LKS — IPS dan PJOK Kelas 7.',
   timerMinutes: 30,
   allowReview: true,
 };
@@ -94,11 +94,11 @@ async function initStore() {
       const parsed = JSON.parse(raw);
       if (parsed.appConfig) appConfig = parsed.appConfig;
       if (parsed.questionsList && Array.isArray(parsed.questionsList) && parsed.questionsList.length > 0) {
-        // Check if it already contains the Bahasa Arab subjects: taaruf, adawat, usrah
-        const hasBahasaArab = parsed.questionsList.some(
-          (q: any) => q.subjectId === 'taaruf' || q.subjectId === 'adawat' || q.subjectId === 'usrah'
+        // Check if it already contains IPS and PJOK subjects
+        const hasIpsAndPjok = parsed.questionsList.some(
+          (q: any) => q.subjectId === 'ips' || q.subjectId === 'pjok'
         );
-        if (hasBahasaArab) {
+        if (hasIpsAndPjok) {
           questionsList = parsed.questionsList;
         } else {
           needsSeed = true;
@@ -135,19 +135,21 @@ async function initStore() {
     needsSeed = true;
   }
 
-  // If questionsList needs seed or is empty, import from Bahasa Arab data file
+  // If questionsList needs seed or is empty, import from IPS and PJOK data files
   if (needsSeed || questionsList.length === 0) {
     try {
-      const { allQuestionsBahasaArab } = await import('./src/data/bahasaArab.ts');
-      questionsList = [...allQuestionsBahasaArab];
+      const { questionsIps } = await import('./src/data/ips.ts');
+      const { questionsPjok } = await import('./src/data/pjok.ts');
+      questionsList = [...questionsIps, ...questionsPjok];
       saveStore();
     } catch {
       try {
-        const { allQuestionsBahasaArab } = await import('./src/data/bahasaArab.js');
-        questionsList = [...allQuestionsBahasaArab];
+        const { questionsIps } = await import('./src/data/ips.js');
+        const { questionsPjok } = await import('./src/data/pjok.js');
+        questionsList = [...questionsIps, ...questionsPjok];
         saveStore();
       } catch (err2) {
-        console.error('Failed to load initial Bahasa Arab questions:', err2);
+        console.error('Failed to load initial IPS and PJOK questions:', err2);
       }
     }
   }
@@ -407,6 +409,8 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
         )
       : 85;
 
+  const ipsCount = questionsList.filter((q) => q.subjectId === 'ips').length;
+  const pjokCount = questionsList.filter((q) => q.subjectId === 'pjok').length;
   const taarufCount = questionsList.filter((q) => q.subjectId === 'taaruf').length;
   const adawatCount = questionsList.filter((q) => q.subjectId === 'adawat').length;
   const usrahCount = questionsList.filter((q) => q.subjectId === 'usrah').length;
@@ -419,6 +423,8 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
     totalQuestions: questionsList.length,
     totalQuizzesTaken: totalQuizzes || 23,
     averageScore,
+    ipsCount,
+    pjokCount,
     taarufCount,
     adawatCount,
     usrahCount,

@@ -27,8 +27,8 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
   onSelectSubchapter,
   onOpenScratchpad,
 }) => {
-  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['taaruf-sub-1a'];
-  const subjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['taaruf'];
+  const materi = LKS_CHAPTERS_DETAIL[subchapterId] || LKS_CHAPTERS_DETAIL['ips-sub-1a'];
+  const subjectInfo = LKS_SUBJECTS[selectedSubject] || LKS_SUBJECTS['ips'];
 
   // Find all subchapters in current subject for Next/Previous navigation
   const allSubchapters = subjectInfo.chapters.flatMap((c) => c.subchapters);
@@ -126,7 +126,7 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
             <div className="flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-amber-400" />
               <h3 className="text-xs font-orbitron font-bold text-amber-300 uppercase tracking-wider">
-                Mufrodat & Istilah Kunci
+                Glosarium & Istilah Kunci
               </h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-space">
@@ -135,8 +135,8 @@ export const MateriDetailScreen: React.FC<MateriDetailScreenProps> = ({
                   key={idx}
                   className="p-3.5 rounded-2xl glass-panel border border-amber-400/30 bg-amber-950/20 flex items-center justify-between gap-3 text-xs"
                 >
-                  <span className="font-arabic text-base text-amber-200 font-bold">{v.term}</span>
-                  <span className="text-violet-200/90 text-right">{v.meaning}</span>
+                  <span className="font-orbitron text-xs sm:text-sm text-amber-200 font-bold">{v.term}</span>
+                  <span className="text-violet-200/90 text-right leading-relaxed">{v.meaning}</span>
                 </div>
               ))}
             </div>

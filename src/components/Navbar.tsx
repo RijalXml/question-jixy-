@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </span>
               <span className="text-[10.5px] font-medium text-violet-200/70 font-space tracking-wide">
-                Bahasa Arab Kelas 7
+                IPS & PJOK Kelas 7
               </span>
             </div>
           </button>

@@ -1,5 +1,6 @@
 import { Question, SubjectId, LeaderboardEntry, AdminStats, AppConfig } from '../types';
-import { questionsTaaruf, questionsAdawat, questionsUsrah } from '../data/bahasaArab';
+import { questionsIps } from '../data/ips';
+import { questionsPjok } from '../data/pjok';
 
 const LOCAL_STORAGE_KEYS = {
   LEADERBOARD: 'edukasi_lks_leaderboard',
@@ -11,12 +12,14 @@ const LOCAL_STORAGE_KEYS = {
 
 // Initial Seed Questions Map
 const DEFAULT_QUESTIONS: Record<SubjectId, Question[]> = {
-  taaruf: questionsTaaruf,
-  adawat: questionsAdawat,
-  usrah: questionsUsrah,
-  ipa: questionsTaaruf,
-  fikih: questionsAdawat,
-  pkn: questionsUsrah,
+  ips: questionsIps,
+  pjok: questionsPjok,
+  taaruf: questionsIps,
+  adawat: questionsPjok,
+  usrah: questionsIps,
+  ipa: questionsIps,
+  fikih: questionsPjok,
+  pkn: questionsIps,
 };
 
 /**
@@ -303,10 +306,9 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
   const questionsMap = getLocalQuestions();
   const leaderboard = getLocalLeaderboard();
 
-  const taarufCount = (questionsMap.taaruf || questionsMap.ipa || []).filter((q) => q.isActive !== false).length;
-  const adawatCount = (questionsMap.adawat || questionsMap.fikih || []).filter((q) => q.isActive !== false).length;
-  const usrahCount = (questionsMap.usrah || questionsMap.pkn || []).filter((q) => q.isActive !== false).length;
-  const totalQ = taarufCount + adawatCount + usrahCount;
+  const ipsCount = (questionsMap.ips || []).filter((q) => q.isActive !== false).length;
+  const pjokCount = (questionsMap.pjok || []).filter((q) => q.isActive !== false).length;
+  const totalQ = ipsCount + pjokCount;
 
   const totalQuizzes = leaderboard.reduce((acc, curr) => acc + (curr.quizzesCompleted || 1), 0);
   const avgScore = leaderboard.length > 0
@@ -318,12 +320,14 @@ export async function apiAdminGetStats(token: string): Promise<AdminStats> {
     totalQuestions: totalQ,
     totalQuizzesTaken: totalQuizzes,
     averageScore: avgScore,
-    taarufCount,
-    adawatCount,
-    usrahCount,
-    ipaCount: taarufCount,
-    fikihCount: adawatCount,
-    pknCount: usrahCount,
+    ipsCount,
+    pjokCount,
+    taarufCount: ipsCount,
+    adawatCount: pjokCount,
+    usrahCount: 0,
+    ipaCount: ipsCount,
+    fikihCount: pjokCount,
+    pknCount: 0,
     recentActivity: leaderboard.slice(0, 5),
   };
 }

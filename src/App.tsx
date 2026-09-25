@@ -10,7 +10,8 @@ import {
   AppConfig,
   SpaceThemeMode,
 } from './types';
-import { questionsTaaruf, questionsAdawat, questionsUsrah } from './data/bahasaArab';
+import { questionsIps } from './data/ips';
+import { questionsPjok } from './data/pjok';
 
 import { SpaceBackground } from './components/SpaceBackground';
 import { Navbar } from './components/Navbar';
@@ -49,18 +50,19 @@ import { apiGetQuestions, apiAdminVerify, apiSubmitQuiz } from './utils/api';
 
 export const getSubjectTitle = (subjectId: SubjectId | string): string => {
   switch (subjectId) {
+    case 'ips':
+      return 'Ilmu Pengetahuan Sosial (IPS) Kelas 7';
+    case 'pjok':
+      return 'Pendidikan Jasmani, Olahraga & Kesehatan (PJOK) Kelas 7';
     case 'taaruf':
-      return 'B. Arab: At-Ta\'aruf & Fasilitas Madrasah (التَّعَارُفُ وَالْمَرَافِقُ)';
     case 'adawat':
-      return 'B. Arab: Perlengkapan, Warna & Alamat (الأَدَوَاتُ وَالْعُنْوَانُ)';
     case 'usrah':
-      return 'B. Arab: Rumah, Keluarga & Keseharian (البَيْتُ وَالْأُسْرَةُ وَالْيَوْمِيَّاتُ)';
     case 'ipa':
     case 'fikih':
     case 'pkn':
-      return 'Bahasa Arab Kelas 7 (MTs / SMP)';
+      return 'IPS & PJOK Terpadu';
     default:
-      return 'Bahasa Arab Kelas 7';
+      return 'IPS & PJOK';
   }
 };
 
@@ -75,8 +77,8 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenState>('home');
 
   // Selected Subject & Subchapter
-  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('taaruf');
-  const [selectedSubchapterId, setSelectedSubchapterId] = useState<string>('taaruf-sub-1a');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId>('ips');
+  const [selectedSubchapterId, setSelectedSubchapterId] = useState<string>('ips-sub-1a');
 
   // User Profile & Role
   const [userProfile, setUserProfile] = useState<UserProfile>(getStoredUserProfile());
@@ -92,12 +94,14 @@ export default function App() {
 
   // Questions Map (cached by subject)
   const [questionsMap, setQuestionsMap] = useState<Record<SubjectId, Question[]>>({
-    taaruf: questionsTaaruf,
-    adawat: questionsAdawat,
-    usrah: questionsUsrah,
-    ipa: questionsTaaruf,
-    fikih: questionsAdawat,
-    pkn: questionsUsrah,
+    ips: questionsIps,
+    pjok: questionsPjok,
+    taaruf: questionsIps,
+    adawat: questionsPjok,
+    usrah: questionsIps,
+    ipa: questionsIps,
+    fikih: questionsPjok,
+    pkn: questionsIps,
   });
 
   // Active Quiz State
@@ -155,9 +159,8 @@ export default function App() {
       }
     };
 
-    fetchFreshQuestions('taaruf');
-    fetchFreshQuestions('adawat');
-    fetchFreshQuestions('usrah');
+    fetchFreshQuestions('ips');
+    fetchFreshQuestions('pjok');
 
     // 4. Active Exam Resume Check
     const activeExam = getStoredActiveExam();

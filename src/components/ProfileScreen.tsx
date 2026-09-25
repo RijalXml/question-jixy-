@@ -172,8 +172,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     userProfile.history.filter((h) => h.score >= 75).map((h) => h.subjectId)
   );
 
-  const completedCount = ['ipa', 'fikih', 'pkn'].filter((s) =>
-    completedSubjectsSet.has(s as SubjectId)
+  const completedCount = ['ips', 'pjok'].filter((s) =>
+    completedSubjectsSet.has(s as SubjectId) ||
+    (s === 'ips' && (completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa'))) ||
+    (s === 'pjok' && (completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih')))
   ).length;
 
   return (
@@ -433,112 +435,80 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <div className="rounded-2xl glass-panel border border-white/10 p-3">
             <span className="block text-[10px] text-violet-300 uppercase font-bold">Mapel Tuntas</span>
             <span className="text-xl font-black text-cyan-300 mt-0.5 block">
-              {completedCount} / 3
+              {completedCount} / 2
             </span>
           </div>
         </div>
       </div>
 
-      {/* Subject Completion Badges (Bahasa Arab Kelas 7) */}
+      {/* Subject Completion Badges (IPS & PJOK Kelas 7) */}
       <div className="mb-8 rounded-3xl glass-panel border border-white/15 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
         <h2 className="text-sm font-bold text-white mb-4 flex items-center gap-2 font-orbitron">
           <Award className="h-4 w-4 text-amber-400" />
-          <span>Status Ketuntasan Paket Bahasa Arab Kelas 7</span>
+          <span>Status Ketuntasan Mata Pelajaran (IPS & PJOK)</span>
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Ta'aruf */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* IPS */}
           <div
             className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa')
+              completedSubjectsSet.has('ips') || completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa')
                 ? 'border-cyan-400/50 bg-cyan-950/30'
                 : 'border-white/10 glass-panel'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🤝</span>
+              <span className="text-2xl">🌏</span>
               <div>
                 <span className="block text-xs font-bold text-white font-orbitron">
-                  At-Ta'aruf
+                  IPS (Ilmu Pengetahuan Sosial)
                 </span>
                 <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('ips') || completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? (
+            {completedSubjectsSet.has('ips') || completedSubjectsSet.has('taaruf') || completedSubjectsSet.has('ipa') ? (
               <CheckCircle2 className="h-5 w-5 text-cyan-300 shadow-[0_0_8px_rgba(6,182,212,0.6)]" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('taaruf')}
-                className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-[11px] font-orbitron font-bold text-white shadow-xs"
+                onClick={() => onStartQuiz('ips')}
+                className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-1.5 text-xs font-orbitron font-bold text-white shadow-xs hover:scale-105 transition-all"
               >
-                Mulai
+                Mulai Quiz
               </button>
             )}
           </div>
 
-          {/* Adawat */}
+          {/* PJOK */}
           <div
             className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih')
+              completedSubjectsSet.has('pjok') || completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih')
                 ? 'border-emerald-400/50 bg-emerald-950/30'
                 : 'border-white/10 glass-panel'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🎒</span>
+              <span className="text-2xl">⚽</span>
               <div>
                 <span className="block text-xs font-bold text-white font-orbitron">
-                  Al-Adawat
+                  PJOK (Penjasorkes)
                 </span>
                 <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? 'Tuntas' : 'Belum Selesai'}
+                  {completedSubjectsSet.has('pjok') || completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? 'Tuntas' : 'Belum Selesai'}
                 </span>
               </div>
             </div>
-            {completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? (
+            {completedSubjectsSet.has('pjok') || completedSubjectsSet.has('adawat') || completedSubjectsSet.has('fikih') ? (
               <CheckCircle2 className="h-5 w-5 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
             ) : (
               <button
                 type="button"
-                onClick={() => onStartQuiz('adawat')}
-                className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-1 text-[11px] font-orbitron font-bold text-white shadow-xs"
+                onClick={() => onStartQuiz('pjok')}
+                className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-1.5 text-xs font-orbitron font-bold text-white shadow-xs hover:scale-105 transition-all"
               >
-                Mulai
-              </button>
-            )}
-          </div>
-
-          {/* Usrah */}
-          <div
-            className={`flex items-center justify-between rounded-2xl border p-4 transition-colors ${
-              completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn')
-                ? 'border-amber-400/50 bg-amber-950/30'
-                : 'border-white/10 glass-panel'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🏡</span>
-              <div>
-                <span className="block text-xs font-bold text-white font-orbitron">
-                  Al-Usrah
-                </span>
-                <span className="text-[11px] text-violet-300 font-space">
-                  {completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn') ? 'Tuntas' : 'Belum Selesai'}
-                </span>
-              </div>
-            </div>
-            {completedSubjectsSet.has('usrah') || completedSubjectsSet.has('pkn') ? (
-              <CheckCircle2 className="h-5 w-5 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
-            ) : (
-              <button
-                type="button"
-                onClick={() => onStartQuiz('usrah')}
-                className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1 text-[11px] font-orbitron font-bold text-black shadow-xs"
-              >
-                Mulai
+                Mulai Quiz
               </button>
             )}
           </div>
@@ -569,11 +539,15 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-panel border border-white/15 text-lg">
-                    {item.subjectId === 'ipa'
-                      ? '🔭'
-                      : item.subjectId === 'fikih'
-                      ? '🕌'
-                      : '🦅'}
+                    {item.subjectId === 'ips'
+                      ? '🌏'
+                      : item.subjectId === 'pjok'
+                      ? '⚽'
+                      : item.subjectId === 'taaruf'
+                      ? '🤝'
+                      : item.subjectId === 'adawat'
+                      ? '🎒'
+                      : '📚'}
                   </div>
                   <div>
                     <h4 className="text-xs sm:text-sm font-bold text-white font-orbitron">
